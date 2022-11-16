@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" >
+<head>
+  <title>Movie</title>
+  <div th:replace="home :: headerfiles"></div>
+</head>
+<body>
+<header th:insert=" home::header"></header>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="page-content">
+        <!-- ***** Banner Start ***** -->
+        <div class="main-banner">
+          <div class="row">
+            <div class="col-lg-7">
+              <div class="header-text">
+                <h6>Upcoming Films</h6>
+                <h4><em>Browse</em> Your Popular Films Are Here</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ***** Most Popular Start ***** -->
+        <div class="most-popular" style="display: flex;">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="heading-section">
+                <h4><em>Film</em> Upcoming</h4>
+              </div>
+              <div class="row" >
+                <div class="col-lg-3 col-sm-6" th:each="film:${list_films}">
+                  <div class="item" >
+                    <img th:src="${film.image}" alt="">
+                    <h4 th:text="${film.filmName}">Fortnite</h4>
+                    <br>
+                    <ul>
+                      <li >
+                        <i class="fa fa-star" >
+                        </i>
+                        <a th:text="${film.rated}"></a>
+                      </li>
+                    </ul>
+                    <div class="main-border-button border-no-actives"><a th:href="${'Films/'+film.filmID}">Detail</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ***** Most Popular End ***** -->
+      <!--    <div class="container text-center">-->
+      <!--        <ul class="list-group list-group-horizontal" th:each="film:${list_films}">-->
+      <!--            <li class="list-group-item ">-->
+      <!--                <div class="card-link" style="width: 18rem;">-->
+      <!--                    <img th:src="${film.image}" class="card-img-top" width="200px">-->
+      <!--                    <div class="card-body">-->
+      <!--                        <h5 class="card-title" th:text="${film.filmName}"></h5>-->
+      <!--                        <h5 class="card-text" th:text="${film.rated}" ></h5>-->
+      <!--                    </div>-->
+      <!--                </div>-->
+      <!--                <td><a th:href="${'Films/'+film.filmID}">View</a></td>-->
+      <!--            </li>-->
+      <!--            &lt;!&ndash;            <li class="list-group-item">A second item</li>&ndash;&gt;-->
+      <!--            &lt;!&ndash;            <li class="list-group-item">A third item</li>&ndash;&gt;-->
+      <!--        </ul>-->
+      <!--&lt;!&ndash;    <div class="movie" th:each="film:${list_films}">&ndash;&gt;-->
+      <!--&lt;!&ndash;        <div class="movie-image"> <span class="play"><span class="name">X-MAN</span></span> <a href="#"><img th:src="${film.image}" alt="" /></a> </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;        <div class="rating">&ndash;&gt;-->
+      <!--&lt;!&ndash;            <p>RATING</p>&ndash;&gt;-->
+      <!--&lt;!&ndash;            <div class="stars">&ndash;&gt;-->
+      <!--&lt;!&ndash;                <div class="stars-in" th:value="${film.rated}"> </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;            </div>&ndash;&gt;-->
+      <!--&lt;!&ndash;            <span class="comments">12</span> </div>&ndash;&gt;-->
+      <!--    </div>-->
+    </div>
+  </div>
+</div>
+<div th:insert="home :: footer"></div>
+</body>
+</html>

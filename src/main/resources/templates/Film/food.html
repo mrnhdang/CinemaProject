@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" >
+<head>
+    <meta charset="UTF-8">
+    <title>Food and Combo</title>
+    <div th:replace="home :: headerfiles"></div>
+    <style type="text/css">
+        .food{
+            justify-content: center;
+
+        }
+        .combo{
+            justify-content: center;
+        }
+        .item{
+        }
+    </style>
+</head>
+<body>
+<header th:insert=" home::header"></header>
+    <div type="hidden">
+        <input type="hidden" class="filmID" th:value="${film.filmID}" >
+        <input type="hidden" class="time" th:value="${#dates.format(idTime,'HH:mm:ss')}" >
+        <input type="hidden" class="date" th:value="${#dates.format(idDate,'dd-MM-yyyy')}" >
+        <input type="hidden" class="cinema" th:value="${idCinema}" >
+        <a class="text-bg-danger" th:each=" item :${chairs}">
+            <a class="seat" th:value="${item.chairID}"></a>
+        </a>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-content">
+                    <div class="most-popular">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="heading-section">
+                                    <h4>Order <em>Food and Combo</em> </h4>
+                                </div>
+                                <div class="row food" >
+                                    <div class="col-lg-3 col-sm-6" th:each="item : ${foods}">
+                                        <div class="item" >
+                                            <div class="thumb">
+                                                <img th:src="${item.image}" style="font-size: 300px;"  alt="">
+                                            </div>
+                                            <div class="down-content">
+                                                <span>
+                                                     <h4 th:if="${lang == null}"><em > Đồ ăn: </em></h4> <h4 th:if="${lang == null}" th:text="${item.foodName}">Fortnite</h4>
+                                                    <h4 th:if="${lang == 'en'}"><em>Food Name: </em></h4> <h4 th:if="${lang == 'en'}" th:text="${item.foodName1}">Fortnite</h4>
+                                                    <h4 th:if="${lang == 'vi'}"><em>Đồ ăn: </em></h4> <h4 th:if="${lang == 'vi'}" th:text="${item.foodName}">Fortnite</h4>
+                                                <br>
+                                                <h4><em>Food Price: </em></h4> <h4 th:text="${item.foodprice}">Fortnite</h4><h4>$</h4>
+                                                </span>
+                                                <br>
+                                                <div class="form-floating mb-3">
+                                                    <input class="food-number form-control" type="number" id="foodAmount" th:foodID="${item.foodID}" placeholder="Amount" min="1" max="5">
+                                                    <label for="foodAmount">Order Amount</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row combo" >
+                                    <div class="col-lg-3 col-sm-6" th:each="item :${combos}">
+                                        <div class="item" >
+                                            <div class="thumb">
+                                                <img th:src="${item.image}"  alt="">
+                                            </div>
+                                            <div class="down-content">
+                                                <span>
+                                                    <h4 th:if="${lang == null}"><em>Tên Combo: </em></h4> <h4 th:if="${lang == null}" th:text="${item.comboName}">Fortnite</h4>
+                                                    <h4 th:if="${lang == 'vi'}"><em>Tên Combo: </em></h4> <h4 th:if="${lang == 'vi'}" th:text="${item.comboName}">Fortnite</h4>
+                                                    <h4 th:if="${lang == 'en'}"><em>Combo Name: </em></h4> <h4 th:if="${lang == 'en'}" th:text="${item.comboName1}">Fortnite</h4>
+                                                <br>
+                                                <h4><em>Combo Price: </em></h4> <h4 th:text="${item.comboprice}">Fortnite</h4><h4>$</h4>
+                                                <br>
+                                                </span>
+                                                <div class="form-floating mb-3" >
+                                                    <input class="combo-number form-control" type="number" id="comboAmount" th:comboID="${item.comboID}" placeholder="Amount" min="1" max="5"></p>
+                                                    <label for="comboAmount">Order Amount</label>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                    <div class="main-border-button border-no-actives"><a th:href="${'Films/'+film.filmID}">Detail</a></div>-->
+                    <div class="col-lg-12">
+                        <div class=" main-button" id="btnPayment" ><a>Payment</a></div>
+                    </div>
+
+<!--                    <button class="main-border-button border-no-actives" type="submit" id="btnPayment">Payment</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+<!--    <div class="container" >-->
+<!--        <div class="food" >-->
+<!--            <h1>FOODS</h1>-->
+<!--            <div th:each="item : ${foods}">-->
+<!--            <div class="card" >-->
+<!--                <img class="card-img-top" th:src="${item.image}"  alt="Card image cap">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title" th:text="${item.foodName}">Card title</h5>-->
+<!--                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+<!--                    <p><input class="food-number" type="number" th:foodID="${item.foodID}"></p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="combo">-->
+<!--            <h1>COMBOS</h1>-->
+<!--            <div th:each="item :${combos}">-->
+<!--            <div class="card" >-->
+<!--                <img class="card-img-top" th:src="${item.image}"  alt="Card image cap">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title" th:text="${item.comboName}">Card title</h5>-->
+<!--                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+<!--                    <p><input class="combo-number" type="number" th:comboID="${item.comboID}" ></p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<p class="text">
+    You have selected <span id="count">0</span> Total price $ <h1 class="total" th:value="${total}"></h1>
+</p>
+
+<script type="text/javascript" th:src="@{/JS/Food.js}"></script>
+</body>
+</html>

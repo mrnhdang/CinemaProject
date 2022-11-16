@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Bill</title>
+    <div th:insert="home :: headerfiles"></div>
+
+</head>
+<body>
+    <header th:insert="home :: header"></header>
+    <form method="post" th:action="@{/Payment/pay}" >
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-content">
+
+                        <!-- ***** Banner Start ***** -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="main-profile ">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <img th:src="${film.image}" alt="" style="border-radius: 23px;">
+                                        </div>
+                                        <div class="col-lg-4 align-self-center">
+                                            <div class="main-info header-text">
+                                                <span>Your Bill</span>
+                                                <h4 th:text="${film.filmName1}">Alan Smithee</h4>
+                                                <h4>Food Price:<p th:text="${foodPrice}"></p></h4>
+                                                <h4>Combo Price:<p th:text="${comboPrice}"></p></h4>
+                                                <h4>Membership Price:<p th:text="${membership}"></p></h4>
+                                                <h4>Total</h4><input class="form-floating" type="text" th:value="${price}" name="price">
+<!--                                                <button type="submit" >Payment with Paypal</button>-->
+                                                <div class="main-border-button ">
+                                                    <button type="submit " style="background-color: inherit; border: none;"><a style="color: #ec6090; ">Payment with Paypal</a></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 align-self-center">
+                                            <ul>
+                                                <li>Cinema Name <span th:text="${cinema.cinemaName}">3</span></li>
+                                                <li>Date <span th:text="${#dates.format(date,'dd-MM-yyyy')}">16</span></li>
+                                                <li>Time <span th:text="${#dates.format(time,'HH:mm')}">None</span></li>
+                                                <li>Chairs <span th:each=" item :${chairs}" th:text="${item.chairName}">29</span></li>
+                                                <li>Foods <span th:each=" item :${foods}" th:text="${item.foodName}" ></span></li>
+                                                <li>Combos <span th:each=" item :${combos}" th:text="${item.comboName}" ></span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="live-stream">
+                                            <div class="heading-section">
+                                                <h4><em>Vouchers</em> Right Now</h4>
+                                             </div>
+                                            <div class="col-lg-12 most-popular " style="display: flex;">
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-sm-6" th:if="${vouchers}" th:each ="voucher : ${vouchers}" style=" display: flex; padding: 10px 10px 35px 10px;">
+                                                        <ul class="" style="width: 500px;" >
+                                                            <li><h4>Voucher Name</h4><span th:text="${voucher.voucherName1}">Sandbox</span></li>
+                                                            <li><h4>Amount</h4><span th:text="${voucher.amount}">Sandbox</span></li>
+                                                            <li><h4>Discount</h4><span th:text="${voucher.discount}">Downloaded</span><span>%</span></li>
+                                                            <li><div class="main-button"><a id="disable" th:href="@{/Payment/voucher/(id=${voucher.voucherID})}">Use Now</a></div></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                           <!-- ***** Gaming Library End ***** -->
+                                       </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ***** Banner End ***** -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+<!--        <div class="align-content-center">-->
+<!--            <h1>Film:<a class="text-bg-danger" th:text="${film.filmName}"></a> </h1>-->
+<!--            <h1>Cinema:<a class="text-bg-danger" th:text="${cinema.cinemaName}"></a> </h1>-->
+<!--            <h1>Date:<a class="text-bg-danger" th:text="${#dates.format(date,'dd-MM-yyyy')}"></a> </h1>-->
+<!--            <h1>Time:<a class="text-bg-danger" th:text="${time}"></a> </h1>-->
+<!--            <h1>Selected chair: <a class="text-bg-danger" th:each=" item :${chairs}">-->
+<!--                <a th:text="${item.chair_name}"></a>-->
+<!--            </a>-->
+<!--            </h1>-->
+<!--            <h1>Foods: <a class="text-bg-danger" th:each=" item :${foods}">-->
+<!--                <a th:text="${item.foodName}"></a>-->
+<!--            </a>-->
+<!--            </h1>-->
+<!--            <p th:text="${foodPrice}"></p>-->
+<!--            <h1>Combo: <a class="text-bg-danger" th:each=" item :${combos}">-->
+<!--                <a th:text="${item.comboName}"></a>-->
+
+<!--            </a>-->
+<!--            </h1>-->
+<!--            <p th:text="${comboPrice}"></p>-->
+<!--        </div>-->
+<!--        <input type="text" th:value="${price}" name="price">-->
+<!--        <button type="submit" >Payment with Paypal</button>-->
+    <footer th:insert="home :: footer"></footer>
+    <script type="text/javascript">
+        $(document).ready(function (){
+            $('#disable').click(function (e){
+            });
+        });
+    </script>
+</body>
+</html>

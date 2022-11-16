@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link th:href="@{/CSS/Schedule.css}" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+    <div th:replace="home :: headerfiles"></div>
+    <style>
+        hr{
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header th:insert="home :: header" ></header>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-content">
+                    <!-- ***** Banner Start ***** -->
+                    <div class="main-banner">
+                        <label>[[#{app.scheduleTitle}]]</label>
+                        <h1 th:if="${lang == null}" class="movie" style="color: white" th:value="${film_detail.filmID}" th:text="${film_detail.filmName}"></h1>
+                        <h1 th:if="${lang == 'vi'}" class="movie" style="color: white" th:value="${film_detail.filmID}" th:text="${film_detail.filmName}"></h1>
+                        <h1 th:if="${lang == 'en'}" class="movie" style="color: white" th:value="${film_detail.filmID}" th:text="${film_detail.filmName1}"></h1>
+                    </div>
+
+<!--        <h1>ROOM</h1>-->
+<!--        <div class="row" th:each="item : ${film_room}">-->
+<!--            <div class="card card-room" th:text="${item.roomName}" th:value="${item.roomID}"></div>-->
+<!--        </div>-->
+
+
+<!--&lt;!&ndash;        <br />&ndash;&gt;-->
+<!--&lt;!&ndash;        <label>SCHEDULE</label>&ndash;&gt;-->
+<!--&lt;!&ndash;        <br />&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="row " th:each="item : ${currentDate} ">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="card card-schedule" th:text="${#dates.format(item,'dd-MM-yyyy')}"  th:value="${#dates.format(item,'dd-MM-yyyy')}" id="currentDate" ></div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+
+<!--        <br />-->
+<!--        <label>CINEMA</label>-->
+<!--        <div class="row" th:each="item : ${film_room}">-->
+<!--            <div class="card card-cinema cinema" th:text="${item.getCinemas().getCinemaName()}" th:value="${item.getCinemas().getCinemaID()}"></div>-->
+<!--        </div>-->
+<!--        <div class="row" th:each="item : ${list_cinemas}">-->
+<!--            <div class="card card-cinema" th:text="${item.cinemaName}" th:value="${item.cinemaID}" id="cinema"></div>-->
+<!--        </div>-->
+        <div class="most-popular" style="padding: inherit;" >
+            <ul hidden="hidden" class="showcase">
+                <li>
+                    <div class="div">
+                        <small>N/A</small>
+                    </div>
+                </li>
+                <li>
+                    <div class="div selected">
+                        <small>Selected</small>
+                    </div>
+                </li>
+                <li>
+                    <div class="div occupied">
+                        <small>Occupied</small>
+                    </div>
+                </li>
+            </ul>
+
+            <br />
+            <label class="title">[[#{body.title}]]</label>
+            <br />
+
+            <div class="row" th:each="item : ${film_cinema}" >
+                <hr>
+                <div class="col-lg-12" style="flex-wrap: wrap;">
+                    <div class="heading-section">
+                        <h4 class="div card-cinema cinema" th:text="${item.getCinemaName()}" th:value="${item.getCinemaID()}"></h4>
+                    </div>
+                <hr>
+                <div class="col-lg-12 most-popular" style="display: flex; ">
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6 schedule-container " style="width: 300px;background-color: #0d6efd; "
+                             th:each="date : ${schedule}" th:if="${date.getRooms().getCinemas().getCinemaID() == item.getCinemaID()}" th:cinema="${date.getRooms().getCinemas().getCinemaID()}" >
+                            <div class="alert-danger"
+                                 th:text="${#dates.format(date.showTime,'dd-MM-yyyy')}"
+                                 th:value="${#dates.format(date.showTime,'dd-MM-yyyy HH:mm:ss')}"
+                                 id="date" style="text-align: center;"></div>
+                            <div class="text-center" style="display: flex;" th:each="time : ${schedule}">
+                                <div class="div card-time"
+                                     th:if="${#dates.format(time.showTime,'dd-MM-yyyy') == #dates.format(date.showTime,'dd-MM-yyyy')}"
+                                     th:text="${#dates.format(time.showTime,'HH:mm:ss')}"
+                                     th:value="${#dates.format(time.showTime,'HH:mm:ss')}"
+                                     th:date="${#dates.format(time.showTime,'dd-MM-yyyy HH:mm:ss')}"
+                                     th:cinema="${item.getCinemaID()}"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            </div>
+            <hr>
+            <br>
+            <div class="main-button" >
+                <a id="btnSeat" type="submit" >Choose Seat</a>
+            </div>
+
+
+        </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+<!--    <script>-->
+
+<!--        $(document).ready(function (){-->
+
+<!--            var filmID =$('.movie').attr('value');-->
+
+<!--            var idCinema = 0;-->
+<!--            var idSchedule = 0;-->
+<!--            var idDate = 0;-->
+<!--            var idTime = 0;-->
+
+
+<!--            $('.card-cinema').click(function(){-->
+<!--                idCinema = $(this).attr('value');-->
+<!--            });-->
+<!--            $('.card-schedule').click(function(){-->
+<!--                idSchedule = $(this).attr('value');-->
+<!--            });-->
+<!--            $('.card-date').click(function(){-->
+<!--                idDate = $(this).attr('value');-->
+<!--            });-->
+<!--            $('.card-time').click(function(){-->
+<!--                idTime = $(this).attr('value');-->
+<!--            });-->
+
+<!--            $('#btnSeat').click(()=>{-->
+<!--                if(idCinema ==0 || idDate ==0 || idTime == 0){-->
+<!--                    alert("Vui long chon day du");-->
+<!--                }-->
+<!--                window.location.href = '/Films/Seat/filmID='+filmID+'&date='+idDate+'&time='+idTime+'&cinema='+idCinema;-->
+<!--            });-->
+<!--            // $("button").click(function (data, status){-->
+<!--            //     $.get("demo_test.asp", function (data,status){-->
+<!--            //         alert("Data:" + data +"\nStatus: "+ status);-->
+<!--            //     });-->
+<!--            // });-->
+
+<!--        });-->
+
+<!--    </script>-->
+    <footer th:insert="home :: footer"></footer>
+    <script type="text/javascript" th:src="@{/JS/Schedule.js}"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" >
+<head>
+    <title>Verify Failed</title>
+    <div th:replace="home :: headerfiles"></div>
+</head>
+<body>
+<header th:insert=" home::header"></header>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-content">
+                <!-- ***** Banner Start ***** -->
+<!--                <div class="main-banner">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-lg-7">-->
+<!--                            <div class="header-text align-content-center">-->
+<!--                                <h6>Welcome To Dang Cinema</h6>-->
+<!--                                <h4><em>Browse</em> Your Popular Films Are Here</h4>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <!-- ***** Most Popular Start ***** -->
+                <div class="most-popular">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="heading-section ">
+                                <h4 style="text-align: center;" >Verify Failed</h4>
+                                <h4 style="text-align: center;">Please check email again</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="home :: footer"></div>
+</body>
+</html>

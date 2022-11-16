@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <div th:replace="home :: headerfiles"></div>
+</head>
+
+<body>
+    <header th:insert="home :: header"></header>
+    <div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-content">
+
+                <!-- ***** Banner Start ***** -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="main-profile ">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <img src="assets/images/profile.jpg" alt="" style="border-radius: 23px;">
+                                </div>
+                                <div class="col-lg-4 align-self-center">
+                                    <div class="main-info header-text">
+                                        <span>ONLINE</span>
+                                        <h4 th:text="${user.userName}" th:if="${user !=null}"><span>Username</span></h4>
+                                        <p>You Haven't Gone Live yet. Go Live By Touching The Button Below.</p>
+                                        <div class="main-border-button">
+                                            <form th:action="@{/logout}" method="post">
+                                                <button type="submit" style="background-color: inherit; border: none;" ><a>Sign Out</a></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 align-self-center">
+                                    <ul>
+                                        <li>Membership Point <span th:if="${membership != null}" th:text="${membership.points}">29</span></li>
+                                        <li>Friends Online <span>16</span></li>
+                                        <li>Live Streams <span>None</span></li>
+                                        <li>Clips <span>29</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="clips">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="heading-section">
+                                                    <h4><em>Your Information</em></h4>
+                                                </div>
+                                            </div>
+                                            <form th:action="@{/update}" method="post" th:object="${user}">
+                                                <div th:if="${message != null}" class="alert alert-success text-center">
+                                                    [[${message}]]
+                                                </div>
+                                            <div class="form-floating mb-3 ">
+                                                <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com" th:value="${user.email}" disabled>
+                                                <label for="floatingInput">Email address</label>
+                                            </div>
+                                            <div class="form-floating mb-3 ">
+                                                <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Password" th:value="${user.userName}">
+                                                <label for="floatingUsername">Username</label>
+                                            </div>
+
+                                            <div class="form-floating mb-3 ">
+                                                <input type="text" class="form-control" id="floatingAddress" name="address" placeholder="Address" th:value="${user.address}">
+                                                <label for="floatingAddress">Address</label>
+                                            </div>
+                                            <div class="form-floating mb-3 ">
+                                                <input type="text" class="form-control" id="floatingCreateDate" name="createDate" placeholder="Create Date" th:value="${#dates.format(user.createDate,'dd-MM-yyyy HH:mm:ss')}" disabled>
+                                                <label for="floatingCreateDate">Create Date</label>
+                                            </div>
+                                            <div class="form-floating mb-3 ">
+                                                <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Old Password" >
+                                                <label for="floatingPassword">Password</label>
+                                            </div>
+                                                <div th:if="${changePassFailed != null}" class="alert alert-danger text-center">
+                                                    [[${changePassFailed}]]
+                                                </div>
+                                            <div class="form-floating mb-3 ">
+                                                <input type="password" class="form-control" id="floatingNewPassword" name="newPassword" placeholder="New Password" >
+                                                <label for="floatingNewPassword">New Password</label>
+                                            </div>
+<!--                                            <div class="col-lg-3 col-sm-6">-->
+<!--                                                <div class="item">-->
+<!--                                                    <div class="thumb">-->
+<!--                                                        <img src="assets/images/clip-01.jpg" alt="" style="border-radius: 23px;">-->
+<!--                                                        <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="down-content">-->
+<!--                                                        <h4>First Clip</h4>-->
+<!--                                                        <span><i class="fa fa-eye"></i> 250</span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-lg-3 col-sm-6">-->
+<!--                                                <div class="item">-->
+<!--                                                    <div class="thumb">-->
+<!--                                                        <img src="assets/images/clip-02.jpg" alt="" style="border-radius: 23px;">-->
+<!--                                                        <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="down-content">-->
+<!--                                                        <h4>Second Clip</h4>-->
+<!--                                                        <span><i class="fa fa-eye"></i> 183</span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-lg-3 col-sm-6">-->
+<!--                                                <div class="item">-->
+<!--                                                    <div class="thumb">-->
+<!--                                                        <img src="assets/images/clip-03.jpg" alt="" style="border-radius: 23px;">-->
+<!--                                                        <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="down-content">-->
+<!--                                                        <h4>Third Clip</h4>-->
+<!--                                                        <span><i class="fa fa-eye"></i> 141</span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="col-lg-3 col-sm-6">-->
+<!--                                                <div class="item">-->
+<!--                                                    <div class="thumb">-->
+<!--                                                        <img src="assets/images/clip-04.jpg" alt="" style="border-radius: 23px;">-->
+<!--                                                        <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="down-content">-->
+<!--                                                        <h4>Fourth Clip</h4>-->
+<!--                                                        <span><i class="fa fa-eye"></i> 91</span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+                                            <div class="col-lg-12">
+                                                <div class="main-button">
+                                                    <button type="submit" style="background-color: inherit; border: none"><a>Edit</a></button>
+                                                </div>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ***** Banner End ***** -->
+
+                <!-- ***** Gaming Library Start ***** -->
+                <div class="gaming-library profile-library">
+                    <div class="col-lg-12">
+                        <div class="heading-section">
+                            <h4><em>Vouchers</em> Right Now</h4>
+                        </div>
+                        <div class="item" th:if="${vouchers}" th:each ="voucher : ${vouchers}">
+                            <ul>
+                                <li><h4>Voucher Name</h4><span th:text="${voucher.voucherName}">Sandbox</span></li>
+                                <li><h4>Date Added</h4><span th:text="${#dates.format(voucher.effectiveDate, 'dd-MM-YYYY')}">24/08/2036</span></li>
+                                <li><h4>Expired Date</h4><span th:text="${#dates.format(voucher.expireDate,'dd-MM-YYYY')}">634 H 22 Mins</span></li>
+                                <li><h4>Discount</h4><span th:text="${voucher.discount}">Downloaded</span><span>%</span></li>
+                                <li><h4>Amount</h4><span th:text="${voucher.amount}">Downloaded</span></li>
+                                <li><div class="main-button"><a href="#">Use Now</a></div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- ***** Gaming Library End ***** -->
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:insert="home :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Schedule</title>
+    <meta charset="UTF-8">
+    <title>ajax</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+    <div th:replace="calendar :: headerfiles"></div>
+</head>
+<body class="bg-theme bg-theme1">
+    <div id="pageloader-overlay" class="visible incoming"><div class="loader-wrapper-outer"><div class="loader-wrapper-inner" ><div class="loader"></div></div></div></div>
+<!-- end loader -->
+
+<!-- Start wrapper-->
+    <div id="wrapper">
+        <header th:insert="admin :: header" ></header>
+
+        <div class="content-wrapper">
+            <div class="schedules" th:each=" item :${schedules}"
+                 th:schedule="${item.scheduleID}"
+                 th:room="${item.getRooms().getRoomID()}"
+                 th:film="${item.getFilms().getFilmName()}"
+                 th:time="${item.showTime}">
+            </div>
+            <div class="container-fluid">
+
+                <div class="mt-3">
+                    <div id='calendar'></div>
+                </div>
+
+                <!--start overlay-->
+                <div class="overlay toggle-menu"></div>
+                <!--end overlay-->
+
+            </div>
+            <!-- End container-fluid-->
+        </div><!--End content-wrapper-->
+
+        <!--Start Back To Top Button-->
+        <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+        <!--End Back To Top Button-->
+        <footer th:insert="calendar :: footer"></footer>
+    </div>
+</body>
+</html>

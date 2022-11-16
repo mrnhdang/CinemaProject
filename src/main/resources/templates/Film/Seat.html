@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Seat Booking </title>
+    <link rel="stylesheet"  th:href="@{/CSS/Seat.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+</head>
+<body>
+<div class="movie-container">
+
+    <label>Pick a movie</label>
+    <select id="movie">
+        <option th:value="${film.price}"  th:text="${film.filmName}"  ></option>
+    </select>
+    <div type="hidden">
+        <input type="hidden" class="filmID" th:value="${film.filmID}" >
+        <input type="hidden" class="time" th:value="${#dates.format(idTime,'HH:mm:ss')}" >
+        <input type="hidden" class="date" th:value="${#dates.format(idDate,'dd-MM-yyyy')}" >
+        <input type="hidden" class="cinema" th:value="${idCinema}" >
+        <input type ="hidden" class="room" th:value="${room}">
+    </div>
+</div>
+<ul class="showcase">
+    <li>
+        <div class="seat"></div>
+        <small>N/A</small>
+    </li>
+    <li>
+        <div class="seat selected"></div>
+        <small>Selected</small>
+    </li>
+    <li>
+        <div class="seat occupied"></div>
+        <small>Occupied</small>
+    </li>
+</ul>
+<div class="container">
+    <div class="screen"></div>
+    <div class="row"th:each="alphabet :${alphabet}" >
+        <label th:text="${alphabet}" ></label>
+        <div class="seat-container" th:each="item :${chairs}" th:if="${item.getChairName().contains(alphabet)}" >
+            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>
+            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>
+        </div>
+    </div>
+<!--        <label>A</label>-->
+<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('A')}" >-->
+<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>-->
+<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="row" >-->
+<!--        <label>B</label>-->
+<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('B')}" >-->
+<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}" ></div>-->
+<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="row" >-->
+<!--        <label>C</label>-->
+<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('C')}" >-->
+<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>-->
+<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="row" >-->
+<!--        <label>D</label>-->
+<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('D')}" >-->
+<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>-->
+<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="row" >-->
+<!--        <label>E</label>-->
+<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('E')}" >-->
+<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>-->
+<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="row" >-->
+<!--        <label>F</label>-->
+<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('F')}" >-->
+<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>-->
+<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="row" >-->
+<!--        <label>G</label>-->
+<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('G')}" >-->
+<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>-->
+<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="row" >-->
+<!--        <label>H</label>-->
+<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('H')}" >-->
+<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}" ></div>-->
+<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+</div>
+<p class="text">
+    You have selected <span id="count">0</span> seats for a price of $ <span id="total">0</span>
+</p>
+    <button id="btnPayment"  type="submit" class="border border-light " style="border-radius: 10px 10px; height: 50px; width: 100px;" >Payment
+    </button>
+<!--    <button id="btnBack"  type="submit">-->
+<!--        Back-->
+<!--    </button>-->
+<script type="text/javascript" th:src="@{/JS/Seat.js}"></script>
+
+</body>
+</html>

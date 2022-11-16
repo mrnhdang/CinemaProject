@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="UTF-8">
+  <title>News Management</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+  <script type="text/javascript" >
+    $(document).ready(function () {
+      $('.nBtn, .table .uBtn').on('click', function (e){
+        e.preventDefault();
+        var href = $(this).attr('href');
+        var text = $(this).text();
+        if(text == 'Update'){
+          $.get(href, function (foods, status) {
+            $('.foodForm #foodID').val(foods.foodID)
+            $('.foodForm #foodPrice').val(foods.foodprice);
+            $('.foodForm #foodName').val(foods.foodName);
+            $('.foodForm #foodName1').val(foods.foodName1);
+            $('.foodForm #image').val(foods.image);
+
+          });
+          $('.foodForm #exampleModal').modal();
+        }
+        else{
+          $('.foodForm #foodID').val('')
+          $('.foodForm #foodPrice').val('');
+          $('.foodForm #foodName').val('');
+          $('.foodForm #foodName1').val('');
+          $('.foodForm #image').val('');
+          $('.foodForm #exampleModal').modal();
+        }
+      });
+      $('.table .dBtn').on('click', function (event){
+        event.preventDefault();
+        var href = $(this).attr('href');
+        $('.foodForm #deleteModal #delFilm').attr('href',href);
+        $('.foodForm #deleteModal').modal();
+      });
+      // $('.scheduleForm #cinema').on('click', function (e) {
+      //     e.preventDefault();
+      //     var href= $(this).attr('href');
+      //     $.get(href, function (rooms, status){
+      //         // $('.scheduleForm #room').append("<option th:value='${rooms.roomID}' th:text='${rooms.roomName}'></option>");
+      //         var options ='';
+      //         for (var i =0 ;i < rooms.length; i ++) {
+      //             $('.scheduleForm #room').append($('<option>', {
+      //                 value: rooms[i],
+      //                 text:  rooms[i]
+      //             }));
+      //         }
+      //     });
+    });
+
+
+  </script>
+  <div th:replace="admin :: headerfiles"></div>
+
+</head>
+<body class="bg-theme bg-theme1" >
+<div id="wrapper">
+  <header th:insert="admin :: header"></header>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <div class="col-lg-12 ">
+        <div class="card">
+          <div class="card-body" >
+            <h1 class="card-title">New</h1>
+            <button class=" btn btn-light btn-round px-5 btn btn-success nBtn">New</button>
+            <div class="table-responsive">
+              <table class="table table-hover ">
+                <thead>
+                <tr>
+                  <th>Food ID</th>
+                  <th>Food Name</th>
+                  <th>Food Name EN</th>
+                  <th>Image</th>
+                  <th>Food Price</th>
+                </tr>
+                </thead>
+                <tbody th:each="food :${foods}">
+                <tr>
+                  <td th:text="${food.foodID}" ></td>
+                  <td th:text="${food.foodName}">Iphone 5</td>
+                  <td th:text="${food.foodName1}"></td>
+                  <td> <img class="product-img" th:src="${food.image}"></td>
+                  <td th:text="${food.foodprice}"></td>
+                  <td>
+                    <a class="btn btn-primary uBtn" th:href="@{/Admin/findFood/(id=${food.foodID})}">Update</a>
+                    <a class="btn btn-danger dBtn" th:href="@{/Admin/food/delete/(id=${food.foodID})}">Delete</a>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!--                MODAL FORM-->
+          <div class="foodForm">
+            <form th:action="@{/Admin/food/update}" method="post" th:object="${foods}">
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content bg-theme bg-theme1"
+                       style="background-image: url(http://localhost:8080/Admin/assets/images/bg-themes/1.png) " >
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Update Voucher</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label for="foodID">Food</label>
+                        <input type="text" class="form-control form-control-rounded" name="foodID" id="foodID" placeholder="foodID" th:hidden="true">
+                      </div>
+                      <div class="form-group">
+                        <label for="foodName">Food Name</label>
+                        <input type="text" class="form-control form-control-rounded" name="foodName" id="foodName" placeholder="newName" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="foodName1">Food Name EN</label>
+                        <input type="text" class="form-control form-control-rounded" name="foodName1" id="foodName1" placeholder="newName1" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="image">Image</label>
+                        <input type="text" class="form-control form-control-rounded" name="image" id="image" placeholder="amount"  required>
+                      </div>
+                      <div class="form-group">
+                        <label for="foodprice">Food Price</label>
+                        <input type="number" class="form-control form-control-rounded" name="foodprice" id="foodprice" placeholder="description" min="0"  required>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-light btn-round px-5 left" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-light btn-round px-5" value="Save"></input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content bg-theme bg-theme1"
+                     style="background-image: url(http://localhost:8080/Admin/assets/images/bg-themes/1.png); ">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p class="">
+                      Are you sure you want to delete this food ?
+                    </p>
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="" class="btn btn-danger" id="delFilm">Delete</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!--End Row-->
+
+  <footer th:insert="admin :: footer"></footer>
+</div>
+
+</body>
+</html>

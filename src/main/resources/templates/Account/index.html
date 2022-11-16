@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HomeCode Java</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/boostrap.min.css" />
+</head>
+<body>
+    <div class="container text-center">
+        <div>
+            <h1>welcome to homepage</h1>
+            chung ta 1
+        </div>
+        <div>
+            <h3><a th:href="@{/list_users}">List users chung ta cua hien tai</a> </h3>
+            <h3><a th:href="@{/register}">Register</a> </h3>
+            <h3><a th:href="@{/login}">Login</a> </h3>
+        </div>
+    </div>
+</body>
+</html>

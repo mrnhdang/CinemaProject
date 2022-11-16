@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="UTF-8">
+  <title>Cinema Management</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+  <script type="text/javascript" th:src="@{/JS/Cinema.js}"></script>
+  <div th:replace="admin :: headerfiles"></div>
+
+</head>
+<body class="bg-theme bg-theme1" >
+<div id="wrapper">
+  <header th:insert="admin :: header"></header>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+
+      <div class="col-lg-12">
+      <!--                    <div class="card">-->
+      <div class="card-body" >
+        <h1 class="card-title">Films</h1>
+        <button class=" btn btn-light btn-round px-5 btn btn-success nBtn">New</button>
+        <div class="table-responsive">
+          <table class="table table-hover ">
+            <thead>
+            <tr>
+              <th>Cinema ID</th>
+              <th>Cinema Name</th>
+              <th>Address</th>
+              <th>Contacts</th>
+            </tr>
+            </thead>
+            <tbody th:each="cinema :${cinemas}">
+            <tr>
+              <td th:text="${cinema.cinemaID}">$ 1250.00</td>
+              <td th:text="${cinema.cinemaName}">Iphone 5</td>
+              <td th:if="${cinema.getAddresses !=null}" th:text="${cinema.getAddresses.getAddressName()}"></td>
+              <td th:unless="${cinema.getAddresses !=null}">NONE</td>
+
+              <td  th:if="${cinema.getAddresses !=null}" th:text="${cinema.getContacts.getContactName()}"></td>
+              <td th:unless="${cinema.getAddresses !=null}">NONE</td>
+              <td>
+                <a class="btn btn-primary " th:href="@{'/Admin/room/'+${cinema.cinemaID}}">Room</a>
+                <a class="btn btn-primary uBtn" th:href="@{/Admin/findCinemaID/(id=${cinema.cinemaID})}">Update</a>
+                <a class="btn btn-danger dBtn" th:href="@{/Admin/cinema/delete/(id=${cinema.cinemaID})}">Delete</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </div>
+        <!--                CRUD FORM-->
+    <div class="cinemaForm">
+        <form th:action="@{/Admin/cinema/update}" method="post" th:object="${cinema}">
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content bg-theme bg-theme1"
+                   style="background-image: url(http://localhost:8080/Admin/assets/images/bg-themes/1.png) " >
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Update And Add cinema</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <div class="alert-message" th:if="${message !=null}">
+                      [[${message}]]
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="cinemaID">Cinema ID</label>
+                    <input type="hidden" class="form-control form-control-rounded" name="cinemaID" id="cinemaID" placeholder="Enter schedule ID" >
+                  </div>
+                  <div class="form-group">
+                    <label for="cinemaName">Cinema Name</label>
+                    <input type="text" class="form-control form-control-rounded" name="cinemaName" id="cinemaName" placeholder="Enter Cinema Name"  required>
+                  </div>
+                  <div class="form-group">
+                    <label for="addressID">Address</label>
+                    <select  type="text" class="form-control form-control-rounded" name="addressID" id="addressID" value="" placeholder="Choose address" >
+                      <option class="form-control form-control-rounded" th:value="0" text="None" selected="selected" >NONE</option>
+                      <option class="form-control form-control-rounded" th:each="address : ${addresses}" th:text="${address.addressName}" th:value="${address.addressID}" ></option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="contactID">Contact</label>
+                    <select type="text" class="form-control form-control-rounded" name="contactID" id="contactID" placeholder="Choose Producer" >
+                      <option class="form-control form-control-rounded" th:value="0" text="None" selected="selected" >NONE</option>
+                      <option class="form-control form-control-rounded" th:each="contact : ${contacts}"  th:text="${contact.contactName}" th:value="${contact.contactID}" ></option>
+                    </select>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-light btn-round px-5 left" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-light btn-round px-5" value="Save"></input>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content bg-theme bg-theme1"
+                 style="background-image: url(http://localhost:8080/Admin/assets/images/bg-themes/1.png); ">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p class="">
+                  Are you sure you want to delete this cinema ?
+                </p>
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="" class="btn btn-danger" id="delFilm">Delete</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!--End Row-->
+
+
+<footer th:insert="admin :: footer"></footer>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="UTF-8">
+  <title>Room For Cinema Management</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+
+  <link rel="stylesheet"  th:href="@{/CSS/SeatManage.css}">
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.nBtn, .table .uBtn').on('click', function (e){
+      e.preventDefault();
+      var href = $(this).attr('href');
+      var text = $(this).text();
+      if(text == 'Create Chairs'){
+        $('.seatForm #roomID').val('');
+        $('.seatForm #roomName').val('');
+        $('.seatForm #exampleModal').modal();
+      }
+    });
+
+    $('.cBtn').on('click', function (e){
+      e.preventDefault();
+      var href = $(this).attr('href');
+      var text = $(this).text();
+      if(text == 'Create All Seat'){
+        $('.seatForm #roomID').val('');
+        $('.seatForm #roomName').val('');
+        $('.seatForm #createAllModal').modal();
+      }
+    });
+
+    $('.dAll').on('click', function (event){
+      event.preventDefault();
+      var href = $(this).attr('href');
+      $('.seatForm #deleteModal #delFilm').attr('href',href);
+      $('.seatForm #deleteModal').modal();
+    });
+    // $('.scheduleForm #cinema').on('click', function (e) {
+    //     e.preventDefault();
+    //     var href= $(this).attr('href');
+    //     $.get(href, function (rooms, status){
+    //         // $('.scheduleForm #room').append("<option th:value='${rooms.roomID}' th:text='${rooms.roomName}'></option>");
+    //         var options ='';
+    //         for (var i =0 ;i < rooms.length; i ++) {
+    //             $('.scheduleForm #room').append($('<option>', {
+    //                 value: rooms[i],
+    //                 text:  rooms[i]
+    //             }));
+    //         }
+    //     });
+  });
+
+
+</script>
+  <div th:replace="admin :: headerfiles"></div>
+</head>
+<body class="bg-theme bg-theme1" >
+<div id="wrapper">
+  <header th:insert="admin :: header"></header>
+  <div class="content-wrapper">
+    <div class="container-fluid" style="margin: auto; width: 60%;">
+    <div class="col-lg-20">
+        <div class="card">
+          <div class="card-body" >
+            <h1 class="card-title" >Room: <h1 class="room-info" th:text="${room.roomName}" th:value="${room.roomID}"></h1></h1>
+            <h1> OF Cinema: <h1 th:text="${room.getCinemas.getCinemaName()}"></h1></h1>
+            <button class=" btn btn-light btn-round px-5 btn btn-success nBtn">Create Chairs</button>
+            <button class=" btn btn-light btn-round px-5 btn btn-success cBtn">Create All Seat</button>
+            <button class=" btn btn-light btn-round px-5 btn btn-success uBtn">Update</button>
+            <button th:href="@{/Admin/seat/deleteAll/(id=${room.roomID})}" class=" btn btn-danger btn-round ml-5  dAll">Delete All</button>
+
+
+<!--        <div class="table-responsive">-->
+<!--          <table class="table table-hover ">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--              <th>Chair ID</th>-->
+<!--              <th>Chair Name</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody th:each="chair : ${chairs}">-->
+<!--            <tr>-->
+<!--              <td th:text="${chair.chairID}">$ 1250.00</td>-->
+<!--              <td th:text="${chair.chairName}">Iphone 5</td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--          </table>-->
+<!--        </div>-->
+        <ul class="showcase">
+          <li>
+            <div class="seat"></div>
+            <small>N/A</small>
+          </li>
+          <li>
+            <div class="seat selected"></div>
+            <small>Selected</small>
+          </li>
+          <li>
+            <div class="seat occupied"></div>
+            <small>Occupied</small>
+          </li>
+        </ul>
+        <div class="container-fluid" style="margin: auto; ">
+          <div class="screen"></div>
+          <div class="row wrapper" th:each="alphabet :${alphabet}">
+            <label th:text="${alphabet}" ></label>
+            <div class="seat-container" th:each="item :${chairs}" th:if="${item.getChairName().contains(alphabet)}" >
+              <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>
+              <div class="seat selected" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>
+            </div>
+          </div>
+<!--
+
+        </div>
+
+      </div>
+    </div>
+    <--                CRUD FORM-->
+      <div class="seatForm">
+        <form th:action="@{/Admin/seat/create}" method="post" th:object="${seat}">
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content bg-theme bg-theme1"
+                   style="background-image: url(http://localhost:8080/Admin/assets/images/bg-themes/1.png) " >
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Create Each Row</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <div class="alert-message" th:if="${message !=null}">
+                      [[${message}]]
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="rowName">Producer</label>
+                    <select type="text" class="form-control form-control-rounded" name="rowName" id="rowName" placeholder="Choose Row Name" required >
+                      <option class="form-control form-control-rounded" th:value="0" text="None" selected="selected" >NONE</option>
+                      <option class="form-control form-control-rounded" th:each="alphabet : ${alphabet}" th:value="${alphabet}" th:text="${alphabet}" ></option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="column">Number Of Chair</label>
+                    <input type="text" class="form-control form-control-rounded" name="column" id="column" placeholder="Enter Column Number"  required min="1" max="14">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-light btn-round px-5 left" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-light btn-round px-5" value="Save">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+<!--        //Create Many Modal-->
+        <form th:action="@{/Admin/seat/createAll}" method="post" th:object="${seat}">
+          <div class="modal fade" id="createAllModal" tabindex="-1" aria-labelledby="createAllModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content bg-theme bg-theme1"
+                   style="background-image: url(http://localhost:8080/Admin/assets/images/bg-themes/1.png) " >
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="createAllModalLabel">Create Full Seat</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <div class="alert-message" th:if="${message !=null}">
+                      [[${message}]]
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="row">Row Number</label>
+                    <input type="number" class="form-control form-control-rounded" name="row" id="row" placeholder="Enter Row Number" required min="1" max="26" >
+                  </div>
+                  <div class="form-group">
+                    <label for="chairNum">Number Of Chair</label>
+                    <input type="text" class="form-control form-control-rounded" name="chairNum" id="chairNum" placeholder="Enter Chair Number" required min="1" max="14">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-light btn-round px-5 left" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-light btn-round px-5" value="Save"></input>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content bg-theme bg-theme1"
+                 style="background-image: url(http://localhost:8080/Admin/assets/images/bg-themes/1.png); ">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p class="">
+                  Do you want to delete all chair ?
+                </p>
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="" class="btn btn-danger" id="delFilm">Delete</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </div>
+          </div>
+        </div>
+    </div>
+    </div>
+</div><!--End Row-->
+  <script type="text/javascript" th:src="@{/JS/SeatManage.js}"></script>
+
+<footer th:insert="admin :: footer"></footer>
+</div>
+
+</body>
+</html>

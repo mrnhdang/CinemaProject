@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Film Management</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+    <script type="text/javascript" th:src="@{/JS/Admin.js}"></script>
+    <div th:replace="admin :: headerfiles"></div>
+
+</head>
+<body class="bg-theme bg-theme1" >
+    <div id="wrapper">
+        <header th:insert="admin :: header"></header>
+        <div class="content-wrapper">
+            <div class="container-fluid">
+
+<!--                <div class="col-lg-6">-->
+<!--                    <div class="card">-->
+                        <div class="card-body" >
+                            <h1 class="card-title">Films</h1>
+                            <button class=" btn btn-light btn-round px-5 btn btn-success nBtn">New</button>
+                            <div class="table-responsive">
+                                <table class="table table-hover ">
+                                    <thead>
+                                    <tr>
+                                        <th>Film ID</th>
+                                        <th>Film</th>
+                                        <th>Film EN</th>
+                                        <th>Image</th>
+                                        <th>Release Date</th>
+                                        <th>End Date</th>
+                                        <th>Run time</th>
+                                        <th>Rated</th>
+                                        <th>Status</th>
+                                        <th>Director</th>
+                                        <th>Producer</th>
+                                        <th>Trailer URL</th>
+                                        <th>Description </th>
+                                        <th>Description EN</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody th:each="film :${films}">
+                                    <tr>
+                                        <td th:text="${film.filmID}">$ 1250.00</td>
+                                        <td th:text="${film.filmName}">Iphone 5</td>
+                                        <td th:text="${film.filmName1}"></td>
+                                        <td><img th:if="${film.ImagePath}"  th:src="@{${film.ImagePath}}" class="product-img">
+                                        <img th:src="${film.image}" class="product-img"></td>
+                                        <td th:text="${#dates.format(film.releaseDate,'yyyy-MM-dd HH:mm:ss')}">03 Aug 2017</td>
+                                        <td th:text="${#dates.format(film.endDate,'yyyy-MM-dd HH:mm:ss')}"></td>
+                                        <td th:text="${film.runtime}"></td>
+                                        <td th:text="${film.rated}"></td>
+                                        <td th:text="${film.status}"></td>
+
+                                        <td th:if="${film.getDirectors}" th:text="${film.getDirectors.getDirectorName()}">None</td>
+                                        <td th:unless="${film.getProducers}">NONE</td>
+
+                                        <td th:if="${film.getProducers}" th:text="${film.getProducers.getProducerName()}">None</td>
+                                        <td th:unless="${film.getProducers}">NONE</td>
+
+                                        <td th:text="${film.urlTrailer}" style="max-width: 50px;white-space: nowrap ; text-overflow: ellipsis; overflow: hidden "></td>
+                                        <td th:text="${film.filmDescription}" style="max-width: 50px;white-space: nowrap ; text-overflow: ellipsis; overflow: hidden "></td>
+                                        <td th:text="${film.filmDescription1}" style="max-width: 50px;white-space: nowrap ; text-overflow: ellipsis;overflow: hidden "></td>
+                                        <td>
+                                            <a class="btn btn-primary uBtn" th:href="@{/Admin/findFilmID/(id=${film.filmID})}">Update</a>
+                                            <a class="btn btn-danger dBtn" th:href="@{/Admin/film/delete/(id=${film.filmID})}">Delete</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+<!--                        </div>-->
+<!--                    </div>-->
+                            <!--                CRUD FORM-->   <div class="filmForm">
+
+                            <form th:action="@{/Admin/film/update}" method="post" th:object="${film}"
+                                enctype="multipart/form-data">
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content bg-theme bg-theme1"
+                                             style="background-image: url(http://localhost:8080/Admin/assets/images/bg-themes/1.png) " >
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Update Film</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="filmID">Film ID</label>
+                                                    <input type="hidden" class="form-control form-control-rounded" name="filmID" id="filmID" placeholder="Enter Film ID" >
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="filmName">Film Name</label>
+                                                    <input type="text" class="form-control form-control-rounded" name="filmName" id="filmName" placeholder="Enter Film Name"  required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="filmName1">Film Name 1</label>
+                                                    <input type="text" class="form-control form-control-rounded" name="filmName1" id="filmName1" placeholder="Enter Film Name EN"  required >
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Fileimage">Image</label>
+<!--                                                    <input type="text" class="form-control form-control-rounded" name="image" id="image" placeholder="Choose image" required>-->
+                                                    <input type="file" class="form-control form-control-rounded" name="Fileimage" id="Fileimage" accept="image/png, image/jpeg"  placeholder="Choose image" required>
+                                                </div>
+                                                <img id="thumbnail"  alt="Image Previews" >
+                                                <div class="form-group">
+                                                    <label for="releaseDate">Release Date</label>
+                                                    <input type="datetime-local" class="form-control form-control-rounded" name="releaseDate" id="releaseDate" placeholder="Choose Release Date" >
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="endDate">End Date</label>
+                                                    <input type="datetime-local" class="form-control form-control-rounded" name="endDate" id="endDate" placeholder="Choose End Date" >
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="runtime">Run time</label>
+                                                    <input type="number" class="form-control form-control-rounded" name="runtime" id="runtime" placeholder="Enter Run time" required min="60" max="2400">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="rated">Rated</label>
+                                                    <input type="number" class="form-control form-control-rounded" name="rated" id="rated" placeholder="Rate" required min="1" max="5">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="status">Status</label>
+                                                    <input type="text" class="form-control form-control-rounded" name="status" id="status" placeholder="Status" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="director">Director</label>
+                                                    <select  type="text" class="form-control form-control-rounded" name="director" id="director" value="" placeholder="Choose Director" >
+                                                        <option class="form-control form-control-rounded" th:value="0" text="None" selected="selected" >NONE</option>
+                                                        <option class="form-control form-control-rounded" th:each="director : ${directors}" th:text="${director.directorName}" th:value="${director.directorID}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="producer">Producer</label>
+                                                    <select type="text" class="form-control form-control-rounded" name="producer" id="producer" placeholder="Choose Producer" >
+                                                        <option class="form-control form-control-rounded" th:value="0" text="None" selected="selected" >NONE</option>
+                                                        <option class="form-control form-control-rounded" th:each="producer : ${producers}"  th:text="${producer.producerName}" th:value="${producer.producerID}" ></option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="urlTrailer">Trailer URL</label>
+                                                    <input type="text" class="form-control form-control-rounded" name="urlTrailer" id="urlTrailer" placeholder="Enter Trailer URL" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="filmDescription">Description</label>
+                                                    <textarea type="text" class="form-control form-control-rounded" name="filmDescription" id="filmDescription" placeholder="Film Description"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="filmDescription1">Description EN</label>
+                                                    <textarea type="text" class="form-control form-control-rounded" name="filmDescription1" id="filmDescription1" placeholder="Film Description EN"></textarea>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-light btn-round px-5 left" data-bs-dismiss="modal">Close</button>
+                                                    <input type="submit" class="btn btn-light btn-round px-5" value="Save"></input>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content bg-theme bg-theme1"
+                                         style="background-image: url(http://localhost:8080/Admin/assets/images/bg-themes/1.png); ">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="deleteModalLabel">Modal title</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="">
+                                                Are you sure you want to delete this film ?
+                                            </p>
+                                            ...
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <a href="" class="btn btn-danger" id="delFilm">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
+            </div>
+        </div>
+
+            </div><!--End Row-->
+
+
+        <footer th:insert="admin :: footer"></footer>
+    </div>
+</body>
+</html>
