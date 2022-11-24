@@ -35,6 +35,8 @@ public class AdminController {
     @Autowired
     private FilmRepository filmRepository;
     @Autowired
+    private GenreRepository genreRepository;
+    @Autowired
     private ScheduleRepository scheduleRepository;
     @Autowired
     private DirectorRepository directorRepository;
@@ -91,6 +93,7 @@ public class AdminController {
         model.addAttribute("films", filmRepository.findAll());
         model.addAttribute("directors",directorRepository.findAll());
         model.addAttribute("producers", producerRepository.findAll());
+        model.addAttribute("genres", genreRepository.findAll() );
         return "Admin/filmManage";
     }
     @GetMapping("/film/delete")
@@ -99,37 +102,42 @@ public class AdminController {
         return "redirect:/Admin/film";
     }
     @PostMapping(value = "/film/update")
-    public String filmUpdateForm( Films film, HttpServletRequest request,@RequestParam("Fileimage") MultipartFile multipartFile){
+    public String filmUpdateForm( Films film, HttpServletRequest request, @RequestParam("genre") List<Integer> genreIDs){
         try {
             Films temp = filmRepository.findFilmsByID(film.getFilmID());
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            System.out.println(fileName);
-            film.setImage(fileName);
-            String uploadDir = "./film-img/" + temp.getFilmID();
-
-            Path uploadPath = Paths.get(uploadDir);
-
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-            try(InputStream inputStream = multipartFile.getInputStream()) {
-                Path filePath =uploadPath.resolve(fileName);
-                System.out.println(filePath.toFile().getAbsolutePath());
-                Files.copy(inputStream,filePath, StandardCopyOption.REPLACE_EXISTING);
-
-            }catch(IOException e){
-                throw new IOException("Couldn't save upload file " + fileName);
-            }
+//            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+//            System.out.println(fileName);
+//            film.setImage(fileName);
+//            String uploadDir = "./film-img/" + temp.getFilmID();
+//
+//            Path uploadPath = Paths.get(uploadDir);
+//
+//            if (!Files.exists(uploadPath)) {
+//                Files.createDirectories(uploadPath);
+//            }
+//            try(InputStream inputStream = multipartFile.getInputStream()) {
+//
+//
+//                Path filePath =uploadPath.resolve(fileName);
+//                System.out.println(filePath.toFile().getAbsolutePath());
+//                Files.copy(inputStream,filePath, StandardCopyOption.REPLACE_EXISTING);
+//
+//            }catch(IOException e){
+//                throw new IOException("Couldn't save upload file " + fileName);
+//            }
 
             Integer directorID =0;
             Integer producerID = 0;
+            Set<Genres> genres = new HashSet<>();
             if(request.getParameter("director") !=null){
                 directorID = Integer.parseInt(request.getParameter("director"));
             }
             if(request.getParameter("producer")!= null){
                 producerID = Integer.parseInt(request.getParameter("producer"));
             }
-
+            for(int i =0; i<genreIDs.size() ; i++){
+                genres.add(genreRepository.findGenresByID(genreIDs.get(i)));
+            }
             if(temp != null){
                 temp.setImage(film.getImage());
                 temp.setRated(film.getRated());
@@ -140,6 +148,10 @@ public class AdminController {
                 temp.setFilmName(film.getFilmName());
                 temp.setUrlTrailer(film.getUrlTrailer());
                 temp.setRuntime(film.getRuntime());
+                temp.setPrice(film.getPrice());
+                if(genreIDs.get(0) != 0) {
+                    temp.setGenres(genres);
+                }
                 if(film.getReleaseDate() !=null ){
                     temp.setReleaseDate(film.getReleaseDate());
                 }
@@ -189,7 +201,7 @@ public class AdminController {
 
         model.addAttribute("schedules", scheduleRepository.findAll());
         model.addAttribute("cinemas",cinemaRepository.findAll());
-        model.addAttribute("rooms",roomsList);
+        model.addAttribute("rooms",roomRepository.findAll());
         model.addAttribute("films", filmRepository.findAll());
         return "Admin/scheduleManage";
     }
@@ -666,7 +678,73 @@ public class AdminController {
     }
     @GetMapping("/findUser")
     @ResponseBody
-    public Users findUSer(Integer id){
+    public Users findUSer(String id){
         return userRepository.findUsersByID(id) ;
+    }
+    //Address
+    @GetMapping("/address")
+    public String addressPage(Model model){
+        model.addAttribute("addresses", addressRepository.findAll());
+        return "Admin/addressManage";
+    }
+    @GetMapping("/address/delete")
+    public String deleteAddress(Integer id){
+        addressRepository.deleteById(id);
+        return "redirect:/Admin/address";
+    }
+    @PostMapping(value = "/address/update")
+    public String userUpdate(Addresses addresses, HttpServletRequest request, RedirectAttributes redirectAttributes){
+        try {
+            Addresses temp = addressRepository.findAddressesByID(addresses.getAddressID());
+            if(temp != null){
+               temp.setAddressName(addresses.getAddressName());
+               temp.setAddressName1(addresses.getAddressName1());
+                addressRepository.save(temp);
+            }
+            else{
+                addressRepository.save(addresses);
+            }
+        }catch (Exception e){
+            return "redirect:/Admin/address";
+        }
+        return "redirect:/Admin/address";
+    }
+    @GetMapping("/findAddress")
+    @ResponseBody
+    public Addresses findAddress(Integer id){
+        return addressRepository.findAddressesByID(id) ;
+    }
+    //Contact
+    @GetMapping("/contact")
+    public String contactPage(Model model){
+        model.addAttribute("contacts", contactRepository.findAll());
+        return "Admin/contactManage";
+    }
+    @GetMapping("/contact/delete")
+    public String deleteContact(Integer id){
+        contactRepository.deleteById(id);
+        return "redirect:/Admin/contact";
+    }
+    @PostMapping(value = "/contact/update")
+    public String updateContact(Contacts contacts, HttpServletRequest request, RedirectAttributes redirectAttributes){
+        try {
+            Contacts temp = contactRepository.findContactsByID(contacts.getContactID());
+            if(temp != null){
+              temp.setContactName(contacts.getContactName());
+              temp.setContactName1(contacts.getContactName1());
+              contactRepository.save(temp);
+            }
+            else{
+               contactRepository.save(contacts);
+            }
+        }catch (Exception e){
+            return "redirect:/Admin/contact";
+        }
+        return "redirect:/Admin/contact";
+    }
+    @GetMapping("/findContact")
+    @ResponseBody
+    public Contacts findContact(Integer id){
+        return contactRepository.findContactsByID(id) ;
     }
 }

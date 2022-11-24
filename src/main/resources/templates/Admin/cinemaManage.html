@@ -37,8 +37,8 @@
               <td th:if="${cinema.getAddresses !=null}" th:text="${cinema.getAddresses.getAddressName()}"></td>
               <td th:unless="${cinema.getAddresses !=null}">NONE</td>
 
-              <td  th:if="${cinema.getAddresses !=null}" th:text="${cinema.getContacts.getContactName()}"></td>
-              <td th:unless="${cinema.getAddresses !=null}">NONE</td>
+              <td  th:if="${cinema.getContacts() !=null}" th:text="${cinema.getContacts.getContactName()}"></td>
+              <td th:unless="${cinema.getContacts() !=null}">NONE</td>
               <td>
                 <a class="btn btn-primary " th:href="@{'/Admin/room/'+${cinema.cinemaID}}">Room</a>
                 <a class="btn btn-primary uBtn" th:href="@{/Admin/findCinemaID/(id=${cinema.cinemaID})}">Update</a>

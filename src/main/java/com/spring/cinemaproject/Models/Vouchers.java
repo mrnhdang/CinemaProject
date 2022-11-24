@@ -16,19 +16,19 @@ public class Vouchers {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy =  "org.hibernate.id.UUIDGenerator")
     private String voucherID;
-    @Column(name = "voucher_name")
+    @Column(name = "voucherName")
     private String voucherName;
-    @Column(name = "voucher_name1")
+    @Column(name = "voucherName1")
     private String voucherName1;
     @Column(name = "discount")
     private float discount;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @Column(name = "effective_date")
+    @Column(name = "effectiveDate")
     private Date effectiveDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @Column(name = "expire_date")
+    @Column(name = "expiryDate")
     private Date expireDate;
     @Column(name = "amount")
     private int amount;

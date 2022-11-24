@@ -10,9 +10,13 @@ public class Combos {
     @Column(name = "comboID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer comboID;
+    @Column(name = "comboName")
     private String comboName;
+    @Column(name = "comboName1")
     private String comboName1;
+    @Column(name = "comboPrice")
     private float comboprice;
+    @Column(name = "image")
     private String image;
     private int status;
 

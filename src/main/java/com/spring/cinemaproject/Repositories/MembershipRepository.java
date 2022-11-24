@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface MembershipRepository extends JpaRepository<Memberships, Integer> {
     @Query("select m from Memberships m where m.users.userID =?1")
-    Memberships findMembershipsByUsersId(Integer id);
+    Memberships findMembershipsByUsersId(String id);
 }

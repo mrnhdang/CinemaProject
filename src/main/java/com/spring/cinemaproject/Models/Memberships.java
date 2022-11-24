@@ -9,6 +9,7 @@ public class Memberships {
     @Column(name = "membershipID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer membershipID;
+    @Column(name = "membershipName")
     private String menbershipName;
     @Column(name = "points")
     private int points;

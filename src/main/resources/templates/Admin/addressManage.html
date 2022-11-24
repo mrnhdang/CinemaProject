@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="UTF-8">
+  <title>Address Management</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+  <script type="text/javascript" th:src="@{/JS/addressManage.js}"></script>
+  <div th:replace="admin :: headerfiles"></div>
+
+</head>
+<body class="bg-theme bg-theme1" >
+<div id="wrapper">
+  <header th:insert="admin :: header"></header>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <div class="col-lg-12 ">
+        <div class="card">
+          <div class="card-body" >
+            <h1 class="card-title">Address</h1>
+            <button class=" btn btn-light btn-round px-5 btn btn-success nBtn">New</button>
+            <div class="table-responsive">
+              <table class="table table-hover ">
+                <thead>
+                <tr>
+                  <th>Address ID</th>
+                  <th>Address Name</th>
+                  <th>Address Name EN</th>
+                </tr>
+                </thead>
+                <tbody th:each="user :${addresses}">
+                <tr>
+                  <td th:text="${user.addressID}" style="max-width: 50px;white-space: nowrap ; text-overflow: ellipsis; overflow: hidden ">$ 1250.00</td>
+                  <td th:text="${user.addressName}">Iphone 5</td>
+                  <td th:text="${user.addressName1}"></td>
+                  <td>
+                    <a class="btn btn-primary uBtn" th:href="@{/Admin/findAddress/(id=${user.addressID})}" >Update</a>
+                    <a class="btn btn-danger dBtn" th:href="@{/Admin/address/delete/(id=${user.addressID})}" >Delete</a>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!--                MODAL FORM-->
+          <div class="addressForm">
+            <form  method="post" th:action="@{/Admin/address/update}" th:object="${addresses}" >
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content bg-theme bg-theme1"
+                       style="background-image: url(http://localhost:8080/Admin/assets/images/bg-themes/1.png) " >
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Update Voucher</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label for="addressID">Address ID</label>
+                        <input type="text" class="form-control form-control-rounded" name="addressID" id="addressID" placeholder="userID" th:hidden="true">
+                      </div>
+                      <div class="form-group">
+                        <label for="addressName">Address Name</label>
+                        <input type="text" class="form-control form-control-rounded" name="addressName" id="addressName"  >
+                      </div>
+                      <div class="form-group">
+                        <label for="addressName1">Address Name EN</label>
+                        <input type="text" class="form-control form-control-rounded" name="addressName1" id="addressName1"  >
+                      </div>
+
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-light btn-round px-5 left" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-light btn-round px-5" value="Save"></input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content bg-theme bg-theme1"
+                     style="background-image: url(http://localhost:8080/Admin/assets/images/bg-themes/1.png); ">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p class="">
+                      Are you sure you want to delete this User ?
+                    </p>
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="" class="btn btn-danger" id="delFilm">Delete</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!--End Row-->
+
+  <footer th:insert="admin :: footer"></footer>
+</div>
+
+</body>
+</html>

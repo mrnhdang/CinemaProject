@@ -10,7 +10,9 @@ public class Payments {
     @Column(name = "paymentID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer paymentID;
+    @Column(name = "paymentName")
     private String paymentName;
+    @Column(name = "typeOfPay")
     private String typeOfPayment;
     @OneToMany(mappedBy = "payments", cascade = CascadeType.ALL)
     private Collection<Bills> bills;

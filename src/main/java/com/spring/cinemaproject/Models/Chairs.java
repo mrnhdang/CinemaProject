@@ -16,14 +16,12 @@ public class Chairs {
     @Column(name = "chairID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer chairID;
-    @Column(name = "chair_name")
+    @Column(name = "chairName")
     private String chairName;
     @Column(name = "status")
     private int status;
     @Column(name = "type")
     private  int type;
-    @Column(name = "compoundchairID")
-    private int compoundchairID;
 
     @JsonBackReference
     @ManyToOne
@@ -42,12 +40,11 @@ public class Chairs {
     public Chairs(){
 
     }
-    public Chairs(Integer chairID, String chair_name, int status, int type, int compoundchairID) {
+    public Chairs(Integer chairID, String chair_name, int status, int type) {
         this.chairID = chairID;
         this.chairName = chair_name;
         this.status = status;
         this.type = type;
-        this.compoundchairID = compoundchairID;
     }
 
     public Integer getChairID() {
@@ -82,13 +79,6 @@ public class Chairs {
         this.type = type;
     }
 
-    public int getCompoundchairID() {
-        return compoundchairID;
-    }
-
-    public void setCompoundchairID(int compoundchairID) {
-        this.compoundchairID = compoundchairID;
-    }
 
     public Rooms getRooms() {
         return rooms;

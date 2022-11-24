@@ -10,6 +10,7 @@ $(document).ready(function (){
                 $('.filmForm #filmID').val(film.filmID);
                 $('.filmForm #filmName').val(film.filmName);
                 $('.filmForm #filmName1').val(film.filmName1);
+                $('.filmForm #price').val(film.price);
 
                 $('.filmForm #releaseDate').val(film.releaseDate);
                 $('.filmForm #endDate').val(film.endDate);
@@ -28,6 +29,7 @@ $(document).ready(function (){
             $('.filmForm #filmID').val('');
             $('.filmForm #filmName').val('');
             $('.filmForm #filmName1').val('');
+            $('.filmForm #price').val('');
             $('.filmForm #image').val('');
             $('.filmForm #releaseDate').val('');
             $('.filmForm #endDate').val('');

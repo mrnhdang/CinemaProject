@@ -16,8 +16,11 @@ public class Tickets  {
     @Column(name = "ticketID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ticketID;
+    @Column(name = "ticketName")
     private String ticketName  ;
+    @Column(name = "createDate")
     private Date create_date;
+    @Column(name = "status")
     private int status ;
 
     @ManyToMany

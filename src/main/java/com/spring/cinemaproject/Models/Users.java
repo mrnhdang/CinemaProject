@@ -3,6 +3,7 @@ package com.spring.cinemaproject.Models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -17,18 +18,20 @@ import java.util.Set;
 public class Users {
     @Id
     @Column(name = "userID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userID;
-    @Column(nullable = false, length = 50)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy =  "org.hibernate.id.UUIDGenerator")
+    private String userID;
+    @Column(name="userName", nullable = false, length = 50)
     private String userName;
-    @Column(nullable = false,unique = false, length = 64)
+    @Column(name = "password", nullable = false,unique = false, length = 64)
     private String password;
-    @Column(nullable = false,unique = false, length = 50)
+    @Column(name = "address",nullable = false,unique = false, length = 50)
     private String address;
-    @Column(nullable = false,unique = true, length = 50)
+    @Column(name = "email",nullable = false,unique = true, length = 50)
     private String email;
-    @Column
+    @Column(name = "createDate")
     private Date createDate;
+    @Column(name = "verificationCode")
     private String verificationCode;
     private boolean status;
 
@@ -57,7 +60,7 @@ public class Users {
     public Users(){
 
     }
-    public Users(Integer userID, String userName, String userPass, String address, String email, Date createTime, String verificationCode) {
+    public Users(String userID, String userName, String userPass, String address, String email, Date createTime, String verificationCode) {
         this.userID = userID;
         this.userName = userName;
         this.password = userPass;
@@ -67,11 +70,11 @@ public class Users {
         this.verificationCode= verificationCode;
     }
 
-    public Integer getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(Integer userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 

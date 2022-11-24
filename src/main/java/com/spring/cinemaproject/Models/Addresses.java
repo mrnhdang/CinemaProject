@@ -11,9 +11,9 @@ public class Addresses {
     @Column(name = "addressID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Integer addressID;
-    @Column
+    @Column(name = "addressName")
     private String addressName;
-    @Column
+    @Column(name = "addressName1")
     private String addressName1;
 
     @JsonBackReference

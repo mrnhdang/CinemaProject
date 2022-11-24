@@ -16,11 +16,11 @@ public class Bills {
     @Column(name = "billID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer billID;
-    @Column(name = "bill_name")
+    @Column(name = "billName")
     private String billName;
-    @Column(name = "bill_total")
+    @Column(name = "billTotal")
     private float billTotal;
-    @Column(name = "create_date")
+    @Column(name = "createDate")
     private Date createDate;
     @Column(name ="status")
     private Integer status;

@@ -27,6 +27,7 @@
                                         <th>Film ID</th>
                                         <th>Film</th>
                                         <th>Film EN</th>
+                                        <th>Price</th>
                                         <th>Image</th>
                                         <th>Release Date</th>
                                         <th>End Date</th>
@@ -45,8 +46,9 @@
                                         <td th:text="${film.filmID}">$ 1250.00</td>
                                         <td th:text="${film.filmName}">Iphone 5</td>
                                         <td th:text="${film.filmName1}"></td>
-                                        <td><img th:if="${film.ImagePath}"  th:src="@{${film.ImagePath}}" class="product-img">
-                                        <img th:src="${film.image}" class="product-img"></td>
+                                        <td th:text="${film.price}"></td>
+<!--                                        <img th:if="${film.ImagePath}"  th:src="@{${film.ImagePath}}" class="product-img">-->
+                                        <td><img th:src="${film.image}" class="product-img"></td>
                                         <td th:text="${#dates.format(film.releaseDate,'yyyy-MM-dd HH:mm:ss')}">03 Aug 2017</td>
                                         <td th:text="${#dates.format(film.endDate,'yyyy-MM-dd HH:mm:ss')}"></td>
                                         <td th:text="${film.runtime}"></td>
@@ -98,9 +100,23 @@
                                                     <input type="text" class="form-control form-control-rounded" name="filmName1" id="filmName1" placeholder="Enter Film Name EN"  required >
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="Fileimage">Image</label>
-<!--                                                    <input type="text" class="form-control form-control-rounded" name="image" id="image" placeholder="Choose image" required>-->
-                                                    <input type="file" class="form-control form-control-rounded" name="Fileimage" id="Fileimage" accept="image/png, image/jpeg"  placeholder="Choose image" required>
+                                                    <label for="price">Price</label>
+                                                    <input type="number" class="form-control form-control-rounded" name="price" id="price" placeholder="Enter Price" min="100" max="9999999"  required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-check" >
+                                                        <input type="checkbox" class="form-check-input" th:text="none" name="genre" id="none"  placeholder="Enter Price" th:value="0" checked >
+                                                        <label class="form-check-label" for="none" ></label>
+                                                    </div>
+                                                    <div class="form-check" th:each="genre: ${genres}">
+                                                        <input type="checkbox" class="form-check-input" name="genre" id="genre" placeholder="Enter Price" th:value="${genre.genreID}" >
+                                                        <label class="form-check-label" for="genre" th:text="${genre.genreName1}"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="image">Image</label>
+                                                    <input type="text" class="form-control form-control-rounded" name="image" id="image" placeholder="Choose image" required>
+<!--                                                    <input type="file" class="form-control form-control-rounded" name="Fileimage" id="Fileimage" accept="image/png, image/jpeg"  placeholder="Choose image" required>-->
                                                 </div>
                                                 <img id="thumbnail"  alt="Image Previews" >
                                                 <div class="form-group">

@@ -12,7 +12,7 @@ public class Directors {
     @Column(name = "directorID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer directorID;
-    @Column
+    @Column(name = "directorName")
     private String directorName;
 
     @OneToMany(mappedBy = "directors",cascade = CascadeType.ALL)

@@ -21,27 +21,28 @@ public class Films {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer filmID;
 
-    @Column(name = "film_name")
+//    @Column(name = "film_name")
+    @Column(name = "filmName")
     private String filmName;
 
-    @Column(name = "film_name1")
+    @Column(name = "filmName1")
     private String filmName1;
 
-    @Column(name = "film_description",length = 500)
+    @Column(name = "filmDescription",length = 500)
     private String filmDescription;
 
-    @Column(name = "film_description1", length = 500)
+    @Column(name = "filmDescription1", length = 500)
     private String filmDescription1;
 
-    @Column(name = "url_trailer")
+    @Column(name = "urlTrailer")
     private String urlTrailer;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @Column(name = "release_date")
+    @Column(name = "releaseDate")
     private Date releaseDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @Column(name = "end_date")
+    @Column(name = "endDate")
     private Date endDate;
 
     @Column(name = "runtime")

@@ -12,7 +12,7 @@ public class Producers {
     @Column(name = "producerID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer producerID;
-    @Column
+    @Column(name = "producerName")
     private String producerName;
 
     @JsonManagedReference

@@ -16,7 +16,7 @@ public class Rooms {
     @Column(name = "roomID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roomID;
-    @Column(name = "room_name")
+    @Column(name = "roomName")
     private String roomName;
 
     @JsonBackReference

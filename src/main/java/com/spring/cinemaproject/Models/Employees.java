@@ -15,7 +15,7 @@ public class Employees {
     @Column(name = "employeeID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer employeeID;
-    @Column(name = "employee_name")
+    @Column(name = "employeeName")
     private String employeeName;
 
     @JsonManagedReference

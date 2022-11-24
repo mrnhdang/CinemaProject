@@ -12,9 +12,9 @@ public class Genres {
     @Column(name = "genreID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer genreID;
-    @Column
+    @Column(name = "genreName")
     private String genreName;
-    @Column
+    @Column(name = "genreName1")
     private String genreName1;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

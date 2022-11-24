@@ -9,9 +9,9 @@ public class Contacts {
     @Column(name = "contactID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer contactID;
-    @Column
+    @Column(name = "contactName")
     private String contactName;
-    @Column
+    @Column(name = "contactName1")
     private String contactName1;
 
 

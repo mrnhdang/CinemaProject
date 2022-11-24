@@ -19,7 +19,7 @@ public class Schedules {
     private int status;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @Column(name = "show_time")
+    @Column(name = "showTime")
     private Date showTime;
 
     @JsonBackReference

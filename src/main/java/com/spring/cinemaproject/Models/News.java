@@ -8,9 +8,9 @@ public class News {
     @Column(name = "newID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer newID;
-    @Column(name = "new_name")
+    @Column(name = "newName")
     private String newName;
-    @Column(name = "new_name1")
+    @Column(name = "newName1")
     private String newName1;
     @Column(name = "description")
     private String description;

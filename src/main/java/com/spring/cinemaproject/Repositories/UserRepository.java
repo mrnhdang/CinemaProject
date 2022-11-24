@@ -12,12 +12,12 @@ public interface UserRepository extends JpaRepository<Users, Integer> {
 
     @Query("UPDATE Users u set u.status = true where u.userID =?1")
     @Modifying
-    public void enable(Integer id);
+    public void enable(String id);
 
     @Query("select u from Users  u where u.verificationCode = ?1")
     public Users findVertificationCode(String code);
 
     @Query("select u from Users u where u.userID = ?1")
-    Users findUsersByID(Integer id);
+    Users findUsersByID(String id);
 
 }

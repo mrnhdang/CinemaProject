@@ -1,5 +1,9 @@
 package com.spring.cinemaproject.Config;
 
+import org.hibernate.boot.model.naming.ImplicitNamingStrategy;
+import org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl;
+import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
+import org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl;
 import org.hibernate.bytecode.internal.bytebuddy.PassThroughInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,9 +41,18 @@ public class MvcConfig implements WebMvcConfigurer {
 
         return localeChangeInterceptor;
     }
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
+    }
+
+    //Change Column naming type
+    @Bean
+    public PhysicalNamingStrategy physical() {
+        return new PhysicalNamingStrategyStandardImpl();
+    }
+    @Bean
+    public ImplicitNamingStrategy implicit() {
+        return new ImplicitNamingStrategyLegacyJpaImpl();
     }
 }

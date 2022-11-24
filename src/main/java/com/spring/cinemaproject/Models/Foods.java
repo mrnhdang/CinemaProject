@@ -14,9 +14,13 @@ public class Foods {
     @Column(name = "foodID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer foodID;
+    @Column(name = "foodName")
     private String foodName;
+    @Column(name = "foodName1")
     private String foodName1;
+    @Column(name = "foodPrice")
     private float foodprice;
+    @Column(name = "image")
     private String image;
     private  int status;
 

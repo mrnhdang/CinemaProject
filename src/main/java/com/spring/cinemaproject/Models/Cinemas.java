@@ -13,9 +13,9 @@ public class Cinemas {
     @Column(name = "cinemaID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cinemaID;
-    @Column
+    @Column(name = "cinemaName")
     private String cinemaName;
-    @Column
+    @Column(name = "cinemaName1")
     private String cinemaName1;
 
     @JsonBackReference
