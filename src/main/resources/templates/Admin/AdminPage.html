@@ -210,8 +210,10 @@
                                     <td th:text="${film.endDate}"></td>
                                     <td th:text="${film.runtime}"></td>
                                     <td th:text="${film.rated}"></td>
-                                    <td th:text="${film.getDirectors.getDirectorName()}"></td>
-                                    <td th:text="${film.getProducers.getProducerName()}"></td>
+                                    <td th:if="${film.getDirectors != null}"  th:text="${film.getDirectors.getDirectorName()}"></td>
+                                    <td th:unless="${film.getDirectors != null}" >NONE</td>
+                                    <td th:if="${film.getProducers != null}" th:text="${film.getProducers.getProducerName()}"></td>
+                                    <td th:unless="${film.getProducers != null}" >NONE</td>
                                     <td th:text="${film.urlTrailer}"  style="max-width: 50px;white-space: nowrap ; text-overflow: ellipsis; overflow: hidden "></td>
 <!--                                    <td th:text="${film.filmDescription}"></td>-->
 <!--                                    <td th:text="${film.filmDescription1}"></td>-->

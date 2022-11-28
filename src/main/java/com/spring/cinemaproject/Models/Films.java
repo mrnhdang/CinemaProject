@@ -75,7 +75,7 @@ public class Films {
     private Collection<Schedules> schedules;
 
     @JsonBackReference
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany( fetch = FetchType.EAGER)
     @JoinTable(
             name = "genredetails",
             joinColumns = @JoinColumn(name = "filmID"),

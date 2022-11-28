@@ -73,8 +73,10 @@
                                                     <span>Director</span>
                                                 </div>
                                                 <ul>
-                                                    <li ><i class="fa fa-star" th:text="${film_detail.getRated()}" ></i></li>
-                                                    <li th:text="${film_detail.getDirectors().getDirectorName()}"><i class="fa fa-download"></i></li>
+                                                    <li th:if="${film_detail.getProducers() !=null}" th:text="${film_detail.getProducers().getProducerName()}"><i class="fa fa-download"></i></li>
+                                                    <li th:unless="${film_detail.getProducers() !=null}" >NONE<i class="fa fa-download"></i></li>
+                                                    <li th:if="${film_detail.getDirectors() !=null}" th:text="${film_detail.getDirectors().getDirectorName()}"><i class="fa fa-download"></i></li>
+                                                    <li th:unless="${film_detail.getDirectors() !=null}">NONE<i class="fa fa-download"></i></li>
                                                 </ul>
                                             </div>
                                         </div>

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.spring.cinemaproject.Models.*;
 import com.spring.cinemaproject.Repositories.*;
 import com.spring.cinemaproject.Services.TicketBookingService;
+import com.spring.cinemaproject.Services.VoucherService;
 import org.apache.catalina.LifecycleState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +60,8 @@ public class PaymentController {
     private MembershipRepository membershipRepository;
     @Autowired
     private VoucherRepository voucherRepository;
+    @Autowired
+    private VoucherService voucherService;
 
     public static final String URL_PAYPAL_SUCCESS = "pay/success";
     public static final String URL_PAYPAL_CANCEL = "pay/cancel";
@@ -153,7 +156,7 @@ public class PaymentController {
         }
         model.addAttribute("membership",pointPrice);
 //        ticketBookingService.createTicket(chairs);
-
+        voucherService.deleteVoucher();
         List<Vouchers> vouchers = voucherRepository.findVouchersForUser(user);
 
         //Send Data to ViewPAge
@@ -227,7 +230,7 @@ public class PaymentController {
         return "cancel";
     }
     @GetMapping(URL_PAYPAL_SUCCESS)
-    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId){
+    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId,HttpServletRequest request){
         try{
             //Get User Info
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

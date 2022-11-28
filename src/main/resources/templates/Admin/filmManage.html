@@ -137,18 +137,18 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="status">Status</label>
-                                                    <input type="text" class="form-control form-control-rounded" name="status" id="status" placeholder="Status" required>
+                                                    <input type="text" class="form-control form-control-rounded" name="status" id="status" placeholder="Status"  required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="director">Director</label>
-                                                    <select  type="text" class="form-control form-control-rounded" name="director" id="director" value="" placeholder="Choose Director" >
+                                                    <label for="dir">Director</label>
+                                                    <select type="text" class="form-control form-control-rounded" name="director" id="dir" >
                                                         <option class="form-control form-control-rounded" th:value="0" text="None" selected="selected" >NONE</option>
-                                                        <option class="form-control form-control-rounded" th:each="director : ${directors}" th:text="${director.directorName}" th:value="${director.directorID}"></option>
+                                                        <option class="form-control form-control-rounded"th:each="director : ${directors}" th:text="${director.directorName}" th:value="${director.directorID}" ></option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="producer">Producer</label>
-                                                    <select type="text" class="form-control form-control-rounded" name="producer" id="producer" placeholder="Choose Producer" >
+                                                    <label for="prod">Producer</label>
+                                                    <select type="text" class="form-control form-control-rounded" name="producer" id="prod"  >
                                                         <option class="form-control form-control-rounded" th:value="0" text="None" selected="selected" >NONE</option>
                                                         <option class="form-control form-control-rounded" th:each="producer : ${producers}"  th:text="${producer.producerName}" th:value="${producer.producerID}" ></option>
                                                     </select>
@@ -159,11 +159,11 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="filmDescription">Description</label>
-                                                    <textarea type="text" class="form-control form-control-rounded" name="filmDescription" id="filmDescription" placeholder="Film Description"></textarea>
+                                                    <textarea type="text" class="form-control form-control-rounded" name="filmDescription" id="filmDescription" placeholder="Film Description" th:maxlength="500" ></textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="filmDescription1">Description EN</label>
-                                                    <textarea type="text" class="form-control form-control-rounded" name="filmDescription1" id="filmDescription1" placeholder="Film Description EN"></textarea>
+                                                    <textarea type="text" class="form-control form-control-rounded" name="filmDescription1" id="filmDescription1" placeholder="Film Description EN" th:maxlength="500" ></textarea>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-light btn-round px-5 left" data-bs-dismiss="modal">Close</button>

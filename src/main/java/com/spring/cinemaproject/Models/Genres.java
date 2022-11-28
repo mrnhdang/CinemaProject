@@ -1,5 +1,7 @@
 package com.spring.cinemaproject.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,7 +19,8 @@ public class Genres {
     @Column(name = "genreName1")
     private String genreName1;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonBackReference
+    @ManyToMany( fetch = FetchType.EAGER)
     @JoinTable(
             name = "genredetails",
             joinColumns = @JoinColumn(name = "genreID"),

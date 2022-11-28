@@ -24,6 +24,7 @@
         <input type="hidden" class="time" th:value="${#dates.format(idTime,'HH:mm:ss')}" >
         <input type="hidden" class="date" th:value="${#dates.format(idDate,'dd-MM-yyyy')}" >
         <input type="hidden" class="cinema" th:value="${idCinema}" >
+        <input type="hidden" class="total" th:value="${total}" >
         <a class="text-bg-danger" th:each=" item :${chairs}">
             <a class="seat" th:value="${item.chairID}"></a>
         </a>
@@ -42,7 +43,7 @@
                                     <div class="col-lg-3 col-sm-6" th:each="item : ${foods}">
                                         <div class="item" >
                                             <div class="thumb">
-                                                <img th:src="${item.image}" style="font-size: 300px;"  alt="">
+                                                <img th:src="${item.image}" width="200" height="300"  alt="">
                                             </div>
                                             <div class="down-content">
                                                 <span>
@@ -65,7 +66,7 @@
                                     <div class="col-lg-3 col-sm-6" th:each="item :${combos}">
                                         <div class="item" >
                                             <div class="thumb">
-                                                <img th:src="${item.image}"  alt="">
+                                                <img th:src="${item.image}"  alt="" width="200" height="300">
                                             </div>
                                             <div class="down-content">
                                                 <span>
@@ -126,9 +127,6 @@
 <!--            </div>-->
 <!--        </div>-->
 <!--    </div>-->
-<p class="text">
-    You have selected <span id="count">0</span> Total price $ <h1 class="total" th:value="${total}"></h1>
-</p>
 
 <script type="text/javascript" th:src="@{/JS/Food.js}"></script>
 </body>

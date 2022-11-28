@@ -9,6 +9,7 @@ import com.spring.cinemaproject.Repositories.UserRepository;
 import com.spring.cinemaproject.Repositories.VoucherRepository;
 import com.spring.cinemaproject.Services.UserService;
 
+import com.spring.cinemaproject.Services.VoucherService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,6 +39,9 @@ public class AccountController {
     private MembershipRepository membershipRepository;
     @Autowired
     private VoucherRepository voucherRepository;
+    @Autowired
+    private VoucherService voucherService;
+
     @GetMapping("")
     public String viewHomePage(){
         return "Account/index";
@@ -109,6 +113,7 @@ public class AccountController {
         if(user == null){
             return "Account/login";
         }
+        voucherService.deleteVoucher();
         Memberships memberships = new Memberships();
         membershipRepository.findMembershipsByUsersId(user.getUserID());
 

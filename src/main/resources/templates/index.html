@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>Your Bill</title>
     <div th:insert="home :: headerfiles"></div>
-
 </head>
 <body>
     <header th:insert="home :: header"></header>
@@ -31,7 +30,7 @@
                                                 <h4>Food Price:<p th:text="${foodPrice}"></p></h4>
                                                 <h4>Combo Price:<p th:text="${comboPrice}"></p></h4>
                                                 <h4>Membership Price:<p th:text="${membership}"></p></h4>
-                                                <h4>Total</h4><input class="form-floating" type="text" th:value="${price}" name="price">
+                                                <h4>Total</h4><input class="form-floating" id="total" type="text" th:value="${price}" name="price">
 <!--                                                <button type="submit" >Payment with Paypal</button>-->
                                                 <div class="main-border-button ">
                                                     <button type="submit " style="background-color: inherit; border: none;"><a style="color: #ec6090; ">Payment with Paypal</a></button>
@@ -52,14 +51,16 @@
                                             <div class="heading-section">
                                                 <h4><em>Vouchers</em> Right Now</h4>
                                              </div>
-                                            <div class="col-lg-12 most-popular " style="display: flex;">
+                                            <div class="col-lg-12 most-popular ">
                                                 <div class="row">
                                                     <div class="col-lg-3 col-sm-6" th:if="${vouchers}" th:each ="voucher : ${vouchers}" style=" display: flex; padding: 10px 10px 35px 10px;">
                                                         <ul class="" style="width: 500px;" >
                                                             <li><h4>Voucher Name</h4><span th:text="${voucher.voucherName1}">Sandbox</span></li>
                                                             <li><h4>Amount</h4><span th:text="${voucher.amount}">Sandbox</span></li>
-                                                            <li><h4>Discount</h4><span th:text="${voucher.discount}">Downloaded</span><span>%</span></li>
-                                                            <li><div class="main-button"><a id="disable" th:href="@{/Payment/voucher/(id=${voucher.voucherID})}">Use Now</a></div></li>
+                                                            <input type="hidden" id="discount"  th:value="${voucher.discount}" >
+                                                            <li><h4>Discount</h4><span  th:text="${voucher.discount}" th:value="${voucher.discount}" >Downloaded</span><span>%</span></li>
+<!--                                                            <li><div class="main-button"><a id="disable" th:href="@{/Payment/voucher/(id=${voucher.voucherID})}">Use Now</a></div></li>-->
+                                                            <li><div class="main-button"><a class="voucher" th:voucher="${voucher.voucherID}" th:discount="${voucher.discount}" >Use Now</a></div></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -103,12 +104,20 @@
 <!--        </div>-->
 <!--        <input type="text" th:value="${price}" name="price">-->
 <!--        <button type="submit" >Payment with Paypal</button>-->
-    <footer th:insert="home :: footer"></footer>
-    <script type="text/javascript">
-        $(document).ready(function (){
-            $('#disable').click(function (e){
-            });
+    <script type="text/javascript" >
+        $('.voucher').one('click', function (){
+            var index =$('.voucher').index(this);
+            $( this ).css("background-color","grey");
+            var oldprice= parseFloat($('#total').val()) ;
+            var discount = parseFloat($(this).attr('discount'));
+            var newprice = oldprice - oldprice*discount/100;
+            console.log(discount);
+            console.log(oldprice);
+            $('#total').val(newprice.toString());
         });
+
     </script>
+    <footer th:insert="home :: footer"></footer>
+
 </body>
 </html>

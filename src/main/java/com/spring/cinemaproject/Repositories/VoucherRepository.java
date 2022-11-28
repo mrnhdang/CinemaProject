@@ -8,9 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.*;
 
 public interface VoucherRepository extends JpaRepository<Vouchers,String> {
-    @Query("select v from Vouchers v where v.users = ?1 or v.users is null ")
+    @Query("select v from Vouchers v where v.users = ?1 or v.users is null and v.amount > 0 ")
     List<Vouchers> findVouchersForUser(Users users);
 
     @Query("select v from Vouchers v where v.voucherID = ?1")
     Vouchers findVouchersByID(String id);
+
 }

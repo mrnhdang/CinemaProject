@@ -17,6 +17,6 @@ public interface FilmRepository extends JpaRepository<Films, Integer> {
     @Query("select f from Films f where f.filmName =?1")
     List<Films> findByFilmName(String trim);
 
-    @Query("SELECT f FROM Films f WHERE CONCAT(f.filmName,' ',f.filmName1,' ',f.directors,' ',f.producers,' ',f.genres,' ', f.price) LIKE %?1%")
-    List<Films> search(String keyword);
+    @Query("SELECT f FROM Films f WHERE CONCAT(f.filmName,' ',f.filmName1,' ',f.directors,' ',f.producers,' ',f.price) LIKE %?1%")
+    public List<Films> search(String keyword);
 }

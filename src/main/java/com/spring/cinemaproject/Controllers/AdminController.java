@@ -2,11 +2,10 @@ package com.spring.cinemaproject.Controllers;
 
 import com.spring.cinemaproject.Models.*;
 import com.spring.cinemaproject.Repositories.*;
-import com.spring.cinemaproject.Services.BillExcelExporter;
-import com.spring.cinemaproject.Services.ChairService;
-import com.spring.cinemaproject.Services.ScheduleService;
+import com.spring.cinemaproject.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -70,6 +69,10 @@ public class AdminController {
     private ScheduleService scheduleService;
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private VoucherService voucherService;
+    @Autowired
+    private FilmService filmService;
 
     public static Integer cinemaID =0;
     public static Integer roomID =0;
@@ -89,15 +92,15 @@ public class AdminController {
 
     //Film Page
     @GetMapping("/film")
-    public String filmMageForm(Model model){
-        model.addAttribute("films", filmRepository.findAll());
+    public String filmMageForm(Model model, @Param("keyword") String keyword){
+        model.addAttribute("films", filmService.searchFilm(keyword));
         model.addAttribute("directors",directorRepository.findAll());
         model.addAttribute("producers", producerRepository.findAll());
         model.addAttribute("genres", genreRepository.findAll() );
         return "Admin/filmManage";
     }
     @GetMapping("/film/delete")
-    public String filmDeleteForm(Integer id , Model model){
+    public String filmDeleteForm(@RequestParam("id")Integer id , Model model){
         filmRepository.deleteById(id);
         return "redirect:/Admin/film";
     }
@@ -170,6 +173,17 @@ public class AdminController {
             }
             else
             {
+                if(genreIDs.get(0) != 0) {
+                    film.setGenres(genres);
+                }
+                if(directorID != 0){
+                    Directors directors = directorRepository.findDirectorsByID(directorID);
+                    film.setDirectors(directors);
+                }
+                if(producerID!= 0){
+                    Producers producers = producerRepository.findProducersByID(producerID);
+                    film.setProducers(producers);
+                }
                 filmRepository.save(film);
             }
         }catch (Exception e){
@@ -189,7 +203,6 @@ public class AdminController {
     @RequestMapping("/schedule")
     public String scheduleForm(Model model){
         scheduleService.deleteScheduleAfterEnd();
-
         Set<Rooms> roomsList = new HashSet<>();
         for(Schedules schedules : scheduleRepository.findAll()){
             for(Rooms rooms : roomRepository.findAll()){
@@ -475,6 +488,7 @@ public class AdminController {
     //Voucher
     @RequestMapping("/voucher")
     public String voucherPage(Model model){
+        voucherService.deleteVoucher();
         model.addAttribute("users", userRepository.findAll() );
         model.addAttribute("vouchers",  voucherRepository.findAll());
         return "Admin/voucherManage";
