@@ -14,9 +14,8 @@
         <header th:insert="admin :: header"></header>
         <div class="content-wrapper">
             <div class="container-fluid">
-
-<!--                <div class="col-lg-6">-->
-<!--                    <div class="card">-->
+                <div class="col-lg-12">
+                    <div class="card">
                         <div class="card-body" >
                             <h1 class="card-title">Films</h1>
                             <button class=" btn btn-light btn-round px-5 btn btn-success nBtn">New</button>
@@ -27,7 +26,6 @@
                                         <th>Film ID</th>
                                         <th>Film</th>
                                         <th>Film EN</th>
-                                        <th>Price</th>
                                         <th>Image</th>
                                         <th>Release Date</th>
                                         <th>End Date</th>
@@ -41,12 +39,11 @@
                                         <th>Description EN</th>
                                     </tr>
                                     </thead>
-                                    <tbody th:each="film :${films}">
+                                    <tbody th:each="film:${films.content}">
                                     <tr>
                                         <td th:text="${film.filmID}">$ 1250.00</td>
                                         <td th:text="${film.filmName}">Iphone 5</td>
                                         <td th:text="${film.filmName1}"></td>
-                                        <td th:text="${film.price}"></td>
 <!--                                        <img th:if="${film.ImagePath}"  th:src="@{${film.ImagePath}}" class="product-img">-->
                                         <td><img th:src="${film.image}" class="product-img"></td>
                                         <td th:text="${#dates.format(film.releaseDate,'yyyy-MM-dd HH:mm:ss')}">03 Aug 2017</td>
@@ -72,8 +69,8 @@
                                     </tbody>
                                 </table>
                             </div>
-<!--                        </div>-->
-<!--                    </div>-->
+                        </div>
+
                             <!--                CRUD FORM-->   <div class="filmForm">
 
                             <form th:action="@{/Admin/film/update}" method="post" th:object="${film}"
@@ -98,10 +95,6 @@
                                                 <div class="form-group">
                                                     <label for="filmName1">Film Name 1</label>
                                                     <input type="text" class="form-control form-control-rounded" name="filmName1" id="filmName1" placeholder="Enter Film Name EN"  required >
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="price">Price</label>
-                                                    <input type="number" class="form-control form-control-rounded" name="price" id="price" placeholder="Enter Price" min="100" max="9999999"  required>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="form-check" >
@@ -197,15 +190,22 @@
                                 </div>
                             </div>
                         </div>
-                        </div>
-
+                    </div>
+                </div>
+                <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item"><a class="page-link" th:href="@{/Admin/film?p=0}">First</a></li>
+                    <li class="page-item"><a class="page-link" th:if="${films.number>0}" th:href="'/Admin/film?p='+${films.number - 1}">Previous</a></li>
+                    <li class="page-item"><a class="page-link" th:href="'/Admin/film?p='+${films.number + 1}">Next</a></li>
+                    <li class="page-item"><a class="page-link" th:href="'/Admin/film?p='+${films.totalPages - 1}" >Last</a></li>
+                </ul>
+            </nav>
             </div>
-        </div>
 
-            </div><!--End Row-->
+        </div><!--End Row-->
 
-
-        <footer th:insert="admin :: footer"></footer>
+    <footer th:insert="admin :: footer"></footer>
     </div>
+
 </body>
 </html>

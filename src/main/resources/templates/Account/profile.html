@@ -27,7 +27,7 @@
                                     <div class="main-info header-text">
                                         <span>ONLINE</span>
                                         <h4 th:text="${user.userName}" th:if="${user !=null}"><span>Username</span></h4>
-                                        <p>You Haven't Gone Live yet. Go Live By Touching The Button Below.</p>
+                                        <p>Sign Out By Touching Button Below. </p>
                                         <div class="main-border-button">
                                             <form th:action="@{/logout}" method="post">
                                                 <button type="submit" style="background-color: inherit; border: none;" ><a>Sign Out</a></button>

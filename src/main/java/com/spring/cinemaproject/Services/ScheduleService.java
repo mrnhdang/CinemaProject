@@ -1,6 +1,7 @@
 package com.spring.cinemaproject.Services;
 
 import com.spring.cinemaproject.Models.Films;
+import com.spring.cinemaproject.Models.Rooms;
 import com.spring.cinemaproject.Models.Schedules;
 import com.spring.cinemaproject.Repositories.ChairRepository;
 import com.spring.cinemaproject.Repositories.FilmRepository;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 @Service
 @Transactional
@@ -37,6 +38,18 @@ public class ScheduleService {
 
             }
         }
+    }
+
+    public boolean validateSchedule(Films films, Rooms rooms, Date validDate){
+        List<Schedules> validSchedule = scheduleRepository.findScheduleByRoomAndFilm(rooms,films);
+        for(Schedules schedule : validSchedule){
+            Date runtime = DateUtils.addMinutes(schedule.getShowTime(),schedule.getFilms().getRuntime());
+            if(validDate.after(schedule.getShowTime()) && validDate.before(runtime) || validDate.equals(schedule.getShowTime()) || validDate.equals(runtime) ){
+                return true;
+            }
+        }
+        return false;
 
     }
+
 }

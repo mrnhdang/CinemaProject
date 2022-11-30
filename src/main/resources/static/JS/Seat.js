@@ -5,6 +5,7 @@ const seats = document.querySelectorAll('.row.seat:not(.occupied)');
 const count= document.getElementById('count');
 const total = document.getElementById('total');
 const movieSelect = document.getElementById('movie');
+const scheduleprice = document.getElementById('ticketprice');
 
 //show the user to see the money of chairs
 let ticketPrice = movieSelect.value;
@@ -15,7 +16,7 @@ var listArray = [];
 
 //get id from schedule page
 var filmID= $('.filmID').attr('value')
-var idCinema = $('.cinema').attr('value');
+var idRoom = $('.room').attr('value');
 var idDate =$('.date').attr('value');
 var idTime =$('.time').attr('value');
 var price = 0;
@@ -89,7 +90,7 @@ $('.seat ').click(function () {
 
 $('#btnPayment').click((e)=>{
     if(listArray != null && idChair !== 0){
-         window.location.href = '/Films/Food?filmID='+filmID+'&date='+idDate+'&time='+idTime+'&cinema='+idCinema+'&seats='+listArray+'&total='+price;
+         window.location.href = '/Films/Food?filmID='+filmID+'&date='+idDate+'&time='+idTime+'&room='+idRoom+'&seats='+listArray+'&total='+price;
     }
     else{
         alert("Vui long chon day du");

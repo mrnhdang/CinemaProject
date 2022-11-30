@@ -20,7 +20,7 @@ public class Foods {
     private String foodName1;
     @Column(name = "foodPrice")
     private float foodprice;
-    @Column(name = "image")
+    @Column(name = "imageFood")
     private String image;
     private  int status;
 

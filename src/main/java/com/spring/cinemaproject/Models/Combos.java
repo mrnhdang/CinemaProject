@@ -16,7 +16,7 @@ public class Combos {
     private String comboName1;
     @Column(name = "comboPrice")
     private float comboprice;
-    @Column(name = "image")
+    @Column(name = "imageCombo")
     private String image;
     private int status;
 

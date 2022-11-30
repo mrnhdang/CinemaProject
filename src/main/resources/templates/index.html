@@ -31,7 +31,7 @@
                                                 <h4>Combo Price:<p th:text="${comboPrice}"></p></h4>
                                                 <h4>Membership Price:<p th:text="${membership}"></p></h4>
                                                 <h4>Total</h4><input class="form-floating" id="total" type="text" th:value="${price}" name="price">
-<!--                                                <button type="submit" >Payment with Paypal</button>-->
+                                                <input type="hidden" id="voucherID" name="voucher" >
                                                 <div class="main-border-button ">
                                                     <button type="submit " style="background-color: inherit; border: none;"><a style="color: #ec6090; ">Payment with Paypal</a></button>
                                                 </div>
@@ -40,6 +40,7 @@
                                         <div class="col-lg-4 align-self-center">
                                             <ul>
                                                 <li>Cinema Name <span th:text="${cinema.cinemaName}">3</span></li>
+                                                <li>Room <span th:text="${room.roomName}">3</span></li>
                                                 <li>Date <span th:text="${#dates.format(date,'dd-MM-yyyy')}">16</span></li>
                                                 <li>Time <span th:text="${#dates.format(time,'HH:mm')}">None</span></li>
                                                 <li>Chairs <span th:each=" item :${chairs}" th:text="${item.chairName}">29</span></li>
@@ -114,6 +115,7 @@
             console.log(discount);
             console.log(oldprice);
             $('#total').val(newprice.toString());
+            $('#voucherID').val($(this).attr('voucher'));
         });
 
     </script>

@@ -8,7 +8,7 @@ $(document).ready(function () {
                 $('.scheduleForm #scheduleID').val(schedule.scheduleID);
                 $('.scheduleForm #showTime').val(schedule.showTime);
                 $('.scheduleForm #filmID').val(schedule.filmID);
-                $('.scheduleForm #room').val(schedule.room);
+                $('.scheduleForm #price').val(schedule.price);
                 $('.scheduleForm #status').val(schedule.status);
             });
             $('.scheduleForm #exampleModal').modal();
@@ -17,6 +17,7 @@ $(document).ready(function () {
             $('.scheduleForm #scheduleID').val('');
             $('.scheduleForm #showTime').val('');
             $('.scheduleForm #showTime').val('');
+            $('.scheduleForm #price').val('');
             $('.scheduleForm #exampleModal').modal();
         }
     });

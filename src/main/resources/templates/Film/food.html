@@ -23,7 +23,7 @@
         <input type="hidden" class="filmID" th:value="${film.filmID}" >
         <input type="hidden" class="time" th:value="${#dates.format(idTime,'HH:mm:ss')}" >
         <input type="hidden" class="date" th:value="${#dates.format(idDate,'dd-MM-yyyy')}" >
-        <input type="hidden" class="cinema" th:value="${idCinema}" >
+        <input type="hidden" class="room" th:value="${idRoom}" >
         <input type="hidden" class="total" th:value="${total}" >
         <a class="text-bg-danger" th:each=" item :${chairs}">
             <a class="seat" th:value="${item.chairID}"></a>

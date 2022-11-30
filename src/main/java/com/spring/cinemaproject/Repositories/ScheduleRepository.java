@@ -18,22 +18,18 @@ public interface ScheduleRepository extends JpaRepository<Schedules,Integer> {
     @Query("select s from Schedules s where s.showTime = ?1 and s.films.filmID = ?2")
     Schedules finScheduleByTimeAndFilmID(Date date, Integer filmID);
 
-    @Query("select s from Schedules s where s.showTime = ?1 and s.rooms.roomID = ?2 and s.films.filmID = ?3")
-    Schedules findScheduleForAjax(Date date, Integer roomID, Integer filmID);
+    @Query("select s from Schedules s where s.rooms = ?1 and s.films = ?2")
+    List<Schedules> findScheduleByRoomAndFilm(Rooms rooms, Films films);
+
+    @Query("select s from Schedules s where s.rooms = ?1 and s.films = ?2 and s.showTime = ?3 ")
+    Schedules findScheduleByRoomAndFilmAndDate(Rooms rooms, Films films,Date date);
 
     @Query("select s from Schedules s where s.scheduleID = ?1")
     Schedules findsScheduleByID(Integer id);
 
-    @Query("select s from Schedules s where s.films = ?1")
-    List<Schedules> findSchedulesByFilms(Films films);
-
     @Query("select s.rooms.cinemas from Schedules s where s.films=?1")
     Set<Cinemas> findCinemaByFilm(Films films);
 
-    @Query("select s from Schedules s where s.rooms.roomID =?1 and s.showTime = ?2")
-    Schedules validateSchedule(Integer roomID, Date showTime);
 
-    @Query("select distinct r from Schedules s join Rooms r where r not in (select s1.rooms from Schedules s1) ")
-    List<Rooms> findRoomsNotInSchedule();
 
 }

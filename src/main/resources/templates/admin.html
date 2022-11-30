@@ -57,13 +57,19 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
       </li>
        <li>
            <a th:href="@{/Admin/film}">
-               <i class="zmdi zmdi-invert-colors"></i> <span>Film Manage</span>
+               <i class="zmdi zmdi-movie"></i> <span>Film Manage</span>
            </a>
        </li>
       <li>
        <li>
            <a th:href="@{/Admin/schedule}">
-               <i class="zmdi zmdi-invert-colors"></i> <span>Schedule Manage</span>
+               <i class="zmdi zmdi-calendar"></i> <span>Schedule Manage</span>
+           </a>
+       </li>
+       <li>
+           <a th:href="@{/Admin/calendar}">
+               <i class="zmdi zmdi-calendar-check"></i> <span>Calendar</span>
+               <small class="badge float-right badge-light">New</small>
            </a>
        </li>
        <li>
@@ -72,51 +78,45 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
            </a>
        </li>
        <li>
-           <a th:href="@{/Admin/bill}">
-               <i class="zmdi zmdi-invert-colors"></i> <span>Bill Manage</span>
-           </a>
-       </li>
-       <li>
            <a th:href="@{/Admin/new}">
-               <i class="zmdi zmdi-invert-colors"></i> <span>New Manage</span>
+               <i class="zmdi zmdi-assignment"></i> <span>New Manage</span>
            </a>
        </li>
        <li>
            <a th:href="@{/Admin/user}">
-               <i class="zmdi zmdi-invert-colors"></i> <span>User Manage</span>
+               <i class="zmdi zmdi-accounts-list-alt"></i> <span>User Manage</span>
            </a>
        </li>
        <li>
            <a th:href="@{/Admin/address}">
-               <i class="zmdi zmdi-invert-colors"></i> <span>Address Manage</span>
+               <i class="zmdi zmdi-info-outline"></i> <span>Address Manage</span>
            </a>
        </li>
        <li>
            <a th:href="@{/Admin/contact}">
-               <i class="zmdi zmdi-invert-colors"></i> <span>Contact Manage</span>
+               <i class="zmdi zmdi-confirmation-number"></i> <span>Contact Manage</span>
            </a>
        </li>
        <li>
            <a th:href="@{/Admin/voucher}">
-               <i class="zmdi zmdi-invert-colors"></i> <span>Voucher Manage</span>
+               <i class="zmdi zmdi-card-giftcard"></i> <span>Voucher Manage</span>
            </a>
        </li>
        <li>
         <a th:href="@{/Admin/food}">
-          <i class="zmdi zmdi-invert-colors"></i> <span>Food Manage</span>
+          <i class="zmdi zmdi-cake"></i> <span>Food Manage</span>
         </a>
       </li>
        <li>
            <a th:href="@{/Admin/combo}">
-               <i class="zmdi zmdi-invert-colors"></i> <span>Combo Manage</span>
+               <i class="zmdi zmdi-cake"></i> <span>Combo Manage</span>
            </a>
        </li>
        <li>
-        <a th:href="@{/Admin/calendar}">
-          <i class="zmdi zmdi-calendar-check"></i> <span>Calendar</span>
-          <small class="badge float-right badge-light">New</small>
-        </a>
-      </li>
+           <a th:href="@{/Admin/bill}">
+               <i class="zmdi zmdi-paypal"></i> <span>Bill Manage</span>
+           </a>
+       </li>
     </ul>
    
    </div>

@@ -3,8 +3,13 @@ package com.spring.cinemaproject.Controllers;
 import com.spring.cinemaproject.Models.*;
 import com.spring.cinemaproject.Repositories.*;
 import com.spring.cinemaproject.Services.*;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -15,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import javax.print.DocFlavor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,6 +33,8 @@ import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/Admin")
@@ -91,9 +99,24 @@ public class AdminController {
     }
 
     //Film Page
+//    @GetMapping("/film")
+//    public String filmMageForm(Model model, @Param("keyword") String keyword ){
+//        model.addAttribute("films", filmService.searchFilm(keyword));
+//        model.addAttribute("directors",directorRepository.findAll());
+//        model.addAttribute("producers", producerRepository.findAll());
+//        model.addAttribute("genres", genreRepository.findAll() );
+//        return "Admin/filmManage";
+//    }
     @GetMapping("/film")
-    public String filmMageForm(Model model, @Param("keyword") String keyword){
-        model.addAttribute("films", filmService.searchFilm(keyword));
+    public String filmPage(Model model, @Param("keyword") String keyword, @RequestParam("p") Optional<Integer> p ){
+        Pageable pageable = PageRequest.of(p.orElse(0), 7);
+        Page<Films> page = null;
+        if(StringUtils.hasText(keyword)){
+            page = filmRepository.searchPaginated(keyword,pageable);
+        }else{
+            page = filmRepository.findAll(pageable);
+        }
+        model.addAttribute("films", page);
         model.addAttribute("directors",directorRepository.findAll());
         model.addAttribute("producers", producerRepository.findAll());
         model.addAttribute("genres", genreRepository.findAll() );
@@ -108,26 +131,6 @@ public class AdminController {
     public String filmUpdateForm( Films film, HttpServletRequest request, @RequestParam("genre") List<Integer> genreIDs){
         try {
             Films temp = filmRepository.findFilmsByID(film.getFilmID());
-//            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-//            System.out.println(fileName);
-//            film.setImage(fileName);
-//            String uploadDir = "./film-img/" + temp.getFilmID();
-//
-//            Path uploadPath = Paths.get(uploadDir);
-//
-//            if (!Files.exists(uploadPath)) {
-//                Files.createDirectories(uploadPath);
-//            }
-//            try(InputStream inputStream = multipartFile.getInputStream()) {
-//
-//
-//                Path filePath =uploadPath.resolve(fileName);
-//                System.out.println(filePath.toFile().getAbsolutePath());
-//                Files.copy(inputStream,filePath, StandardCopyOption.REPLACE_EXISTING);
-//
-//            }catch(IOException e){
-//                throw new IOException("Couldn't save upload file " + fileName);
-//            }
 
             Integer directorID =0;
             Integer producerID = 0;
@@ -249,10 +252,6 @@ public class AdminController {
                 }else{
                     temp.setShowTime(schedule.getShowTime());
                 }
-                if(scheduleRepository.validateSchedule(roomID, temp.getShowTime()) != null){
-                    redirectAttributes.addFlashAttribute("message", "This room has already had schedule");
-                    return "redirect:/Admin/schedule";
-                }
                 scheduleRepository.save(temp);
             }
             else
@@ -265,7 +264,8 @@ public class AdminController {
                 }else{
                     schedule.setShowTime(schedule.getShowTime());
                 }
-                if(scheduleRepository.validateSchedule(roomID, schedule.getShowTime()) != null){
+                Date runtime = DateUtils.addMinutes(schedule.getShowTime(),schedule.getFilms().getRuntime());
+                if(scheduleService.validateSchedule(schedule.getFilms(),schedule.getRooms(),schedule.getShowTime())==true){
                     redirectAttributes.addFlashAttribute("message", "This room has already had schedule");
                     return "redirect:/Admin/schedule";
                 }
@@ -286,8 +286,8 @@ public class AdminController {
     @RequestMapping("/cinema")
     public String cinemaPage(Model model){
         model.addAttribute("cinemas", cinemaRepository.findAll());
-        model.addAttribute("addresses", addressRepository.findAll());
-        model.addAttribute("contacts", contactRepository.findAll());
+        model.addAttribute("addresses", cinemaRepository.findAllAddressNotUsed());
+        model.addAttribute("contacts", cinemaRepository.findAllContactNotUsed());
         return "Admin/cinemaManage";
     }
     @GetMapping("/cinema/delete")
@@ -500,7 +500,7 @@ public class AdminController {
     }
     @PostMapping(value = "/voucher/update")
     public String scheduleUpdateForm(Vouchers vouchers, HttpServletRequest request, RedirectAttributes redirectAttributes){
-//        try {
+        try {
             Vouchers temp = voucherRepository.findVouchersByID(vouchers.getVoucherID());
             if(temp != null){
                 temp.setVoucherName(vouchers.getVoucherName());
@@ -536,9 +536,9 @@ public class AdminController {
                 }
                 voucherRepository.save(vouchers);
             }
-//        }catch (Exception e){
-//            return "redirect:/Admin/voucher";
-//        }
+        }catch (Exception e){
+            return "redirect:/Admin/voucher";
+        }
         return "redirect:/Admin/voucher";
     }
     @GetMapping("/findVoucher")

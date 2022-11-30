@@ -15,14 +15,14 @@
 
     <label>Pick a movie</label>
     <select id="movie">
-        <option th:value="${film.price}"  th:text="${film.filmName}"  ></option>
+        <option th:value="${schedule.price}"  th:text="${film.filmName}"  ></option>
     </select>
     <div type="hidden">
+        <input type="hidden" th:value="${schedule.price}" id="schedule" >
         <input type="hidden" class="filmID" th:value="${film.filmID}" >
         <input type="hidden" class="time" th:value="${#dates.format(idTime,'HH:mm:ss')}" >
         <input type="hidden" class="date" th:value="${#dates.format(idDate,'dd-MM-yyyy')}" >
-        <input type="hidden" class="cinema" th:value="${idCinema}" >
-        <input type ="hidden" class="room" th:value="${room}">
+        <input type ="hidden" class="room" th:value="${idRoom}">
     </div>
 </div>
 <ul class="showcase">
@@ -48,61 +48,6 @@
             <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>
         </div>
     </div>
-<!--        <label>A</label>-->
-<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('A')}" >-->
-<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>-->
-<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="row" >-->
-<!--        <label>B</label>-->
-<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('B')}" >-->
-<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}" ></div>-->
-<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="row" >-->
-<!--        <label>C</label>-->
-<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('C')}" >-->
-<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>-->
-<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="row" >-->
-<!--        <label>D</label>-->
-<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('D')}" >-->
-<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>-->
-<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="row" >-->
-<!--        <label>E</label>-->
-<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('E')}" >-->
-<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>-->
-<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="row" >-->
-<!--        <label>F</label>-->
-<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('F')}" >-->
-<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>-->
-<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="row" >-->
-<!--        <label>G</label>-->
-<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('G')}" >-->
-<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>-->
-<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="row" >-->
-<!--        <label>H</label>-->
-<!--        <div th:each="item :${chairs}" th:if="${item.getChairName().contains('H')}" >-->
-<!--            <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}" ></div>-->
-<!--            <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>-->
-<!--        </div>-->
-<!--    </div>-->
 </div>
 <p class="text">
     You have selected <span id="count">0</span> seats for a price of $ <span id="total">0</span>

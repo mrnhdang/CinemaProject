@@ -70,6 +70,10 @@ public class BillExcelExporter {
         cell.setCellStyle(style);
 
         cell =row.createCell(7);
+        cell.setCellValue("Note ");
+        cell.setCellStyle(style);
+
+        cell =row.createCell(8);
         cell.setCellValue("Total Price ");
         cell.setCellStyle(style);
 
@@ -116,7 +120,11 @@ public class BillExcelExporter {
             sheet.autoSizeColumn(2);
 
              cell = row.createCell(3);
-            cell.setCellValue(item.getPayments().getPaymentName());
+             if(item.getPayments() !=null){
+                 cell.setCellValue(item.getPayments().getPaymentName());
+             }else{
+                 cell.setCellValue("None");
+             }
             cell.setCellStyle(style);
             sheet.autoSizeColumn(3);
 
@@ -142,12 +150,15 @@ public class BillExcelExporter {
             cell.setCellStyle(style);
             sheet.autoSizeColumn(6);
 
-             cell = row.createCell(7);
-            cell.setCellValue(item.getBillTotal());
+            cell = row.createCell(7);
+            cell.setCellValue(item.getNote());
             cell.setCellStyle(style);
             sheet.autoSizeColumn(7);
 
-
+             cell = row.createCell(8);
+            cell.setCellValue(item.getBillTotal());
+            cell.setCellStyle(style);
+            sheet.autoSizeColumn(8);
         }
     }
 

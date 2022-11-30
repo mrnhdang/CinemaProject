@@ -25,7 +25,8 @@
             <tr>
               <th>Bill ID</th>
               <th>Payment</th>
-              <th>User Name</th>
+              <th>Voucher</th>
+              <th>User Email</th>
               <th>NOTE</th>
               <th>Create Date</th>
               <th>Bill Total</th>
@@ -37,7 +38,9 @@
               <td class="billID" th:text="${bill.billID}"></td>
               <td th:if="${bill.getPayments}" th:text="${bill.getPayments.getPaymentName()}"></td>
               <td th:unless="${bill.getPayments}" >NONE</td>
-              <td th:text="${bill.getUsers.getUserName}"></td>
+              <td th:if="${bill.getVouchers}" th:text="${bill.getVouchers.getVoucherName()}"></td>
+              <td th:unless="${bill.getVouchers}" >NONE</td>
+              <td th:text="${bill.getUsers.getEmail}"></td>
               <td th:text="${bill.note}"></td>
               <td th:text="${bill.createDate}"></td>
               <td th:text="${bill.billTotal}"></td>

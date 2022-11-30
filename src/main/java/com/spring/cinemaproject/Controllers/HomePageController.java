@@ -5,6 +5,7 @@ import com.spring.cinemaproject.Models.*;
 import com.spring.cinemaproject.Repositories.*;
 import com.spring.cinemaproject.Services.ChairService;
 import com.spring.cinemaproject.Services.ScheduleService;
+import com.spring.cinemaproject.Services.UserService;
 import org.hibernate.persister.entity.Loadable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -48,6 +49,8 @@ public class HomePageController {
     private NewRepository newRepository;
     @Autowired
     private ScheduleService scheduleService;
+    @Autowired
+    private UserService userService;
 
     public static String lang = "en";
 
@@ -75,25 +78,21 @@ public class HomePageController {
 
     @GetMapping(value = "/{id}")
     public String formFilmDetail(@PathVariable Integer id, Model model, HttpServletRequest request) {
+        try{
+            lang= request.getParameter("lang");
+            model.addAttribute("lang", lang);
 
-        lang= request.getParameter("lang");
-        model.addAttribute("lang", lang);
-
-        Films selectedFilm = filmRepository.findFilmsByID(id);
-        model.addAttribute("film_detail",selectedFilm);
-        model.addAttribute("genres", selectedFilm.getGenres());
+            Films selectedFilm = filmRepository.findFilmsByID(id);
+            model.addAttribute("film_detail",selectedFilm);
+            model.addAttribute("genres", selectedFilm.getGenres());
+        }catch(Exception ex){
+            return "Film/HomePage";
+        }
         return "Film/detail";
     }
     @RequestMapping(value="/{id}/schedule")
     public String formSchedule(@PathVariable("id") Integer id ,Model model, HttpServletRequest request){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email;
-        if (principal instanceof UserDetails) {
-            email = ((UserDetails)principal).getUsername();
-        } else {
-            email = principal.toString();
-        }
-        Users user = userRepository.findByEmail(email);
+        Users user = userService.getCurrentUser();
         if(user == null){
             return "redirect:/login";
         }
@@ -138,30 +137,20 @@ public class HomePageController {
         return "Film/BuyTicket";
     }
 
-    /// http://localhost:8080/Films/14/schedule/Seat?date=2001-10-23&time=16:30:00&cinema=2
-//    @RequestMapping(value = "/{filmID}/schedule/Seat?date={idDate}&time={idTime}&cinema={idCinema}",method = RequestMethod.GET)
-//    public String formSet(Model model, @PathVariable("filmID") Integer id,
-//                          @PathVariable("idDate") @DateTimeFormat(pattern = "dd-MM-yyyy") Date idDate,
-//                          @PathVariable("idTime") Time idTime, @PathVariable("idCinema") Integer idCinema ){
-//        return "Film/Seat";
-//    }
-
     @RequestMapping(value = "/Seat")
     public String formSeat(Model model, @RequestParam("filmID") Integer filmID, @RequestParam("date") @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss") Date idDate,
-                          @RequestParam("time") @DateTimeFormat(pattern = "HH:mm:ss") Date idTime, @RequestParam("cinema") Integer idCinema){
-
-        String[] alphabet = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-        Set<String> alphabetExist = new HashSet<String>() ;
+                          @RequestParam("time") @DateTimeFormat(pattern = "HH:mm:ss") Date idTime, @RequestParam("room") Integer idRoom){
 
         Films selectedFilm = filmRepository.findFilmsByID(filmID);
-        Schedules selectedSchedule = scheduleRepository.finScheduleByTimeAndFilmID(idDate ,filmID);
+        Schedules selectedSchedule = scheduleRepository.findScheduleByRoomAndFilmAndDate(roomRepository.findRoomsByID(idRoom),selectedFilm,idDate);
         List<Chairs> getChairs=chairRepository.findChairsByRooms(selectedSchedule.getRooms().getRoomID());
 
         model.addAttribute("alphabet",chairService.findExistAlphabet(selectedSchedule.getRooms().getRoomID()));
         model.addAttribute("film", selectedFilm);
         model.addAttribute("idDate",idDate);
         model.addAttribute("idTime", idTime);
-        model.addAttribute("idCinema", idCinema);
+        model.addAttribute("idRoom", idRoom);
+        model.addAttribute("schedule", selectedSchedule);
 
         model.addAttribute("chairs", getChairs );
 
@@ -170,7 +159,7 @@ public class HomePageController {
     }
     @RequestMapping("/Food")
     public String formFoodAndCombo(Model model, @RequestParam("filmID") Integer filmID, @RequestParam("date") @DateTimeFormat(pattern = "dd-MM-yyyy") Date idDate,
-                                   @RequestParam("time") @DateTimeFormat(pattern = "HH:mm:ss") Date idTime, @RequestParam("cinema") Integer idCinema, @RequestParam(name = "seats")List<Integer> seats,
+                                   @RequestParam("time") @DateTimeFormat(pattern = "HH:mm:ss") Date idTime, @RequestParam("room") Integer idRoom, @RequestParam(name = "seats")List<Integer> seats,
                                    @RequestParam(name = "total") float total, HttpServletRequest request, RedirectAttributes redirectAttributes){
 
         lang= request.getParameter("lang");
@@ -182,7 +171,7 @@ public class HomePageController {
         model.addAttribute("film",filmRepository.findFilmsByID(filmID));
         model.addAttribute("idDate",idDate);
         model.addAttribute("idTime", idTime);
-        model.addAttribute("idCinema", idCinema);
+        model.addAttribute("idRoom", idRoom);
         model.addAttribute("total", total);
         model.addAttribute("chairs", chairs);
 

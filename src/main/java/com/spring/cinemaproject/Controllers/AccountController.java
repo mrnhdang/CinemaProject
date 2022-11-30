@@ -53,7 +53,7 @@ public class AccountController {
 
     @RequestMapping("/edit")
     public String edit(){
-        return "Account/verify_success";
+        return "cancel";
     }
 
     @GetMapping("/register")
@@ -102,19 +102,11 @@ public class AccountController {
     }
     @RequestMapping("/profile")
     public String profile(Model model){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email;
-        if (principal instanceof UserDetails) {
-            email = ((UserDetails)principal).getUsername();
-        } else {
-            email = principal.toString();
-        }
-        Users user = userRepository.findByEmail(email);
+        Users user = userService.getCurrentUser();
         if(user == null){
             return "Account/login";
         }
         voucherService.deleteVoucher();
-        Memberships memberships = new Memberships();
         membershipRepository.findMembershipsByUsersId(user.getUserID());
 
         model.addAttribute("membership",membershipRepository.findMembershipsByUsersId(user.getUserID()));
@@ -127,18 +119,11 @@ public class AccountController {
     public String editProfile(@RequestParam("username") String username, @RequestParam("address") String address,
                               @RequestParam("password") String password,@RequestParam("newPassword") String newPassword,
                               RedirectAttributes redirectAttributes, Model model){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         newPassword= bCryptPasswordEncoder.encode(newPassword);
 
-        String email;
-        if (principal instanceof UserDetails) {
-            email = ((UserDetails)principal).getUsername();
-        } else {
-            email = principal.toString();
-        }
-        Users user = userRepository.findByEmail(email);
+        Users user = userService.getCurrentUser();
 
         if(user != null){
             user.setUserName(username);
@@ -150,7 +135,7 @@ public class AccountController {
             else{
                 redirectAttributes.addFlashAttribute("changePassFailed", "Password is not match !!!!!!" );
             }
-            redirectAttributes.addFlashAttribute("message", "Update successfull !!!!!!");
+            redirectAttributes.addFlashAttribute("message", "Update successfully !!!!!!");
             model.addAttribute("user",user);
             return "redirect:/profile";
         }

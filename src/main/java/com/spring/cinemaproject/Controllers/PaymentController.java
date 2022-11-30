@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.spring.cinemaproject.Models.*;
 import com.spring.cinemaproject.Repositories.*;
 import com.spring.cinemaproject.Services.TicketBookingService;
+import com.spring.cinemaproject.Services.UserService;
 import com.spring.cinemaproject.Services.VoucherService;
 import org.apache.catalina.LifecycleState;
 import org.slf4j.Logger;
@@ -53,8 +54,6 @@ public class PaymentController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private TicketRepository ticketRepository;
-    @Autowired
     private TicketBookingService ticketBookingService;
     @Autowired
     private MembershipRepository membershipRepository;
@@ -62,6 +61,10 @@ public class PaymentController {
     private VoucherRepository voucherRepository;
     @Autowired
     private VoucherService voucherService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private RoomRepository roomRepository;
 
     public static final String URL_PAYPAL_SUCCESS = "pay/success";
     public static final String URL_PAYPAL_CANCEL = "pay/cancel";
@@ -70,7 +73,7 @@ public class PaymentController {
     public static Integer filmID = 0;
     public static  String VOUCHER = null ;
     public static Integer movieID =0 ;
-    public static Integer cinemaID = 0;
+    public static Integer roomID = 0;
     public static Date bookingDate = null;
     public static Date bookingTime = null;
     public static List<Integer> foodsID = null;
@@ -90,13 +93,13 @@ public class PaymentController {
     //http://localhost:8080/Payment/viewPrice?filmID=14&date=23-10-2022&time=07:30:00&cinema=3&seats=0,79,91,92,104
     @GetMapping("/viewPrice")
     public String viewPrice(Model model, @RequestParam(name = "filmID") Integer ID, @RequestParam(name = "date") @DateTimeFormat(pattern = "dd-MM-yyyy") Date date,
-                            @RequestParam("time") @DateTimeFormat(pattern = "HH:mm:ss") Date time, @RequestParam(name="cinema") Integer cinema, @RequestParam(name = "seats")List<Integer> seats,
+                            @RequestParam("time") @DateTimeFormat(pattern = "HH:mm:ss") Date time, @RequestParam(name="room") Integer room, @RequestParam(name = "seats")List<Integer> seats,
                             @RequestParam("foods") List<Integer> foods,@RequestParam("foodAmount") List<Integer> foodAmount,
                             @RequestParam("combos") List<Integer> combos,@RequestParam("comboAmount") List<Integer> comboAmount ,@RequestParam(name = "total") float total) throws IOException, ClassNotFoundException {
         //serialize to object
         filmID =ID;
         movieID = filmID;
-        cinemaID= cinema;
+        roomID= room;
         bookingDate= date;
         bookingTime= time;
         foodsID = foods;
@@ -105,14 +108,7 @@ public class PaymentController {
         combosID = combos;
         seatsID = seats;
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email;
-        if (principal instanceof UserDetails) {
-            email = ((UserDetails)principal).getUsername();
-        } else {
-            email = principal.toString();
-        }
-        Users user = userRepository.findByEmail(email);
+        Users user = userService.getCurrentUser();
         if(user == null){
             return "redirect:/login";
         }
@@ -146,11 +142,11 @@ public class PaymentController {
         }
         getCombos = combo;
         total += comboPrice + foodPrice;
-        if(memberPoint == 100){
+        if(memberPoint >= 100){
             pointPrice = total*10/100;
             ticketPrice = total - pointPrice;
         }
-        else if(memberPoint != 100){
+        else if(memberPoint < 100){
             pointPrice =0;
             ticketPrice = total;
         }
@@ -164,7 +160,8 @@ public class PaymentController {
         model.addAttribute("film", filmRepository.findFilmsByID(filmID) );
         model.addAttribute("date",date);
         model.addAttribute("time", time);
-        model.addAttribute("cinema", cinemaRepository.findCinemasByID(cinema));
+        model.addAttribute("cinema", roomRepository.findRoomsByID(room).getCinemas());
+        model.addAttribute("room", roomRepository.findRoomsByID(room));
         model.addAttribute("chairs", chairs);
         model.addAttribute("foods", food);
         model.addAttribute("combos", combo);
@@ -175,35 +172,11 @@ public class PaymentController {
 
         return "index";
     }
-    @RequestMapping("/voucher")
-    public String proccessVoucher(@RequestParam("id") String id, RedirectAttributes redirectAttributes){
-        VOUCHER = id;
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        SimpleDateFormat tf = new SimpleDateFormat("HH:mm:ss");
-
-        redirectAttributes.addAttribute("filmID",filmID );
-        redirectAttributes.addAttribute("date",df.format(bookingDate) );
-        redirectAttributes.addAttribute("time",tf.format(bookingTime) );
-        redirectAttributes.addAttribute("cinema",cinemaID );
-        redirectAttributes.addAttribute("seats",getChairs);
-        redirectAttributes.addAttribute("foods",foodsID );
-        redirectAttributes.addAttribute("foodAmount",foodsAmount );
-        redirectAttributes.addAttribute("combos",combosID );
-        redirectAttributes.addAttribute("comboAmount",combosAmount);
-
-        Vouchers vouchers = voucherRepository.findVouchersByID(VOUCHER);
-        if(vouchers.getAmount() > 0){
-            ticketPrice -= ticketPrice*vouchers.getDiscount()/100;
-            redirectAttributes.addAttribute("total",ticketPrice );
-        }else{
-            redirectAttributes.addAttribute("total",ticketPrice );
-            return "redirect:/Payment/viewPrice";
-        }
-        return "redirect:/Payment/viewPrice";
-    }
-
     @PostMapping("/pay")
     public String pay(HttpServletRequest request,@RequestParam("price") double price ){
+        if(request.getParameter("voucher") !=null){
+            VOUCHER = request.getParameter("voucher");
+        }
         String cancelUrl = Utils.getBaseURL(request) + "/Payment/" + URL_PAYPAL_CANCEL;
         String successUrl = Utils.getBaseURL(request) + "/Payment/" + URL_PAYPAL_SUCCESS;
         try {
@@ -233,39 +206,31 @@ public class PaymentController {
     public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId,HttpServletRequest request){
         try{
             //Get User Info
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            String email;
-            if (principal instanceof UserDetails) {
-                 email = ((UserDetails)principal).getUsername();
-            } else {
-                 email = principal.toString();
-            }
-            Users user = userRepository.findByEmail(email);
+            Users user = userService.getCurrentUser();
 
             Payment payment = paypalService.executePayment(paymentId, payerId);
 
-            ticketBookingService.createBillPayment(user,PAYMENT,VOUCHER,ticketPrice,getChairs,getFoods,getCombos);
             for(int i=0; i< getChairs.size(); i++){
                 Chairs h =chairRepository.findChairsByID(getChairs.get(i).getChairID());
                 h.setStatus(2);
                 chairRepository.save(h);
             }
             if(user.getMemberships() != null){
-                if(user.getMemberships().getPoints() ==100){
-                    user.getMemberships().setPoints(0);
+                if(user.getMemberships().getPoints() >=100){
+                    user.getMemberships().setPoints(user.getMemberships().getPoints()-100);
                     membershipRepository.save(user.getMemberships());
                 }
-                int bonus =user.getMemberships().getPoints() +10;
+                int bonus = user.getMemberships().getPoints() + Math.round(ticketPrice/10000);
                 user.getMemberships().setPoints(bonus);
                 membershipRepository.save(user.getMemberships());
             }
-            if(VOUCHER != null){
+            if(voucherRepository.findVouchersByID(VOUCHER) != null){
                 Vouchers vouchers = voucherRepository.findVouchersByID(VOUCHER);
                 vouchers.setAmount(vouchers.getAmount()-1);
                 voucherRepository.save(vouchers);
             }
-
             if(payment.getState().equals("approved")){
+                ticketBookingService.createBillPayment(user,PAYMENT,VOUCHER,ticketPrice,getChairs,getFoods,getCombos);
                 return "success";
             }
         } catch (PayPalRESTException e) {

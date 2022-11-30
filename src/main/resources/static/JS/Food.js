@@ -8,7 +8,7 @@ var foodID = 0;
 var comboID = 0;
 
 var filmID= $('.filmID').attr('value')
-var idCinema = $('.cinema').attr('value');
+var idRoom = $('.room').attr('value');
 var idDate =$('.date').attr('value');
 var idTime =$('.time').attr('value');
 var total = $('.total').attr('value');
@@ -61,16 +61,7 @@ $(document).ready(function (){
 });
 
 $('#btnPayment').click(()=>{
-    if(foodArray !== null && comboArray === null){
-        window.location.href = '/Payment/viewPrice?filmID='+filmID+'&date='+idDate+'&time='+idTime+'&cinema='+idCinema+'&seats='+listArray+'&foods='+foodArray+'&foodAmount='+foodAmount+'&total='+total;
-    }
-    else if(foodArray === null && comboNumber !== null){
-        window.location.href = '/Payment/viewPrice?filmID='+filmID+'&date='+idDate+'&time='+idTime+'&cinema='+idCinema+'&seats='+listArray+'&combos='+comboArray+'&comboAmount='+comboAmount+'&total='+total;
-    }
-    else if(comboArray !== null && comboArray !== null){
-        window.location.href = '/Payment/viewPrice?filmID='+filmID+'&date='+idDate+'&time='+idTime+'&cinema='+idCinema+'&seats='+listArray+'&foods='+foodArray+'&foodAmount='+foodAmount+'&combos='+comboArray+'&comboAmount='+comboAmount+'&total='+total;
-    }
-    else{
-        window.location.href = '/Payment/viewPrice?filmID='+filmID+'&date='+idDate+'&time='+idTime+'&cinema='+idCinema+'&seats='+listArray+'&total='+total;
-    }
+ if(comboArray !== null && comboArray !== null) {
+     window.location.href = '/Payment/viewPrice?filmID=' + filmID + '&date=' + idDate + '&time=' + idTime + '&room=' + idRoom + '&seats=' + listArray + '&foods=' + foodArray + '&foodAmount=' + foodAmount + '&combos=' + comboArray + '&comboAmount=' + comboAmount + '&total=' + total;
+ }
 });

@@ -17,6 +17,8 @@ public class Schedules {
     private Integer scheduleID;
     @Column(name = "status")
     private int status;
+    @Column(name = "priceTicket")
+    private float price;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(name = "showTime")
@@ -36,10 +38,11 @@ public class Schedules {
 
     }
 
-    public Schedules(Integer scheduleID, int status, Date showTime) {
+    public Schedules(Integer scheduleID, int status, Date showTime, float price) {
         this.scheduleID = scheduleID;
         this.status = status;
         this.showTime = showTime;
+        this.price = price;
     }
 
     public Integer getScheduleID() {
@@ -82,4 +85,11 @@ public class Schedules {
         this.rooms = rooms;
     }
 
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
 }
