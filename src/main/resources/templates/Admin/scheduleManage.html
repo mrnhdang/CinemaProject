@@ -28,7 +28,6 @@
                                         <th>Cinema Name</th>
                                         <th>Room Name</th>
                                         <th>Ticket Price</th>
-                                        <th>Status</th>
                                         <th>Show time</th>
                                     </tr>
                                     </thead>
@@ -39,7 +38,6 @@
                                         <td th:text="${schedule.getRooms().getCinemas().cinemaName}"></td>
                                         <td th:text="${schedule.getRooms().roomName}"></td>
                                         <td th:text="${schedule.price}"></td>
-                                        <td th:text="${schedule.status}"></td>
                                         <td th:text="${#dates.format(schedule.showTime,'yyyy-MM-dd HH:mm:ss')}">03 Aug 2017</td>
                                         <td>
                                             <a class="btn btn-primary uBtn" th:href="@{/Admin/findScheduleID/(id=${schedule.scheduleID})}">Update</a>
@@ -72,8 +70,8 @@
                                             <input type="hidden" class="form-control form-control-rounded" name="scheduleID" id="scheduleID" placeholder="Enter Schedule ID" >
                                         </div>
                                         <div class="form-group">
-                                            <label for="price">Schedule ID</label>
-                                            <input type="number" class="form-control form-control-rounded" name="price" id="price" placeholder="Enter ticket price" min="10000" max="100000" required >
+                                            <label for="price">Ticket Price</label>
+                                            <input type="number" class="form-control form-control-rounded" name="price" id="price" placeholder="Enter ticket price" min="10000" max="10000000" required >
                                         </div>
                                         <div class="form-group">
                                             <label for="filmID">Film Name</label>
@@ -93,24 +91,6 @@
                                             <label for="showTime">Show Time</label>
                                             <input type="datetime-local" class="form-control form-control-rounded" name="showTime" id="showTime" placeholder="Choose Show time" >
                                         </div>
-                                        <div class="form-group">
-                                            <label for="status">Status</label>
-                                            <input type="text" class="form-control form-control-rounded" name="status" id="status" placeholder="Status" required>
-                                        </div>
-<!--                                        <div class="form-group">-->
-<!--                                            <label for="director">Director</label>-->
-<!--                                            <select  type="text" class="form-control form-control-rounded" name="director" id="director" value="" placeholder="Choose Director" >-->
-<!--                                                <option class="form-control form-control-rounded" th:value="0" text="None" selected="selected" ></option>-->
-<!--                                                <option class="form-control form-control-rounded" th:each="director : ${directors}" th:text="${director.directorName}" th:value="${director.directorID}"></option>-->
-<!--                                            </select>-->
-<!--                                        </div>-->
-<!--                                        <div class="form-group">-->
-<!--                                            <label for="producer">Producer</label>-->
-<!--                                            <select type="text" class="form-control form-control-rounded" name="producer" id="producer" placeholder="Choose Producer" >-->
-<!--                                                <option class="form-control form-control-rounded" th:value="0" text="None" selected="selected" ></option>-->
-<!--                                                <option class="form-control form-control-rounded" th:each="producer : ${producers}"  th:text="${producer.producerName}" th:value="${producer.producerID}" ></option>-->
-<!--                                            </select>-->
-<!--                                        </div>-->
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-light btn-round px-5 left" data-bs-dismiss="modal">Close</button>
                                             <input type="submit" class="btn btn-light btn-round px-5" value="Save"></input>

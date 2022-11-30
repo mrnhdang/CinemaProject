@@ -42,7 +42,7 @@
                         <a th:text="${film.rated}"></a>
                       </li>
                     </ul>
-                    <div class="main-border-button border-no-actives"><a th:href="${'Films/'+film.filmID}">Detail</a></div>
+                    <div class="main-border-button border-no-actives"><a th:href="${'/Films/'+film.filmID}">Detail</a></div>
                   </div>
                 </div>
               </div>
@@ -50,31 +50,6 @@
           </div>
         </div>
       </div>
-      <!-- ***** Most Popular End ***** -->
-      <!--    <div class="container text-center">-->
-      <!--        <ul class="list-group list-group-horizontal" th:each="film:${list_films}">-->
-      <!--            <li class="list-group-item ">-->
-      <!--                <div class="card-link" style="width: 18rem;">-->
-      <!--                    <img th:src="${film.image}" class="card-img-top" width="200px">-->
-      <!--                    <div class="card-body">-->
-      <!--                        <h5 class="card-title" th:text="${film.filmName}"></h5>-->
-      <!--                        <h5 class="card-text" th:text="${film.rated}" ></h5>-->
-      <!--                    </div>-->
-      <!--                </div>-->
-      <!--                <td><a th:href="${'Films/'+film.filmID}">View</a></td>-->
-      <!--            </li>-->
-      <!--            &lt;!&ndash;            <li class="list-group-item">A second item</li>&ndash;&gt;-->
-      <!--            &lt;!&ndash;            <li class="list-group-item">A third item</li>&ndash;&gt;-->
-      <!--        </ul>-->
-      <!--&lt;!&ndash;    <div class="movie" th:each="film:${list_films}">&ndash;&gt;-->
-      <!--&lt;!&ndash;        <div class="movie-image"> <span class="play"><span class="name">X-MAN</span></span> <a href="#"><img th:src="${film.image}" alt="" /></a> </div>&ndash;&gt;-->
-      <!--&lt;!&ndash;        <div class="rating">&ndash;&gt;-->
-      <!--&lt;!&ndash;            <p>RATING</p>&ndash;&gt;-->
-      <!--&lt;!&ndash;            <div class="stars">&ndash;&gt;-->
-      <!--&lt;!&ndash;                <div class="stars-in" th:value="${film.rated}"> </div>&ndash;&gt;-->
-      <!--&lt;!&ndash;            </div>&ndash;&gt;-->
-      <!--&lt;!&ndash;            <span class="comments">12</span> </div>&ndash;&gt;-->
-      <!--    </div>-->
     </div>
   </div>
 </div>

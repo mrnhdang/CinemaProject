@@ -25,4 +25,6 @@ public interface FilmRepository extends JpaRepository<Films, Integer> {
     @Query("SELECT f FROM Films f WHERE CONCAT(f.filmName,' ',f.filmName1,' ',f.directors,' ',f.producers,' ',f.price) LIKE %?1%")
     Page<Films> searchPaginated(String keyword,Pageable pageable);
 
+    @Query("Select f from Films f where f.releaseDate > current_date ")
+    List<Films> findFilmsNotSchedule();
 }

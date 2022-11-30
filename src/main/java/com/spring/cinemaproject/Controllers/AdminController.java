@@ -33,6 +33,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -99,14 +100,6 @@ public class AdminController {
     }
 
     //Film Page
-//    @GetMapping("/film")
-//    public String filmMageForm(Model model, @Param("keyword") String keyword ){
-//        model.addAttribute("films", filmService.searchFilm(keyword));
-//        model.addAttribute("directors",directorRepository.findAll());
-//        model.addAttribute("producers", producerRepository.findAll());
-//        model.addAttribute("genres", genreRepository.findAll() );
-//        return "Admin/filmManage";
-//    }
     @GetMapping("/film")
     public String filmPage(Model model, @Param("keyword") String keyword, @RequestParam("p") Optional<Integer> p ){
         Pageable pageable = PageRequest.of(p.orElse(0), 7);
@@ -123,7 +116,7 @@ public class AdminController {
         return "Admin/filmManage";
     }
     @GetMapping("/film/delete")
-    public String filmDeleteForm(@RequestParam("id")Integer id , Model model){
+    public String filmDeleteForm(@RequestParam("id")Integer id){
         filmRepository.deleteById(id);
         return "redirect:/Admin/film";
     }
@@ -222,7 +215,7 @@ public class AdminController {
         return "Admin/scheduleManage";
     }
     @GetMapping("/schedule/delete")
-    public String scheduleDeleteForm(@RequestParam("id") Integer id , Model model){
+    public String scheduleDeleteForm(@RequestParam("id") Integer id ){
         scheduleRepository.deleteById(id);
         return "redirect:/Admin/schedule";
     }
@@ -239,18 +232,23 @@ public class AdminController {
                 roomID=Integer.parseInt(request.getParameter("roomID"));
             }
             if(temp != null){
-                temp.setStatus(schedule.getStatus());
+                temp.setPrice(schedule.getPrice());
+                temp.setStatus(1);
+                System.out.println(temp.getPrice());
+
                 if(roomID!=0){
                     temp.setRooms(roomRepository.findRoomsByID(roomID));
                 }
                 if(filmID!=0){
                     temp.setFilms(filmRepository.findFilmsByID(filmID));
                 }
-                if(schedule.getShowTime().before(temp.getFilms().getReleaseDate()) ==true ){
-                    redirectAttributes.addFlashAttribute("message", "The show time is before the Release Date");
-                    return "redirect:/Admin/schedule";
-                }else{
-                    temp.setShowTime(schedule.getShowTime());
+                if(schedule.getShowTime() !=null){
+                    if(schedule.getShowTime().before(temp.getFilms().getReleaseDate()) ==true ){
+                        redirectAttributes.addFlashAttribute("message", "The show time is before the Release Date");
+                        return "redirect:/Admin/schedule";
+                    }else{
+                        temp.setShowTime(schedule.getShowTime());
+                    }
                 }
                 scheduleRepository.save(temp);
             }
@@ -258,16 +256,18 @@ public class AdminController {
             {
                 schedule.setRooms(roomRepository.findRoomsByID(roomID));
                 schedule.setFilms(filmRepository.findFilmsByID(filmID));
-                if(schedule.getShowTime().before(schedule.getFilms().getReleaseDate()) ==true ){
-                    redirectAttributes.addFlashAttribute("message", "The show time is before the Release Date");
-                    return "redirect:/Admin/schedule";
-                }else{
-                    schedule.setShowTime(schedule.getShowTime());
-                }
-                Date runtime = DateUtils.addMinutes(schedule.getShowTime(),schedule.getFilms().getRuntime());
-                if(scheduleService.validateSchedule(schedule.getFilms(),schedule.getRooms(),schedule.getShowTime())==true){
-                    redirectAttributes.addFlashAttribute("message", "This room has already had schedule");
-                    return "redirect:/Admin/schedule";
+                if(schedule.getShowTime()!=null){
+                    if(schedule.getShowTime().before(schedule.getFilms().getReleaseDate()) ==true ){
+                        redirectAttributes.addFlashAttribute("message", "The show time is before the Release Date");
+                        return "redirect:/Admin/schedule";
+                    }else{
+                        schedule.setShowTime(schedule.getShowTime());
+                    }
+                    Date runtime = DateUtils.addMinutes(schedule.getShowTime(),schedule.getFilms().getRuntime());
+                    if(scheduleService.validateSchedule(schedule.getFilms(),schedule.getRooms(),schedule.getShowTime())==true){
+                        redirectAttributes.addFlashAttribute("message", "This room has already had schedule");
+                        return "redirect:/Admin/schedule";
+                    }
                 }
                 scheduleRepository.save(schedule);
             }
@@ -296,7 +296,7 @@ public class AdminController {
         return "redirect:/Admin/cinema";
     }
     @PostMapping(value = "/cinema/update")
-    public String cinemaUpdate(Cinemas cinemas, HttpServletRequest request, RedirectAttributes redirectAttributes){
+    public String cinemaUpdate(Cinemas cinemas, HttpServletRequest request){
         try {
             Cinemas temp = cinemaRepository.findCinemasByID(cinemas.getCinemaID());
             Integer addressID = 0;
@@ -350,7 +350,7 @@ public class AdminController {
         return "redirect:/Admin/room/"+cinemaID;
     }
     @PostMapping(value = "/room/update")
-    public String roomUpdate(Rooms rooms, HttpServletRequest request, RedirectAttributes redirectAttributes){
+    public String roomUpdate(Rooms rooms){
         try {
             rooms.setCinemas(cinemaRepository.findCinemasByID(cinemaID));
             roomRepository.save(rooms);
@@ -380,20 +380,6 @@ public class AdminController {
         chairService.deleteAllRoomChair(id);
         return "redirect:/Admin/seat/"+id;
     }
-//    @GetMapping(value = "/seat/delete/{id}")
-//    @ResponseBody
-//    ResponseEntity<ResponseObject> deleteProduct(@PathVariable("id") Integer id){
-//        boolean exists =chairRepository.existsById(id);
-//        if(exists){
-//            chairRepository.deleteById(id);
-//            return ResponseEntity.status(HttpStatus.OK).body(
-//                    new ResponseObject("ok","Delete product successfully","")
-//            );
-//        }
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-//                new ResponseObject("Failed","Cannot find product to delete","")
-//        );
-//    }
     @GetMapping("/seat/updateSelect")
     public String updateSelected(@RequestParam("list") List<Integer> list, @RequestParam("id") Integer roomID ){
         for(Integer item : list){
@@ -449,7 +435,19 @@ public class AdminController {
     //Bill Payment
     @GetMapping("/bill")
     public String billPage(Model model){
-        model.addAttribute("bills", billRepository.findAll());
+        List<Bills> bills = billRepository.findAll();
+        model.addAttribute("bills",bills );
+        List<String> ticketInfo = new ArrayList<>();
+        for(Bills item : bills) {
+            Set<Tickets> billTicket = item.getTickets();
+
+            for (Tickets ticket : billTicket) {
+                for (Chairs chair : ticket.getChairs()) {
+                    ticketInfo.add(chair.getChairName());
+                }
+            }
+        }
+        model.addAttribute("chairs", ticketInfo);
         return "Admin/billManage";
     }
 
@@ -537,6 +535,7 @@ public class AdminController {
                 voucherRepository.save(vouchers);
             }
         }catch (Exception e){
+            e.printStackTrace();
             return "redirect:/Admin/voucher";
         }
         return "redirect:/Admin/voucher";
@@ -559,7 +558,7 @@ public class AdminController {
         return "redirect:/Admin/new";
     }
     @PostMapping(value = "/new/update")
-    public String newUpdate(News news, HttpServletRequest request, RedirectAttributes redirectAttributes){
+    public String newUpdate(News news){
         try {
         News temp = newRepository.findNewsByID(news.getNewID());
         if(temp != null){
@@ -596,7 +595,7 @@ public class AdminController {
         return "redirect:/Admin/food";
     }
     @PostMapping(value = "/food/update")
-    public String newUpdate(Foods foods, HttpServletRequest request, RedirectAttributes redirectAttributes){
+    public String newUpdate(Foods foods){
         try {
             Foods temp = foodRepository.findFoodsByID(foods.getFoodID());
             if(temp != null){
@@ -633,7 +632,7 @@ public class AdminController {
         return "redirect:/Admin/combo";
     }
     @PostMapping(value = "/combo/update")
-    public String comboUpdate(Combos combos, HttpServletRequest request, RedirectAttributes redirectAttributes){
+    public String comboUpdate(Combos combos){
         try {
             Combos temp = comboRepository.findCombosByID(combos.getComboID());
             if(temp != null){
@@ -673,7 +672,7 @@ public class AdminController {
         return "redirect:/Admin/user";
     }
     @PostMapping(value = "/user/update")
-    public String userUpdate(Users user, HttpServletRequest request, RedirectAttributes redirectAttributes){
+    public String userUpdate(Users user, HttpServletRequest request){
         try {
             Users temp = userRepository.findUsersByID(user.getUserID());
             if(temp != null){
@@ -707,7 +706,7 @@ public class AdminController {
         return "redirect:/Admin/address";
     }
     @PostMapping(value = "/address/update")
-    public String userUpdate(Addresses addresses, HttpServletRequest request, RedirectAttributes redirectAttributes){
+    public String userUpdate(Addresses addresses){
         try {
             Addresses temp = addressRepository.findAddressesByID(addresses.getAddressID());
             if(temp != null){
@@ -740,7 +739,7 @@ public class AdminController {
         return "redirect:/Admin/contact";
     }
     @PostMapping(value = "/contact/update")
-    public String updateContact(Contacts contacts, HttpServletRequest request, RedirectAttributes redirectAttributes){
+    public String updateContact(Contacts contacts){
         try {
             Contacts temp = contactRepository.findContactsByID(contacts.getContactID());
             if(temp != null){

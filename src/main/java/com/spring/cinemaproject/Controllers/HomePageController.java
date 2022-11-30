@@ -61,18 +61,22 @@ public class HomePageController {
 
     @GetMapping("")
     public String homepage(Model model, HttpServletRequest request){
+        try{
+            lang= request.getParameter("lang");
+            model.addAttribute("lang", lang);
 
-        lang= request.getParameter("lang");
-        model.addAttribute("lang", lang);
+            Date currentDate = Calendar.getInstance().getTime();
+            model.addAttribute("list_films", filmRepository.findFilmsOnSchedule(currentDate));
 
-        Date currentDate = Calendar.getInstance().getTime();
-        model.addAttribute("list_films", filmRepository.findFilmsOnSchedule(currentDate));
-
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return "Film/HomPage";
+        }
         return "Film/HomePage";
     }
     @GetMapping("/upcomingFilm")
-    public String upcomingFilm(Model model, HttpServletRequest request){
-        model.addAttribute("list_films", filmRepository.findAll());
+    public String upcomingFilm(Model model  ){
+        model.addAttribute("list_films", filmRepository.findFilmsNotSchedule());
         return "Film/upcoming";
     }
 
@@ -86,7 +90,7 @@ public class HomePageController {
             model.addAttribute("film_detail",selectedFilm);
             model.addAttribute("genres", selectedFilm.getGenres());
         }catch(Exception ex){
-            return "Film/HomePage";
+            return "redirect:/Films";
         }
         return "Film/detail";
     }
@@ -98,26 +102,6 @@ public class HomePageController {
         }
         lang = request.getParameter("lang");
         model.addAttribute("lang", lang);
-//        Date date = new Date();
-//        date = Calendar.getInstance().getTime();
-//        SimpleDateFormat df  = new SimpleDateFormat("DD/MM/YY");
-//        Calendar c1 = Calendar.getInstance();
-//        String currentDate = df.format(date);// get current date here
-//
-//        List<Date> listDate= new ArrayList<>();
-//        listDate.add(date);
-//        // now add 30 day in Calendar instance
-//        for(int i = 0 ; i<30 ; i++) {
-//            c1.add(Calendar.DAY_OF_YEAR, 1);
-//
-//            Date resultDate = c1.getTime();
-//
-//            SimpleDateFormat df1  = new SimpleDateFormat("DD/MM/YY");
-//            String dueDate = df1.format(resultDate);
-//
-//            listDate.add(resultDate);
-//        }
-
         scheduleService.deleteScheduleAfterEnd();
 
         List<Schedules> t = scheduleRepository.findAllScheduleByFilmID(id);
@@ -160,23 +144,27 @@ public class HomePageController {
     @RequestMapping("/Food")
     public String formFoodAndCombo(Model model, @RequestParam("filmID") Integer filmID, @RequestParam("date") @DateTimeFormat(pattern = "dd-MM-yyyy") Date idDate,
                                    @RequestParam("time") @DateTimeFormat(pattern = "HH:mm:ss") Date idTime, @RequestParam("room") Integer idRoom, @RequestParam(name = "seats")List<Integer> seats,
-                                   @RequestParam(name = "total") float total, HttpServletRequest request, RedirectAttributes redirectAttributes){
+                                   @RequestParam(name = "total") float total, HttpServletRequest request){
+        try{
+            lang= request.getParameter("lang");
+            model.addAttribute("lang", lang);
+            List<Chairs> chairs = new ArrayList<>();
+            for(int i =0 ; i<seats.size(); i++){
+                chairs.add(chairRepository.findChairsByID(seats.get(i)));
+            }
+            model.addAttribute("film",filmRepository.findFilmsByID(filmID));
+            model.addAttribute("idDate",idDate);
+            model.addAttribute("idTime", idTime);
+            model.addAttribute("idRoom", idRoom);
+            model.addAttribute("total", total);
+            model.addAttribute("chairs", chairs);
 
-        lang= request.getParameter("lang");
-        model.addAttribute("lang", lang);
-        List<Chairs> chairs = new ArrayList<>();
-        for(int i =0 ; i<seats.size(); i++){
-            chairs.add(chairRepository.findChairsByID(seats.get(i)));
+            model.addAttribute("foods",foodRepository.findAll());
+            model.addAttribute("combos", comboRepository.findAll());
+        }catch(Exception e){
+            e.printStackTrace();
+            return "redirect:/Films";
         }
-        model.addAttribute("film",filmRepository.findFilmsByID(filmID));
-        model.addAttribute("idDate",idDate);
-        model.addAttribute("idTime", idTime);
-        model.addAttribute("idRoom", idRoom);
-        model.addAttribute("total", total);
-        model.addAttribute("chairs", chairs);
-
-        model.addAttribute("foods",foodRepository.findAll());
-        model.addAttribute("combos", comboRepository.findAll());
         return "Film/food";
     }
     @RequestMapping("/new")

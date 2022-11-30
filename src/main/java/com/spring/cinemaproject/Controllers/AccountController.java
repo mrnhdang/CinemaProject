@@ -63,7 +63,7 @@ public class AccountController {
     }
 
     @PostMapping("/process_register")
-    public String processRegistration(Users user, Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) throws MessagingException, UnsupportedEncodingException {
+    public String processRegistration(Users user, HttpServletRequest request, RedirectAttributes redirectAttributes) throws MessagingException, UnsupportedEncodingException {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         Date currentDate = Calendar.getInstance().getTime();
 

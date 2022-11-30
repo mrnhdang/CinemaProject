@@ -37,19 +37,6 @@
         $('.foodForm #deleteModal #delFilm').attr('href',href);
         $('.foodForm #deleteModal').modal();
       });
-      // $('.scheduleForm #cinema').on('click', function (e) {
-      //     e.preventDefault();
-      //     var href= $(this).attr('href');
-      //     $.get(href, function (rooms, status){
-      //         // $('.scheduleForm #room').append("<option th:value='${rooms.roomID}' th:text='${rooms.roomName}'></option>");
-      //         var options ='';
-      //         for (var i =0 ;i < rooms.length; i ++) {
-      //             $('.scheduleForm #room').append($('<option>', {
-      //                 value: rooms[i],
-      //                 text:  rooms[i]
-      //             }));
-      //         }
-      //     });
     });
 
 
@@ -123,8 +110,8 @@
                         <input type="text" class="form-control form-control-rounded" name="image" id="image" placeholder="amount"  required>
                       </div>
                       <div class="form-group">
-                        <label for="foodprice">Food Price</label>
-                        <input type="number" class="form-control form-control-rounded" name="foodprice" id="foodprice" placeholder="description" min="0"  required>
+                        <label for="foodPrice">Food Price</label>
+                        <input type="number" class="form-control form-control-rounded" name="foodprice" id="foodPrice" placeholder="price" min="0"  required>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-light btn-round px-5 left" data-bs-dismiss="modal">Close</button>

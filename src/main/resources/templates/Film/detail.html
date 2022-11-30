@@ -105,8 +105,8 @@
                                             <p th:if="${lang == null}" th:text="${film_detail.getFilmDescription()}"></p>
                                         </div>
                                         <div class="col-lg-12">
-                                            <div class="main-border-button">
-                                                <a th:href="${film_detail.filmID}+'/schedule'">BUY TICKET</a>
+                                            <div class="main-border-button" th:if="${#dates.format(film_detail.getReleaseDate(),'dd MMM yyyy HH:mm') <= #dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}">
+                                                <a  th:href="${film_detail.filmID}+'/schedule'">BUY TICKET</a>
                                             </div>
                                         </div>
                                     </div>

@@ -15,7 +15,7 @@ public class Contacts {
     private String contactName1;
 
 
-    @OneToOne(mappedBy = "contacts",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "contacts",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Cinemas cinemas;
 
     public Contacts(){

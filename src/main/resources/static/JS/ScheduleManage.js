@@ -9,7 +9,6 @@ $(document).ready(function () {
                 $('.scheduleForm #showTime').val(schedule.showTime);
                 $('.scheduleForm #filmID').val(schedule.filmID);
                 $('.scheduleForm #price').val(schedule.price);
-                $('.scheduleForm #status').val(schedule.status);
             });
             $('.scheduleForm #exampleModal').modal();
         }

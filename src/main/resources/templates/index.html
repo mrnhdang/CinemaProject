@@ -43,9 +43,10 @@
                                                 <li>Room <span th:text="${room.roomName}">3</span></li>
                                                 <li>Date <span th:text="${#dates.format(date,'dd-MM-yyyy')}">16</span></li>
                                                 <li>Time <span th:text="${#dates.format(time,'HH:mm')}">None</span></li>
-                                                <li>Chairs <span th:each=" item :${chairs}" th:text="${item.chairName}">29</span></li>
-                                                <li>Foods <span th:each=" item :${foods}" th:text="${item.foodName}" ></span></li>
-                                                <li>Combos <span th:each=" item :${combos}" th:text="${item.comboName}" ></span></li>
+                                                <li>Chairs <span th:each=" item :${chairs}" th:text="${item.chairName}+', '">29</span></li>
+                                                <li>Foods <span th:each=" item :${foods}" th:text="${item.foodName}+', '" ></span></li>
+                                                <li>Combos <span th:each=" item :${combos}" th:text="${item.comboName}+', '" ></span></li>
+                                                <li></li>
                                             </ul>
                                         </div>
                                         <div class="live-stream">
@@ -59,7 +60,7 @@
                                                             <li><h4>Voucher Name</h4><span th:text="${voucher.voucherName1}">Sandbox</span></li>
                                                             <li><h4>Amount</h4><span th:text="${voucher.amount}">Sandbox</span></li>
                                                             <input type="hidden" id="discount"  th:value="${voucher.discount}" >
-                                                            <li><h4>Discount</h4><span  th:text="${voucher.discount}" th:value="${voucher.discount}" >Downloaded</span><span>%</span></li>
+                                                            <li><h4>Discount</h4><span  th:text="${voucher.discount}+' VND'" th:value="${voucher.discount}" >Downloaded</span><span></span></li>
 <!--                                                            <li><div class="main-button"><a id="disable" th:href="@{/Payment/voucher/(id=${voucher.voucherID})}">Use Now</a></div></li>-->
                                                             <li><div class="main-button"><a class="voucher" th:voucher="${voucher.voucherID}" th:discount="${voucher.discount}" >Use Now</a></div></li>
                                                         </ul>
@@ -111,7 +112,7 @@
             $( this ).css("background-color","grey");
             var oldprice= parseFloat($('#total').val()) ;
             var discount = parseFloat($(this).attr('discount'));
-            var newprice = oldprice - oldprice*discount/100;
+            var newprice = oldprice - discount;
             console.log(discount);
             console.log(oldprice);
             $('#total').val(newprice.toString());

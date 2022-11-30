@@ -17,7 +17,7 @@ public class Addresses {
     private String addressName1;
 
     @JsonBackReference
-    @OneToOne(mappedBy = "addresses", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "addresses",cascade = CascadeType.ALL)
     private Cinemas cinemas;
 
     public Addresses(){

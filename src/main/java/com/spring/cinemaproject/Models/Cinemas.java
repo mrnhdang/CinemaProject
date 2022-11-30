@@ -29,7 +29,7 @@ public class Cinemas {
     private Addresses addresses;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "cinemas", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cinemas")
     private Collection<Rooms> rooms;
     public Cinemas(){
 
