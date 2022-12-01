@@ -27,6 +27,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+    @Autowired
+    private EmployeeAuthenticationSuccessHandler successHandler;
     @Bean
     public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
@@ -44,13 +46,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/Admin**").hasAuthority("ADMIN")
-                .antMatchers("/Films**").hasAnyAuthority("USER","ADMIN")
+                .antMatchers("/Admin/**").hasAuthority("ADMIN")
+                .antMatchers("/Films/**").hasAnyAuthority("USER","ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin().loginPage("/login")
                 .usernameParameter("email")
-                .defaultSuccessUrl("/Films")
+                .successHandler(successHandler)
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login").permitAll()
