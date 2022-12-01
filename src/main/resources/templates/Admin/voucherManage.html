@@ -36,8 +36,8 @@
                                 <tbody th:each="voucher :${vouchers}">
                                 <tr>
                                     <td th:text="${voucher.voucherID}" style="max-width: 50px;white-space: nowrap ; text-overflow: ellipsis; overflow: hidden ">$ 1250.00</td>
-                                    <td th:text="${voucher.voucherName}">Iphone 5</td>
-                                    <td th:text="${voucher.voucherName1}"></td>
+                                    <td th:text="${voucher.voucherName}" style="max-width: 50px;white-space: nowrap ; text-overflow: ellipsis; overflow: hidden ">Iphone 5</td>
+                                    <td th:text="${voucher.voucherName1}" style="max-width: 50px;white-space: nowrap ; text-overflow: ellipsis; overflow: hidden "></td>
                                     <td th:text="${voucher.discount}"></td>
                                     <td th:text="${voucher.amount}"></td>
                                     <td th:text="${#dates.format(voucher.effectiveDate,'yyyy-MM-dd HH:mm:ss')}">03 Aug 2017</td>
@@ -65,13 +65,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-<!--                                            <div class="form-group">-->
-<!--                                                <div class="alert-message" th:if="${message !=null}">-->
-<!--                                                    [[${message}]]-->
-<!--                                                </div>-->
-<!--                                            </div>-->
                                             <div class="form-group">
-                                                <label for="voucherID">Voucher ID</label>
                                                 <input type="text" class="form-control form-control-rounded" name="voucherID" id="voucherID" placeholder="voucherName" th:hidden="true">
                                             </div>
                                             <div class="form-group">

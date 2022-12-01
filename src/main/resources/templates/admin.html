@@ -113,6 +113,16 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
            </a>
        </li>
        <li>
+           <a th:href="@{/Admin/director}">
+               <i class="zmdi zmdi-card-giftcard"></i> <span>Director Manage</span>
+           </a>
+       </li>
+       <li>
+           <a th:href="@{/Admin/producer}">
+               <i class="zmdi zmdi-card-giftcard"></i> <span>Producer Manage</span>
+           </a>
+       </li>
+       <li>
            <a th:href="@{/Admin/bill}">
                <i class="zmdi zmdi-paypal"></i> <span>Bill Manage</span>
            </a>
@@ -134,8 +144,8 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <li class="nav-item">
       <li class="nav-item">
           <form class="search-bar" th:action="@{/Admin/film}">
-              <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="Enter keywords">
-              <a href="javascript:void();"><i class="icon-magnifier"></i></a>
+                  <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="Enter keywords">
+                  <a href="javascript:void();"><i class="icon-magnifier"></i></a>
           </form>
       </li>
     </li>

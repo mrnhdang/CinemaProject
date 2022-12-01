@@ -16,7 +16,7 @@ public class Producers {
     private String producerName;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "producers",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "producers",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Collection<Films> films;
 
     public Collection<Films> getFilms() {

@@ -121,7 +121,7 @@ public class AdminController {
         return "redirect:/Admin/film";
     }
     @PostMapping(value = "/film/update")
-    public String filmUpdateForm( Films film, HttpServletRequest request, @RequestParam("genre") List<Integer> genreIDs){
+    public String filmUpdateForm( Films film, HttpServletRequest request, @RequestParam(value = "genre", required = false) List<Integer> genreIDs){
         try {
             Films temp = filmRepository.findFilmsByID(film.getFilmID());
 
@@ -183,7 +183,6 @@ public class AdminController {
                 filmRepository.save(film);
             }
         }catch (Exception e){
-
             return "redirect:/Admin/film";
         }
 
@@ -658,12 +657,27 @@ public class AdminController {
         return comboRepository.findCombosByID(id);
     }
     //USER
+//    @GetMapping("/user")
+//    public String viewUserList(Model model){
+//        List<Users> list= userRepository.findAll();
+//        List<Employees> list1 = employeeRepository.findAll();
+//        model.addAttribute("employees", list1);
+//        model.addAttribute("users", list);
+//        return "Admin/userManage";
+//    }
     @GetMapping("/user")
-    public String viewUserList(Model model){
-        List<Users> list= userRepository.findAll();
+    public String viewUserList(Model model, @Param("keyword") String keyword, @RequestParam("p") Optional<Integer> p ){
+        Pageable pageable = PageRequest.of(p.orElse(0), 7);
+        Page<Users> page = null;
+        if(StringUtils.hasText(keyword)){
+            page = userRepository.searchPaginated(keyword,pageable);
+        }else{
+            page = userRepository.findAll(pageable);
+        }
         List<Employees> list1 = employeeRepository.findAll();
+        model.addAttribute("users", page);
         model.addAttribute("employees", list1);
-        model.addAttribute("users", list);
+
         return "Admin/userManage";
     }
     @GetMapping("/user/delete")
@@ -759,5 +773,77 @@ public class AdminController {
     @ResponseBody
     public Contacts findContact(Integer id){
         return contactRepository.findContactsByID(id) ;
+    }
+    //Director
+    @GetMapping("/director")
+    public String director(Model model){
+        model.addAttribute("directors",directorRepository.findAll());
+        return "Admin/directorManage";
+    }
+    @GetMapping("/director/delete")
+    public String deleteDirector(Integer id){
+        try {
+            directorRepository.deleteById(id);
+        }catch(Exception ex){
+            return "redirect:/Admin/director";
+        }
+        return "redirect:/Admin/director";
+    }
+    @PostMapping(value = "/director/update")
+    public String updateDirector(Directors directors){
+        try {
+            Directors temp = directorRepository.findDirectorsByID(directors.getDirectorID());
+            if(temp != null){
+              temp.setDirectorName(directors.getDirectorName());
+              directorRepository.save(temp);
+            }
+            else{
+                directorRepository.save(directors);
+            }
+        }catch (Exception e){
+            return "redirect:/Admin/director";
+        }
+        return "redirect:/Admin/director";
+    }
+    @GetMapping("/findDirector")
+    @ResponseBody
+    public Directors findDirector(Integer id){
+        return directorRepository.findDirectorsByID(id) ;
+    }
+    //producer
+    @GetMapping("/producer")
+    public String producer(Model model){
+        model.addAttribute("producers",producerRepository.findAll());
+        return "Admin/producerManage";
+    }
+    @GetMapping("/producer/delete")
+    public String deleteProducer(Integer id){
+        try {
+            producerRepository.deleteById(id);
+        }catch(Exception ex){
+            return "redirect:/Admin/producer";
+        }
+        return "redirect:/Admin/producer";
+    }
+    @PostMapping(value = "/producer/update")
+    public String updateDirector(Producers producers){
+        try {
+            Producers temp =  producerRepository.findProducersByID(producers.getProducerID());
+            if(temp != null){
+                temp.setProducerName(producers.getProducerName());
+                producerRepository.save(temp);
+            }
+            else{
+                producerRepository.save(producers);
+            }
+        }catch (Exception e){
+            return "redirect:/Admin/producer";
+        }
+        return "redirect:/Admin/producer";
+    }
+    @GetMapping("/findProducer")
+    @ResponseBody
+    public Producers findProducer(Integer id){
+        return producerRepository.findProducersByID(id) ;
     }
 }

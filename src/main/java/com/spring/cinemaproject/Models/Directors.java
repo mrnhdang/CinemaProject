@@ -15,7 +15,8 @@ public class Directors {
     @Column(name = "directorName")
     private String directorName;
 
-    @OneToMany(mappedBy = "directors",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "directors")
     private Collection<Films> films;
 
     public Directors(){
