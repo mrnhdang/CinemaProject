@@ -38,6 +38,11 @@ public class Tickets  {
             inverseJoinColumns = @JoinColumn(name = "billID",referencedColumnName = "billID")
     )
     private Set<Bills> bills = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name="showTimeID", referencedColumnName = "scheduleID")
+    private Schedules schedules;
+
     public Tickets(){
 
     }
@@ -95,5 +100,13 @@ public class Tickets  {
 
     public void setBills(Set<Bills> bills) {
         this.bills = bills;
+    }
+
+    public Schedules getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(Schedules schedules) {
+        this.schedules = schedules;
     }
 }

@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.sql.Time;
 import java.util.Collection;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "schedules")
@@ -34,6 +35,8 @@ public class Schedules {
     @JoinColumn(name = "roomID")
     private Rooms rooms;
 
+    @OneToMany(mappedBy = "schedules",cascade = CascadeType.ALL)
+    private Collection<Tickets> tickets= new HashSet<>();
     public Schedules() {
 
     }
@@ -91,5 +94,13 @@ public class Schedules {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public Collection<Tickets> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Collection<Tickets> tickets) {
+        this.tickets = tickets;
     }
 }

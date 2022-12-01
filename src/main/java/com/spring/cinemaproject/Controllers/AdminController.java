@@ -846,4 +846,5 @@ public class AdminController {
     public Producers findProducer(Integer id){
         return producerRepository.findProducersByID(id) ;
     }
+    //boolean result = deleteById(Product.class, new Long(41));
 }
