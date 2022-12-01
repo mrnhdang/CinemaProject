@@ -33,18 +33,5 @@ $(document).ready(function () {
         $('.voucherForm #deleteModal #delFilm').attr('href',href);
         $('.voucherForm #deleteModal').modal();
     });
-    // $('.scheduleForm #cinema').on('click', function (e) {
-    //     e.preventDefault();
-    //     var href= $(this).attr('href');
-    //     $.get(href, function (rooms, status){
-    //         // $('.scheduleForm #room').append("<option th:value='${rooms.roomID}' th:text='${rooms.roomName}'></option>");
-    //         var options ='';
-    //         for (var i =0 ;i < rooms.length; i ++) {
-    //             $('.scheduleForm #room').append($('<option>', {
-    //                 value: rooms[i],
-    //                 text:  rooms[i]
-    //             }));
-    //         }
-    //     });
 });
 

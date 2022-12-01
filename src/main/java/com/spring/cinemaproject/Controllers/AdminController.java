@@ -344,7 +344,7 @@ public class AdminController {
         return "Admin/roomManage";
     }
     @GetMapping("/room/delete")
-    public String roomDelete(Integer id , Model model){
+    public String roomDelete(Integer id ){
         roomRepository.deleteById(id);
         return "redirect:/Admin/room/"+cinemaID;
     }
@@ -449,7 +449,6 @@ public class AdminController {
         model.addAttribute("chairs", ticketInfo);
         return "Admin/billManage";
     }
-
     @GetMapping("/bill/update")
     public String updateStatus(@RequestParam("id") Integer billID){
         Bills bills =billRepository.findBillsByID(billID);
@@ -462,6 +461,12 @@ public class AdminController {
         billRepository.save(bills);
         return "redirect:/Admin/bill";
     }
+    @GetMapping("/bill/delete")
+    public String deleteBill(Integer id){
+        billRepository.deleteById(id);
+        return "redirect:/Admin/bill";
+    }
+
     @GetMapping("/bill/export")
     public String exportExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");

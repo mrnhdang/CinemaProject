@@ -41,7 +41,7 @@
 </ul>
 <div class="container">
     <div class="screen"></div>
-    <div class="row"th:each="alphabet :${alphabet}" >
+    <div class="row"th:each="alphabet :${alphabet}">
         <label th:text="${alphabet}" ></label>
         <div class="seat-container" th:each="item :${chairs}" th:if="${item.getChairName().contains(alphabet)}" >
             <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>

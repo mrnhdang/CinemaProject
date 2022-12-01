@@ -9,9 +9,9 @@
 }
 .seat{
     background-color: #444451 ;
-    height: 42px;
-    width: 40px;
-    margin: 5px;
+    height: 40px;
+    width: 35px;
+
     border-top-left-radius: 10px ;
     border-top-right-radius: 10px;
     text-align: center;
@@ -50,5 +50,7 @@
     justify-content: center;
 }
 label{
-    font-size: 50px;
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
 }

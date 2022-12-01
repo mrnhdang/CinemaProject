@@ -1,5 +1,6 @@
 package com.spring.cinemaproject.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 
@@ -27,13 +28,17 @@ public class Bills {
     @Column(name = "note")
     private String note;
 
-    @JsonManagedReference
-    @OneToOne(cascade = CascadeType.ALL)
+    @JsonBackReference
+    @OneToOne
     @JoinColumn(name = "voucherID", referencedColumnName = "voucherID")
     private Vouchers vouchers;
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @JsonBackReference
+    @ManyToOne
     @JoinColumn(name = "paymentID", referencedColumnName = "paymentID")
     private Payments payments;
+
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "userID")
     private Users users;
