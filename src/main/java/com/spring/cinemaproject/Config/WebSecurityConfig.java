@@ -19,8 +19,6 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private DataSource dataSource;
     @Bean
     public UserDetailsService userDetailsService(){
         return new CustomUserDetailsService();
@@ -46,7 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/Admin").permitAll()
+                .antMatchers("/Admin**").hasAuthority("ADMIN")
+                .antMatchers("/Films**").hasAnyAuthority("USER","ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin().loginPage("/login")

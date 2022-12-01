@@ -3,6 +3,7 @@ package com.spring.cinemaproject.Controllers;
 import com.spring.cinemaproject.Models.Memberships;
 import com.spring.cinemaproject.Models.Users;
 import com.spring.cinemaproject.Models.Utility;
+import com.spring.cinemaproject.Repositories.EmployeeRepository;
 import com.spring.cinemaproject.Repositories.MembershipRepository;
 import com.spring.cinemaproject.Repositories.UserRepository;
 
@@ -25,9 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class AccountController {
@@ -41,6 +40,8 @@ public class AccountController {
     private VoucherRepository voucherRepository;
     @Autowired
     private VoucherService voucherService;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @GetMapping("")
     public String viewHomePage(){
@@ -64,34 +65,38 @@ public class AccountController {
 
     @PostMapping("/process_register")
     public String processRegistration(Users user, HttpServletRequest request, RedirectAttributes redirectAttributes) throws MessagingException, UnsupportedEncodingException {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        Date currentDate = Calendar.getInstance().getTime();
+        try{
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            Date currentDate = Calendar.getInstance().getTime();
 
-        Users existEmail = userRepository.findByEmail(user.getEmail());
-        if(existEmail != null) {
-            redirectAttributes.addFlashAttribute("message", "Email is already existed !!!!");
+            Users existEmail = userRepository.findByEmail(user.getEmail());
+            if(existEmail != null) {
+                redirectAttributes.addFlashAttribute("message", "Email is already existed !!!!");
+                return "redirect:/register";
+            }
+            String randomCode = RandomString.make(10);
+            user.setVerificationCode(randomCode);
+
+            String encodedPass = encoder.encode(user.getUserPass());
+            user.setStatus(false);
+            user.setUserPass(encodedPass);
+            user.setCreateDate(currentDate);
+            user.setEmployees(Set.of(employeeRepository.findEmployeesByEmployeeName("USER")));
+            userRepository.save(user);
+
+            Memberships memberships = new Memberships();
+            memberships.setUsers(user);
+            memberships.setPoints(10);
+            membershipRepository.save(memberships);
+
+            user.setMemberships(memberships);
+
+            String siteURL = Utility.getSiteURL(request);
+            userService.sendVerificationEMail(user,siteURL);
+        }catch(Exception ex){
+            redirectAttributes.addFlashAttribute("message", "Something is wrong !!!!");
             return "redirect:/register";
         }
-        String randomCode = RandomString.make(10);
-        user.setVerificationCode(randomCode);
-
-        String encodedPass = encoder.encode(user.getUserPass());
-        user.setStatus(false);
-        user.setUserPass(encodedPass);
-        user.setCreateDate(currentDate);
-        userRepository.save(user);
-
-        Memberships memberships = new Memberships();
-        memberships.setUsers(user);
-        memberships.setPoints(10);
-        membershipRepository.save(memberships);
-
-        user.setMemberships(memberships);
-        userRepository.save(user);
-
-        String siteURL = Utility.getSiteURL(request);
-        userService.sendVerificationEMail(user,siteURL);
-
         return "Account/register_success";
     }
     @GetMapping("/list_users")

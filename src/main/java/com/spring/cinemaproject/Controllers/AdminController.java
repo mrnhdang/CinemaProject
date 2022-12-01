@@ -667,7 +667,7 @@ public class AdminController {
         return "Admin/userManage";
     }
     @GetMapping("/user/delete")
-    public String deleteUser(Integer id){
+    public String deleteUser(String id){
         userRepository.deleteById(id);
         return "redirect:/Admin/user";
     }

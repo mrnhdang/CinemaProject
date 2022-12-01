@@ -40,7 +40,7 @@ public class Users {
     private Set<Vouchers> vouchers = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "employeedetails",
             joinColumns = @JoinColumn(name = "userID"),
