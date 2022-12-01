@@ -38,13 +38,14 @@ $(document).ready(function (){
             foodArray.splice(found,1);
             foodAmount.splice(found,1);
         }else{
-            foodArray.push(foodID);
+
             if(foodNumber >10 || foodNumber <0) {
                 alert("Amount must less than 10");
                 $(this).val('');
             }
             else{
                 foodAmount.push(foodNumber);
+                foodArray.push(foodID);
             }
 
         }
@@ -59,12 +60,13 @@ $(document).ready(function (){
             comboArray.splice(found,1);
             comboAmount.splice(found,1);
         }else{
-            comboArray.push(comboID);
+
             if(comboNumber >10 || comboNumber <0){
                 alert("Amount must less than 10");
                 $(this).val('');
             }else{
                 comboAmount.push(comboNumber);
+                comboArray.push(comboID);
             }
         }
         console.log(comboID);

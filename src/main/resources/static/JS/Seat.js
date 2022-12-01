@@ -93,7 +93,7 @@ $('#btnPayment').click((e)=>{
          window.location.href = '/Films/Food?filmID='+filmID+'&date='+idDate+'&time='+idTime+'&room='+idRoom+'&seats='+listArray+'&total='+price;
     }
     else{
-        alert("Vui long chon day du");
+        alert("Please choose your seat");
         e.preventDefault();
     }
 
