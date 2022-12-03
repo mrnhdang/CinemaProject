@@ -1,11 +1,11 @@
 package com.spring.cinemaproject.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.io.Serializable;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;

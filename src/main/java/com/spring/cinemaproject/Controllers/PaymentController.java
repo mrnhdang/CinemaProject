@@ -7,14 +7,11 @@ import com.spring.cinemaproject.Repositories.*;
 import com.spring.cinemaproject.Services.TicketBookingService;
 import com.spring.cinemaproject.Services.UserService;
 import com.spring.cinemaproject.Services.VoucherService;
-import org.apache.catalina.LifecycleState;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,17 +21,12 @@ import com.paypal.base.rest.PayPalRESTException;
 import com.spring.cinemaproject.Config.PaypalPaymentIntent;
 import com.spring.cinemaproject.Config.PaypalPaymentMethod;
 import com.spring.cinemaproject.Services.PaypalService;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.security.Principal;
-import java.sql.Time;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/Payment")
@@ -43,16 +35,13 @@ public class PaymentController {
     private FilmRepository filmRepository;
     @Autowired
     private PaypalService paypalService;
-    @Autowired
-    private CinemaRepository cinemaRepository;
+
     @Autowired
     private ChairRepository chairRepository;
     @Autowired
     private FoodRepository foodRepository;
     @Autowired
     private ComboRepository comboRepository;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private TicketBookingService ticketBookingService;
     @Autowired
@@ -151,7 +140,6 @@ public class PaymentController {
             ticketPrice = total;
         }
         model.addAttribute("membership",pointPrice);
-//        ticketBookingService.createTicket(chairs);
         voucherService.deleteVoucher();
         List<Vouchers> vouchers = voucherRepository.findVouchersForUser(user);
 
@@ -173,7 +161,8 @@ public class PaymentController {
         return "index";
     }
     @PostMapping("/pay")
-    public String pay(HttpServletRequest request,@RequestParam("price") double price ){
+    public String pay(HttpServletRequest request,@RequestParam("price") float price ){
+        ticketPrice = price;
         if(request.getParameter("voucher") !=null){
             VOUCHER = request.getParameter("voucher");
         }
@@ -203,7 +192,7 @@ public class PaymentController {
         return "cancel";
     }
     @GetMapping(URL_PAYPAL_SUCCESS)
-    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId,HttpServletRequest request){
+    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId){
         try{
             //Get User Info
             Users user = userService.getCurrentUser();

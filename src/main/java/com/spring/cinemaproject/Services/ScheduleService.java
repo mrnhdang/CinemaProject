@@ -3,7 +3,6 @@ package com.spring.cinemaproject.Services;
 import com.spring.cinemaproject.Models.Films;
 import com.spring.cinemaproject.Models.Rooms;
 import com.spring.cinemaproject.Models.Schedules;
-import com.spring.cinemaproject.Repositories.ChairRepository;
 import com.spring.cinemaproject.Repositories.FilmRepository;
 import com.spring.cinemaproject.Repositories.ScheduleRepository;
 import com.spring.cinemaproject.Repositories.TicketRepository;

@@ -20,12 +20,12 @@ import java.util.Locale;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        Path filmUploadFile = Paths.get("./film-img");
-        String filmUploadPath = filmUploadFile.toFile().getAbsolutePath();
-        registry.addResourceHandler("/film-img/**").addResourceLocations("file:/"+filmUploadPath+"/");
-    }
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        Path filmUploadFile = Paths.get("./film-img");
+//        String filmUploadPath = filmUploadFile.toFile().getAbsolutePath();
+//        registry.addResourceHandler("/film-img/**").addResourceLocations("file:/"+filmUploadPath+"/");
+//    }
     @Bean
     public LocaleResolver localeResolver (){
         SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();

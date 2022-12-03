@@ -57,37 +57,29 @@
                         <label class="title">[[#{body.title}]]</label>
                         <br />
 
-                        <div class="row" th:each="item : ${film_cinema}" >
-                            <hr style="color: #ec6090; ">
-                            <div class="col-lg-12" style="flex-wrap: wrap;">
-                                <div class="heading-section">
-                                    <h4 class="div card-cinema cinema" th:if="${lang == 'vi'}" th:text="${item.getCinemaName()}" th:value="${item.getCinemaID()}"></h4>
-                                    <h4 class="div card-cinema cinema" th:if="${lang == 'en'}" th:text="${item.getCinemaName1()}" th:value="${item.getCinemaID()}"></h4>
-                                    <h4 class="div card-cinema cinema" th:if="${lang == null}" th:text="${item.getCinemaName()}" th:value="${item.getCinemaID()}"></h4>
-                                </div>
-                            <hr>
-                                <div class="col-lg-12 most-popular" style="display: inline-flex;   ">
-                                    <div class="row">
-                                        <div class="col-lg-3 col-sm-6 schedule-container  " style=" width: 400px; background-color: #0d6efd; "
-                                             th:each="date : ${schedule}" th:if="${date.getRooms().getCinemas().getCinemaID() == item.getCinemaID()}" th:cinema="${date.getRooms().getCinemas().getCinemaID()}" >
-                                            <div style="text-align: center;">
-                                                <h2 th:text="${#dates.format(date.showTime,'dd-MM-yyyy')}"
-                                                        th:value="${#dates.format(date.showTime,'dd-MM-yyyy HH:mm:ss')}"
-                                                        id="date"  ></h2>
-                                            </div>
-                                            <div class=""  style="display: inline-flex; flex-wrap: wrap; "  >
-                                                <div th:each="time : ${schedule}" class="div card-time"
-                                                     th:if="${#dates.format(time.showTime,'dd-MM-yyyy') == #dates.format(date.showTime,'dd-MM-yyyy')}"
-                                                     th:text="${#dates.format(time.showTime,'HH:mm:ss')}"
-                                                     th:value="${#dates.format(time.showTime,'HH:mm:ss')}"
-                                                     th:date="${#dates.format(time.showTime,'dd-MM-yyyy HH:mm:ss')}"
-                                                     th:room="${time.getRooms.getRoomID}" style="margin: 10px;" ></div>
+                        <div class="row" th:each="cinema : ${film_cinema}"  >
+                                <hr style="color: #ec6090; ">
+                                <div class="col-lg-12" style="flex-wrap: wrap;">
+                                    <div class="heading-section">
+                                        <h4 class="div card-cinema cinema" th:if="${lang == 'vi'}" th:text="${cinema.getCinemaName()}" th:value="${cinema.getCinemaID}"></h4>
+                                        <h4 class="div card-cinema cinema" th:if="${lang == 'en'}" th:text="${cinema.getCinemaName1()}" th:value="${cinema.getCinemaID}"></h4>
+                                        <h4 class="div card-cinema cinema" th:if="${lang == null }" th:text="${cinema.getCinemaName()}" th:value="${cinema.getCinemaID}"></h4>
+                                    </div>
+                                    <hr>
+                                        <div class="col-lg-12 most-popular" style="display: inline-flex;   ">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-sm-6 schedule-container  " style=" width: 300px; background-color: #0d6efd; " th:each="date : ${film_date}"  >
+                                                    <div style="text-align: center;">
+                                                        <h2 th:text="${date}" id="date"  ></h2>
+                                                    </div>
+                                                    <div class=""  style="display: inline-flex; flex-wrap: wrap; "  >
+                                                        <div th:each="time : ${schedule}" class="div card-time" th:if="${#dates.format(time.showTime,'dd-MM-yyyy') == date  }" th:text="${#dates.format(time.showTime,'HH:mm:ss')}" th:value="${#dates.format(time.showTime,'HH:mm:ss')}" th:date="${#dates.format(time.showTime,'dd-MM-yyyy HH:mm:ss')}" th:room="${time.getRooms.getRoomID}" style="margin: 5px;" ></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
                         <div class="main-button" >
                             <a id="btnSeat" type="submit" >Choose Seat</a>
                         </div>

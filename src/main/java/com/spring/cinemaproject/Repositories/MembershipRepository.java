@@ -1,7 +1,6 @@
 package com.spring.cinemaproject.Repositories;
 
 import com.spring.cinemaproject.Models.Memberships;
-import com.spring.cinemaproject.Models.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

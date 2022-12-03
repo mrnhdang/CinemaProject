@@ -5,9 +5,6 @@ import com.spring.cinemaproject.Models.Users;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-
-import javax.persistence.SecondaryTable;
 import java.util.*;
 
 public class CustomUserDetails implements UserDetails {

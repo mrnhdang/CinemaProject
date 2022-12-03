@@ -4,20 +4,14 @@ import com.spring.cinemaproject.Models.Users;
 import com.spring.cinemaproject.Repositories.EmailService;
 import com.spring.cinemaproject.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 

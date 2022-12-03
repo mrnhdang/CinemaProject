@@ -6,17 +6,12 @@ import com.spring.cinemaproject.Models.Utility;
 import com.spring.cinemaproject.Repositories.EmployeeRepository;
 import com.spring.cinemaproject.Repositories.MembershipRepository;
 import com.spring.cinemaproject.Repositories.UserRepository;
-
 import com.spring.cinemaproject.Repositories.VoucherRepository;
 import com.spring.cinemaproject.Services.UserService;
-
 import com.spring.cinemaproject.Services.VoucherService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,10 +47,6 @@ public class AccountController {
         return "Account/login";
     }
 
-    @RequestMapping("/edit")
-    public String edit(){
-        return "cancel";
-    }
 
     @GetMapping("/register")
     public String showSignUpForm(Model model){
@@ -122,7 +113,7 @@ public class AccountController {
     }
     @PostMapping("/update")
     public String editProfile(@RequestParam("username") String username, @RequestParam("address") String address,
-                              @RequestParam("password") String password,@RequestParam("newPassword") String newPassword,
+                              @RequestParam(value = "password", required = false) String password,@RequestParam(value = "newPassword",required = false) String newPassword,
                               RedirectAttributes redirectAttributes, Model model){
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -133,13 +124,16 @@ public class AccountController {
         if(user != null){
             user.setUserName(username);
             user.setAddress(address);
-            if(bCryptPasswordEncoder.matches(password,user.getUserPass())){
-                user.setUserPass(newPassword);
-                userRepository.save(user);
+            if(password !=null ){
+                if( bCryptPasswordEncoder.matches(password,user.getUserPass())){
+                    user.setUserPass(newPassword);
+
+                }
+                else{
+                    redirectAttributes.addFlashAttribute("changePassFailed", "Password is not match !!!!!!" );
+                }
             }
-            else{
-                redirectAttributes.addFlashAttribute("changePassFailed", "Password is not match !!!!!!" );
-            }
+            userRepository.save(user);
             redirectAttributes.addFlashAttribute("message", "Update successfully !!!!!!");
             model.addAttribute("user",user);
             return "redirect:/profile";

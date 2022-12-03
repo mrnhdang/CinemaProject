@@ -49,32 +49,6 @@ $(document).ready(function (){
         $('.filmForm #deleteModal').modal();
     });
 
-    //Schedule
-        $('.nBtn, .table .uBtn').on('click', function (e){
-            e.preventDefault();
-            var href = $(this).attr('href');
-            var text = $(this).text();
-            if(text == 'Update'){
-                $.get(href, function (schedule, status) {
-                    $('.scheduleForm #scheduleID').val(schedule.scheduleID);
-                    $('.scheduleForm #showTime').val(schedule.showTime);
-                });
-                $('.scheduleForm #exampleModal').modal();
-            }
-            else{
-                $('.scheduleForm #scheduleID').val();
-                $('.scheduleForm #showTime').val();
-                $('.scheduleForm #exampleModal').modal();
-            }
-
-        });
-
-        $('.table .dBtn').on('click', function (event){
-        event.preventDefault();
-        var href = $(this).attr('href');
-        $('.scheduleForm #deleteModal #delFilm').attr('href',href);
-        $('.scheduleForm #deleteModal').modal();
-    });
     $('#Fileimage').change(function (){
         showImageThumbnail(this);
     });

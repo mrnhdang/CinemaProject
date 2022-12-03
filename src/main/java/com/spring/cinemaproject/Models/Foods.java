@@ -1,10 +1,7 @@
 package com.spring.cinemaproject.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Set;
 
 @Entity

@@ -1,39 +1,18 @@
 package com.spring.cinemaproject.Services;
 
-import com.paypal.api.payments.Billing;
-import com.paypal.api.payments.Payment;
 import com.spring.cinemaproject.Models.*;
 import com.spring.cinemaproject.Repositories.*;
-import org.hibernate.service.NullServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 
 import javax.transaction.Transactional;
-import java.awt.desktop.SystemEventListener;
-import java.io.*;
 import java.util.*;
-import java.util.logging.Logger;
 
 @Service
 @Transactional
 public class TicketBookingService {
-    @Autowired
-    private FilmRepository filmRepository;
-    @Autowired
-    private PaypalService paypalService;
-    @Autowired
-    private CinemaRepository cinemaRepository;
-    @Autowired
-    private ChairRepository chairRepository;
-    @Autowired
-    private FoodRepository foodRepository;
-    @Autowired
-    private ComboRepository comboRepository;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private TicketRepository ticketRepository;
     @Autowired
@@ -82,13 +61,7 @@ public class TicketBookingService {
             //save Bills into DB
             billRepository.save(ticketBill);
 
-//            //Map BIlls to TIckets
-//            Set<Bills> billsSet = new HashSet<>(bills);
-//            ticket.setBills(billsSet);
-            //Save ticket into DB
-
         }catch (Exception e){
-//            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new Exception("Something is wrong ...... " + e);
         }
     }

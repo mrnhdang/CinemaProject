@@ -1,10 +1,10 @@
 package com.spring.cinemaproject.Models;
 
-import org.aspectj.asm.internal.CharOperation;
+
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.io.Serializable;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;

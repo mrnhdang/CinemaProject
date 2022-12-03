@@ -1,13 +1,11 @@
 package com.spring.cinemaproject.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -21,7 +19,6 @@ public class Films {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer filmID;
 
-//    @Column(name = "film_name")
     @Column(name = "filmName")
     private String filmName;
 

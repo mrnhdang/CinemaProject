@@ -15,7 +15,7 @@
 
     <label>Pick a movie</label>
     <select id="movie">
-        <option th:value="${schedule.price}"  th:text="${film.filmName}"  ></option>
+        <option th:value="${schedule.price}"  th:text="${film.filmName1}"  ></option>
     </select>
     <div type="hidden">
         <input type="hidden" th:value="${schedule.price}" id="schedule" >
@@ -43,7 +43,7 @@
     <div class="screen"></div>
     <div class="row"th:each="alphabet :${alphabet}">
         <label th:text="${alphabet}" ></label>
-        <div class="seat-container" th:each="item :${chairs}" th:if="${item.getChairName().contains(alphabet)}" >
+        <div class="seat-container" th:each="item :${chairs}" th:if="${item.getChairName().contains(alphabet)}"   >
             <div class="seat" th:value="${item.chairID}" th:text="${item.chairName}" th:if="${item.status != 2}"></div>
             <div class="seat occupied" th:value="${item.chairID}" th:text="${item.chairName}" th:unless="${item.status != 2}"></div>
         </div>

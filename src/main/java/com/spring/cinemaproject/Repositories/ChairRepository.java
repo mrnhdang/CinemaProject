@@ -2,12 +2,9 @@ package com.spring.cinemaproject.Repositories;
 
 import java.util.*;
 import com.spring.cinemaproject.Models.Chairs;
-import com.spring.cinemaproject.Models.Cinemas;
-import com.spring.cinemaproject.Models.Rooms;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 
 public interface ChairRepository extends JpaRepository<Chairs,Integer> {

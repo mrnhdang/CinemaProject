@@ -1,6 +1,5 @@
 package com.spring.cinemaproject.Repositories;
 
-import com.spring.cinemaproject.Models.Chairs;
 import com.spring.cinemaproject.Models.Combos;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

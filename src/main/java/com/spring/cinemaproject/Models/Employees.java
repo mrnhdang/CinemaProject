@@ -1,8 +1,6 @@
 package com.spring.cinemaproject.Models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.apache.catalina.User;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.HashSet;

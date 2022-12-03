@@ -9,33 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-
-import javax.print.DocFlavor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/Admin")
@@ -80,8 +65,6 @@ public class AdminController {
     private EmployeeRepository employeeRepository;
     @Autowired
     private VoucherService voucherService;
-    @Autowired
-    private FilmService filmService;
 
     public static Integer cinemaID =0;
     public static Integer roomID =0;
@@ -662,14 +645,6 @@ public class AdminController {
         return comboRepository.findCombosByID(id);
     }
     //USER
-//    @GetMapping("/user")
-//    public String viewUserList(Model model){
-//        List<Users> list= userRepository.findAll();
-//        List<Employees> list1 = employeeRepository.findAll();
-//        model.addAttribute("employees", list1);
-//        model.addAttribute("users", list);
-//        return "Admin/userManage";
-//    }
     @GetMapping("/user")
     public String viewUserList(Model model, @Param("keyword") String keyword, @RequestParam("p") Optional<Integer> p ){
         Pageable pageable = PageRequest.of(p.orElse(0), 7);
@@ -851,5 +826,4 @@ public class AdminController {
     public Producers findProducer(Integer id){
         return producerRepository.findProducersByID(id) ;
     }
-    //boolean result = deleteById(Product.class, new Long(41));
 }

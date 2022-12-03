@@ -6,20 +6,14 @@ import com.spring.cinemaproject.Repositories.*;
 import com.spring.cinemaproject.Services.ChairService;
 import com.spring.cinemaproject.Services.ScheduleService;
 import com.spring.cinemaproject.Services.UserService;
-import org.hibernate.persister.entity.Loadable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.*;
 
 @Controller
@@ -28,11 +22,7 @@ public class HomePageController {
     @Autowired
     private FilmRepository filmRepository;
     @Autowired
-    private CinemaRepository cinemaRepository;
-    @Autowired
     private ScheduleRepository scheduleRepository;
-    @Autowired
-    private GenreRepository genreRepository;
     @Autowired
     private ChairRepository chairRepository;
     @Autowired
@@ -41,8 +31,6 @@ public class HomePageController {
     private ComboRepository comboRepository;
     @Autowired
     private RoomRepository roomRepository;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private ChairService chairService;
     @Autowired
@@ -53,11 +41,6 @@ public class HomePageController {
     private UserService userService;
 
     public static String lang = "en";
-
-    @RequestMapping(value = "/template")
-    public String index(){
-        return "home";
-    }
 
     @GetMapping("")
     public String homepage(Model model, HttpServletRequest request){
@@ -109,12 +92,18 @@ public class HomePageController {
         Films selectedFilm = filmRepository.findFilmsByID(id);
 
         Set<Cinemas> film_cinema = scheduleRepository.findCinemaByFilm(selectedFilm);
-
+        Set<String> date = new HashSet<>();
+        for(Schedules item : t){
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            date.add(formatter.format(item.getShowTime()));
+        }
 
         //find film by id
         model.addAttribute("film_detail", selectedFilm);
         //find film cinema
         model.addAttribute("film_cinema",film_cinema);
+        //find film room
+        model.addAttribute("film_date",date);
         //get film schedules
         model.addAttribute("schedule",t);
 

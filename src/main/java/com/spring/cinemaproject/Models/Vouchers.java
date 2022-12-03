@@ -2,7 +2,6 @@ package com.spring.cinemaproject.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.id.UUIDGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;

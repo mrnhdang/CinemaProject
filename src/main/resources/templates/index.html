@@ -30,8 +30,8 @@
                                                 <h4>Food Price:<p th:text="${foodPrice}"></p></h4>
                                                 <h4>Combo Price:<p th:text="${comboPrice}"></p></h4>
                                                 <h4>Membership Price:<p th:text="${membership}"></p></h4>
-                                                <h4>Total</h4><h1 id="totaltext" type="text" th:text="${price}" th:value="${price}" name="price" ></h1>
-                                                                <input id="total" type="text" th:text="${price}" th:value="${price}" name="price" hidden >
+                                                <h4>Total</h4><h1 id="totaltext" th:text="${price}" th:value="${price}" name="price" ></h1>
+                                                                <input id="total" type="number" th:value="${price}" name="price" hidden >
                                                 <input type="hidden" id="voucherID" name="voucher" >
                                                 <div class="main-border-button ">
                                                     <button class="form-control-rounded" type="submit " style="background-color: inherit; border: none;"><a style="color: #ec6090; ">Payment with Paypal</a></button>

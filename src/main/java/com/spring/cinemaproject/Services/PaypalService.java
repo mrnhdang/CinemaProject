@@ -22,7 +22,7 @@ public class PaypalService {
     @Autowired
     private APIContext apiContext;
     public Payment createPayment(
-            Double total,
+            Float total,
             String currency,
             PaypalPaymentMethod method,
             PaypalPaymentIntent intent,

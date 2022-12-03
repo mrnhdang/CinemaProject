@@ -3,7 +3,6 @@ package com.spring.cinemaproject.Services;
 import com.spring.cinemaproject.Models.Users;
 import com.spring.cinemaproject.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
