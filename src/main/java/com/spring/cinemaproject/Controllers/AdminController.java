@@ -663,7 +663,11 @@ public class AdminController {
     }
     @GetMapping("/user/delete")
     public String deleteUser(String id){
-        userRepository.deleteById(id);
+        try{
+            userRepository.deleteById(id);
+        }catch(Exception e){
+            return "redirect:/Admin/user";
+        }
         return "redirect:/Admin/user";
     }
     @PostMapping(value = "/user/update")
@@ -671,6 +675,7 @@ public class AdminController {
         try {
             Users temp = userRepository.findUsersByID(user.getUserID());
             if(temp != null){
+                temp.setStatus(user.isStatus());
                 if(request.getParameter("employee") !=null){
                     Set<Employees> set = new HashSet<>();
                     Employees em =  employeeRepository.findEmployeesByEmployeeName(request.getParameter("employee"));
@@ -680,6 +685,7 @@ public class AdminController {
                userRepository.save(temp);
             }
         }catch (Exception e){
+            e.printStackTrace();
             return "redirect:/Admin/user";
         }
         return "redirect:/Admin/user";

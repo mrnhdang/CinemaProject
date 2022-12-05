@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <meta charset="UTF-8">
-  <title>Voucher Management</title>
+  <title>User Management</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
   <script type="text/javascript" th:src="@{/JS/userManage.js}"></script>
@@ -24,7 +24,6 @@
                   <a href="javascript:void();"><i class="icon-magnifier"></i></a>
                 </form>
             </div>
-            <button class=" btn btn-light btn-round px-5 btn btn-success nBtn">New</button>
             <div class="table-responsive">
               <table class="table table-hover ">
                 <thead>
@@ -43,13 +42,13 @@
                 <tbody th:each="user :${users.content}">
                 <tr>
                   <td th:text="${user.userID}" style="max-width: 50px;white-space: nowrap ; text-overflow: ellipsis; overflow: hidden ">$ 1250.00</td>
-                  <td th:text="${user.userName}">Iphone 5</td>
+                  <td th:text="${user.userName}" style="max-width: 50px;white-space: nowrap ; text-overflow: ellipsis; overflow: hidden ">Iphone 5</td>
                   <td th:if="${user.getEmployees()}" >
                     <a th:each="role: ${user.getEmployees()}" th:text="${role.getEmployeeName()}+' '" ></a>
                   </td>
                   <td th:unless="${user.getEmployees()}">NONE</td>
                   <td th:text="${user.address}"></td>
-                  <td th:text="${user.email}"></td>
+                  <td th:text="${user.email}" style="max-width: 50px;white-space: nowrap ; text-overflow: ellipsis; overflow: hidden "></td>
                   <td th:text="${#dates.format(user.createDate,'yyyy-MM-dd HH:mm:ss')}">03 Aug 2017</td>
                   <td th:if="${user.getMemberships}" th:text="${user.getMemberships().getPoints()}">03 Aug 2017</td>
                   <td th:unless="${user.getMemberships}" >NONE</td>
@@ -78,7 +77,6 @@
                     </div>
                     <div class="modal-body">
                       <div class="form-group">
-                        <label for="userID">User ID</label>
                         <input type="text" class="form-control form-control-rounded" name="userID" id="userID" placeholder="userID" th:hidden="true">
                       </div>
                       <div class="form-group">
@@ -90,6 +88,13 @@
                         <select type="text" class="form-control form-control-rounded" name="employee" id="employee" >
                           <option class="form-control form-control-rounded" th:value="0" text="None" selected="selected" >NONE</option>
                           <option class="form-control form-control-rounded" th:each="item : ${employees}"   th:text="${item.employeeName}"  th:value="${item.employeeName}" ></option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="status">Status</label>
+                        <select type="text" class="form-control form-control-rounded" name="status" id="status" >
+                          <option class="form-control form-control-rounded" th:value="true" text="None" >True</option>
+                          <option class="form-control form-control-rounded" th:value="false" text="None" >False</option>
                         </select>
                       </div>
 
@@ -130,9 +135,9 @@
       <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
           <li class="page-item"><a class="page-link" th:href="@{/Admin/user?p=0}">First</a></li>
-          <li class="page-item"><a class="page-link" th:if="${users.number>0}" th:href="'/Admin/film?p='+${users.number - 1}">Previous</a></li>
-          <li class="page-item"><a class="page-link" th:href="'/Admin/film?p='+${users.number + 1}">Next</a></li>
-          <li class="page-item"><a class="page-link" th:href="'/Admin/film?p='+${users.totalPages - 1}" >Last</a></li>
+          <li class="page-item"><a class="page-link" th:if="${users.number>0}" th:href="'/Admin/user?p='+${users.number - 1}">Previous</a></li>
+          <li class="page-item"><a class="page-link" th:href="'/Admin/user?p='+${users.number + 1}">Next</a></li>
+          <li class="page-item"><a class="page-link" th:href="'/Admin/user?p='+${users.totalPages - 1}" >Last</a></li>
         </ul>
     </div>
 

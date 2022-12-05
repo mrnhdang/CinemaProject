@@ -7,6 +7,7 @@ $(document).ready(function () {
             $.get(href, function (user, status) {
                 $('.userForm #userID').val(user.userID);
                 $('.userForm #email').val(user.email);
+                $('.userForm #status').val(user.status);
             });
             $('.userForm #exampleModal').modal();
         }
