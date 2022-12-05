@@ -20,6 +20,14 @@ container.addEventListener('click', (e)=>{
 // $('.card-cinema').click(function(){
 //     idCinema = $(this).attr('value');
 // });
+$(document).ready(function (){
+    $('.schedule-container').each(function (){
+        if($(this).find('.card-time').length <= 0){
+            $(this).hide();
+        }
+    })
+});
+
 $('.card-time').click(function(){
     idTime = $(this).attr('value');
     idDate = $(this).attr('date');
