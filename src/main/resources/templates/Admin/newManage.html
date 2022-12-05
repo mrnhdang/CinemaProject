@@ -24,19 +24,21 @@
                 <thead>
                 <tr>
                   <th>New ID</th>
+                  <th>New Title</th>
+                  <th>New Title EN</th>
                   <th>New Name</th>
                   <th>New Name EN</th>
                   <th>Image</th>
-                  <th>Description</th>
                 </tr>
                 </thead>
                 <tbody th:each="news :${news}">
                 <tr>
                   <td th:text="${news.newID}" ></td>
-                  <td th:text="${news.newName}">Iphone 5</td>
-                  <td th:text="${news.newName1}"></td>
+                  <td th:text="${news.newTitle}">Iphone 5</td>
+                  <td th:text="${news.newTitle1}"></td>
+                  <td th:text="${news.newName}" style="max-width: 50px;white-space: nowrap ; text-overflow: ellipsis; overflow: hidden ">Iphone 5</td>
+                  <td th:text="${news.newName1}" style="max-width: 50px;white-space: nowrap ; text-overflow: ellipsis; overflow: hidden "></td>
                   <td> <img class="product-img" th:src="${news.image}"></td>
-                  <td th:text="${news.description}"></td>
                   <td>
                     <a class="btn btn-primary uBtn" th:href="@{/Admin/findNew/(id=${news.newID})}">Update</a>
                     <a class="btn btn-danger dBtn" th:href="@{/Admin/new/delete/(id=${news.newID})}">Delete</a>
@@ -63,20 +65,24 @@
                         <input type="text" class="form-control form-control-rounded" name="newID" id="newID" placeholder="voucherName" th:hidden="true">
                       </div>
                       <div class="form-group">
+                        <label for="newTitle">newTitle</label>
+                        <input type="text" class="form-control form-control-rounded" name="newTitle" id="newTitle" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="newTitle1">newTitle1</label>
+                        <input type="text" class="form-control form-control-rounded" name="newTitle1" id="newTitle1" prequired>
+                      </div>
+                      <div class="form-group">
                         <label for="newName">New Name</label>
-                        <input type="text" class="form-control form-control-rounded" name="newName" id="newName" placeholder="newName" required>
+                        <textarea type="text" class="form-control form-control-rounded" name="newName" id="newName" placeholder="newName" required></textarea>
                       </div>
                       <div class="form-group">
                         <label for="newName1">New Name EN</label>
-                        <input type="text" class="form-control form-control-rounded" name="newName1" id="newName1" placeholder="newName1" required>
+                        <textarea type="text" class="form-control form-control-rounded" name="newName1" id="newName1" placeholder="newName1" required></textarea>
                       </div>
                       <div class="form-group">
                         <label for="image">Image</label>
                         <input type="text" class="form-control form-control-rounded" name="image" id="image" placeholder="amount" min="1" max="10" required>
-                      </div>
-                      <div class="form-group">
-                        <label for="description">Description</label>
-                        <input type="text" class="form-control form-control-rounded" name="description" id="description" placeholder="description" min="10" max="100" required>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-light btn-round px-5 left" data-bs-dismiss="modal">Close</button>

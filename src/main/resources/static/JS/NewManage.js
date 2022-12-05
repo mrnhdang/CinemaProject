@@ -8,8 +8,10 @@ $(document).ready(function () {
                 $('.newForm #newID').val(news.newID);
                 $('.newForm #newName').val(news.newName);
                 $('.newForm #newName1').val(news.newName1);
+                $('.newForm #newTitle').val(news.newTitle);
+                $('.newForm #newTitle1').val(news.newTitle);
                 $('.newForm #image').val(news.image);
-                $('.newForm #description').val(news.description);
+
             });
             $('.newForm #exampleModal').modal();
         }
@@ -18,7 +20,8 @@ $(document).ready(function () {
             $('.newForm #newName').val('');
             $('.newForm #newName1').val('');
             $('.newForm #image').val('');
-            $('.newForm #description').val('');
+            $('.newForm #newTitle').val(news.newTitle);
+            $('.newForm #newTitle1').val(news.newTitle);
             $('.newForm #exampleModal').modal();
         }
     });

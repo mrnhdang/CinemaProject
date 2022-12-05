@@ -550,7 +550,8 @@ public class AdminController {
         News temp = newRepository.findNewsByID(news.getNewID());
         if(temp != null){
             temp.setImage(news.getImage());
-            temp.setDescription(news.getDescription());
+            temp.setNewTitle(news.getNewTitle());
+            temp.setNewTitle1(news.getNewTitle1());
             temp.setNewName(news.getNewName());
             temp.setNewName1(news.getNewName1());
 

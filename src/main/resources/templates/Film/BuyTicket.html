@@ -73,7 +73,7 @@
                                                         <h2 th:text="${date}" id="date"  ></h2>
                                                     </div>
                                                     <div class=""  style="display: inline-flex; flex-wrap: wrap; "  >
-                                                        <div th:each="time : ${schedule}" class="div card-time" th:if="${#dates.format(time.showTime,'dd-MM-yyyy') == date  }" th:text="${#dates.format(time.showTime,'HH:mm:ss')}" th:value="${#dates.format(time.showTime,'HH:mm:ss')}" th:date="${#dates.format(time.showTime,'dd-MM-yyyy HH:mm:ss')}" th:room="${time.getRooms.getRoomID}" style="margin: 5px;" ></div>
+                                                        <div th:each="time : ${schedule}" class="div card-time" th:if="${#dates.format(time.showTime,'dd-MM-yyyy') == date && time.getRooms.getCinemas == cinema  }" th:text="${#dates.format(time.showTime,'HH:mm:ss')}" th:value="${#dates.format(time.showTime,'HH:mm:ss')}" th:date="${#dates.format(time.showTime,'dd-MM-yyyy HH:mm:ss')}" th:room="${time.getRooms.getRoomID}" style="margin: 5px;" ></div>
                                                     </div>
                                                 </div>
                                             </div>

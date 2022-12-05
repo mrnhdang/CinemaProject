@@ -33,18 +33,11 @@
                 <div class="col-lg-3 col-sm-6" th:each="film:${news}" >
                   <div class="item">
                     <img th:src="${film.image}" alt="" width="200" height="300">
-                    <h4 th:if="${lang == null }" th:text="${film.newName}">Fortnite</h4>
-                    <h4 th:if="${lang == 'vi' }" th:text="${film.newName}">Fortnite</h4>
-                    <h4 th:if="${lang == 'en' }" th:text="${film.newName1}">Fortnite</h4>
+                    <h4 th:if="${lang == null }" th:text="${film.newTitle}">Fortnite</h4>
+                    <h4 th:if="${lang == 'vi' }" th:text="${film.newTitle}">Fortnite</h4>
+                    <h4 th:if="${lang == 'en' }" th:text="${film.newTitle1}">Fortnite</h4>
                     <br>
-<!--                    <ul>-->
-<!--                      <li >-->
-<!--                        <i class="fa fa-star" >-->
-<!--                        </i>-->
-<!--&lt;!&ndash;                        <a th:text="${film.newName}"></a>&ndash;&gt;-->
-<!--                      </li>-->
-<!--                    </ul>-->
-                    <div class="main-border-button border-no-actives"><a th:href="${film.newID}">Detail</a></div>
+                    <div class="main-border-button border-no-actives"><a th:href="'/Films/new/'+${film.newID}">Detail</a></div>
                   </div>
                 </div>
               </div>

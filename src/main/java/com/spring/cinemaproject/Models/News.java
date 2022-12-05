@@ -3,6 +3,7 @@ package com.spring.cinemaproject.Models;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "news")
 public class News {
     @Id
     @Column(name = "newID")
@@ -12,8 +13,10 @@ public class News {
     private String newName;
     @Column(name = "newName1")
     private String newName1;
-    @Column(name = "description")
-    private String description;
+    @Column(name = "newTitle")
+    private String newTitle;
+    @Column(name = "newTitle1")
+    private String newTitle1;
     @Column(name = "image")
     private String image;
 
@@ -21,11 +24,12 @@ public class News {
 
     }
 
-    public News(Integer newID, String newName, String newName1, String description, String image) {
+    public News(Integer newID, String newName, String newName1, String newTitle, String newTitle1,  String image) {
         this.newID = newID;
         this.newName = newName;
         this.newName1 = newName1;
-        this.description = description;
+        this.newTitle = newTitle;
+        this.newTitle1 = newTitle1;
         this.image = image;
     }
 
@@ -53,19 +57,27 @@ public class News {
         this.newName1 = newName1;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getImage() {
         return image;
     }
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getNewTitle() {
+        return newTitle;
+    }
+
+    public void setNewTitle(String newTitle) {
+        this.newTitle = newTitle;
+    }
+
+    public String getNewTitle1() {
+        return newTitle1;
+    }
+
+    public void setNewTitle1(String newTitle1) {
+        this.newTitle1 = newTitle1;
     }
 }

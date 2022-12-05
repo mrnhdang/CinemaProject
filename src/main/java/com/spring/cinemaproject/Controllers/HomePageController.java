@@ -161,6 +161,13 @@ public class HomePageController {
         model.addAttribute("news", newRepository.findAll());
         return "Film/new";
     }
+    @RequestMapping("/new/{id}")
+    public String newDetail(Model model,@PathVariable("id") Integer id, HttpServletRequest request){
+        model.addAttribute("news", newRepository.findNewsByID(id));
+        lang= request.getParameter("lang");
+        model.addAttribute("lang", lang);
+        return "Film/new_detail";
+    }
 
 
 }
