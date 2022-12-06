@@ -29,6 +29,7 @@ public class Bills {
     private Integer status;
     @Column(name = "note")
     private String note;
+    private String filmName;
 
     @JsonBackReference
     @OneToOne
@@ -46,7 +47,7 @@ public class Bills {
     private Users users;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "bills",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bills",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Collection<Foodbills> foodbills ;
 
     @ManyToMany
@@ -60,13 +61,14 @@ public class Bills {
     public Bills(){
 
     }
-    public Bills(Integer billID, String billName, float billTotal, Date createDate, Integer status, String note ) {
+    public Bills(Integer billID, String billName, float billTotal, Date createDate, Integer status, String note ,String filmName) {
         this.billID = billID;
         this.billName = billName;
         this.billTotal = billTotal;
         this.status = status;
         this.createDate = createDate;
         this.note = note;
+        this.filmName= filmName;
     }
 
     public int getStatus() {
@@ -156,4 +158,13 @@ public class Bills {
     public void setFoodbills(Collection<Foodbills> foodbills) {
         this.foodbills = foodbills;
     }
+
+    public String getFilmName() {
+        return filmName;
+    }
+
+    public void setFilmName(String filmName) {
+        this.filmName = filmName;
+    }
+
 }

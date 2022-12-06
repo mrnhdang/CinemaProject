@@ -228,7 +228,12 @@ public class AdminController {
                     if(schedule.getShowTime().before(temp.getFilms().getReleaseDate()) ==true ){
                         redirectAttributes.addFlashAttribute("message", "The show time is before the Release Date");
                         return "redirect:/Admin/schedule";
-                    }else{
+                    }
+                    if(scheduleService.validateSchedule(temp.getFilms(),temp.getRooms(),schedule.getShowTime())==true){
+                        redirectAttributes.addFlashAttribute("message", "This room has already had schedule");
+                        return "redirect:/Admin/schedule";
+                    }
+                    else{
                         temp.setShowTime(schedule.getShowTime());
                     }
                 }
@@ -242,13 +247,13 @@ public class AdminController {
                     if(schedule.getShowTime().before(schedule.getFilms().getReleaseDate()) ==true ){
                         redirectAttributes.addFlashAttribute("message", "The show time is before the Release Date");
                         return "redirect:/Admin/schedule";
-                    }else{
-                        schedule.setShowTime(schedule.getShowTime());
                     }
-                    Date runtime = DateUtils.addMinutes(schedule.getShowTime(),schedule.getFilms().getRuntime());
                     if(scheduleService.validateSchedule(schedule.getFilms(),schedule.getRooms(),schedule.getShowTime())==true){
                         redirectAttributes.addFlashAttribute("message", "This room has already had schedule");
                         return "redirect:/Admin/schedule";
+                    }
+                    else{
+                        schedule.setShowTime(schedule.getShowTime());
                     }
                 }
                 scheduleRepository.save(schedule);
@@ -478,7 +483,7 @@ public class AdminController {
         return "redirect:/Admin/voucher";
     }
     @PostMapping(value = "/voucher/update")
-    public String scheduleUpdateForm(Vouchers vouchers, HttpServletRequest request, RedirectAttributes redirectAttributes){
+    public String voucherUpdateForm(Vouchers vouchers, HttpServletRequest request, RedirectAttributes redirectAttributes){
         try {
             Vouchers temp = voucherRepository.findVouchersByID(vouchers.getVoucherID());
             if(temp != null){

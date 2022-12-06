@@ -53,7 +53,7 @@
                   <a th:each="schedule : ${ticket.getSchedules} " th:if="${iStat.index == 0 }" >
                     <a  th:text="${schedule.getFilms.getFilmName}"></a>
                   </a>
-                  <a th:if="${bill.billName}" th:text="${bill.billName}"></a>
+                  <a th:if="${bill.filmName}" th:text="${bill.filmName}"></a>
                 </a>
               </td>
               <td th:if="${bill.getPayments}" th:text="${bill.getPayments.getPaymentName()}"></td>

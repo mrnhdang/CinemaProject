@@ -56,7 +56,7 @@ public class TicketBookingService {
                 ticketBill.setVouchers(voucherRepository.findVouchersByID(voucher));
             }
             ticketBill.setTickets(ticketsSet);
-            ticketBill.setBillName(filmRepository.findFilmsByID(filmID).getFilmName());
+            ticketBill.setFilmName(filmRepository.findFilmsByID(filmID).getFilmName());
             ticketBill.setBillTotal(total);
             ticketBill.setStatus(1);
             ticketBill.setNote(note.toString());
