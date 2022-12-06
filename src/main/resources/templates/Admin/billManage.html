@@ -34,6 +34,7 @@
             <thead>
             <tr>
               <th>Bill ID</th>
+              <th>Film Name</th>
               <th>Payment</th>
               <th>Voucher</th>
               <th>User Email</th>
@@ -47,14 +48,24 @@
             <tbody th:each="bill : ${bills}">
             <tr>
               <td class="billID" th:text="${bill.billID}"></td>
+              <td>
+                <a th:each="ticket, iStat : ${bill.getTickets}">
+                  <a th:each="schedule : ${ticket.getSchedules} " th:if="${iStat.index == 0 }" >
+                    <a  th:text="${schedule.getFilms.getFilmName}"></a>
+                  </a>
+                  <a th:if="${bill.billName}" th:text="${bill.billName}"></a>
+                </a>
+              </td>
               <td th:if="${bill.getPayments}" th:text="${bill.getPayments.getPaymentName()}"></td>
               <td th:unless="${bill.getPayments}" >NONE</td>
               <td th:if="${bill.getVouchers}" th:text="${bill.getVouchers.getVoucherName()}"></td>
               <td th:unless="${bill.getVouchers}" >NONE</td>
               <td th:text="${bill.getUsers.getEmail}"></td>
-              <td><div th:each="item : ${bill.getTickets}">
-                    <a th:each="chairs: ${item.getChairs}" th:text="${chairs.chairName}+', '"></a>
-              </div>
+              <td>
+                <a type="hidden" th:each="item : ${bill.getTickets}">
+                    <a th:if="${item.getChairs !=null}" th:each="chairs: ${item.getChairs}" th:text="${chairs.chairName}+', '"></a>
+                    <a  th:each="ticket: ${item}" th:if="${item.getChairs !=null && ticket.ticketName !=null}"th:text="${ticket.ticketName}+', '"></a>
+                </a>
               </td>
               <td th:text="${bill.note}"></td>
               <td th:text="${bill.createDate}"></td>

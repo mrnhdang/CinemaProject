@@ -35,7 +35,6 @@ public class PaymentController {
     private FilmRepository filmRepository;
     @Autowired
     private PaypalService paypalService;
-
     @Autowired
     private ChairRepository chairRepository;
     @Autowired
@@ -219,7 +218,7 @@ public class PaymentController {
                 voucherRepository.save(vouchers);
             }
             if(payment.getState().equals("approved")){
-                ticketBookingService.createBillPayment(user,PAYMENT,VOUCHER,ticketPrice,getChairs,getFoods,getCombos);
+                ticketBookingService.createBillPayment(user,PAYMENT,VOUCHER,ticketPrice,getChairs,getFoods,getCombos,filmID);
                 return "success";
             }
         } catch (PayPalRESTException e) {

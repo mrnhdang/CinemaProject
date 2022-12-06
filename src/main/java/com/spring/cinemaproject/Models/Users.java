@@ -20,9 +20,9 @@ public class Users {
     private String userID;
     @Column(name="userName", nullable = false, length = 50)
     private String userName;
-    @Column(name = "password", nullable = false,unique = false, length = 64)
+    @Column(name = "password", nullable = false, length = 64)
     private String password;
-    @Column(name = "address",nullable = false,unique = false, length = 50)
+    @Column(name = "address",nullable = false, length = 50)
     private String address;
     @Column(name = "email",nullable = false,unique = true, length = 50)
     private String email;
@@ -35,6 +35,10 @@ public class Users {
     @JsonManagedReference
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private Set<Vouchers> vouchers = new HashSet<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "users",cascade = CascadeType.ALL)
+    private Collection<Foodbills> foodbills ;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
@@ -161,5 +165,13 @@ public class Users {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public Collection<Foodbills> getFoodbills() {
+        return foodbills;
+    }
+
+    public void setFoodbills(Collection<Foodbills> foodbills) {
+        this.foodbills = foodbills;
     }
 }

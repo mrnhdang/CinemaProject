@@ -419,17 +419,6 @@ public class AdminController {
     public String billPage(Model model){
         List<Bills> bills = billRepository.findAll();
         model.addAttribute("bills",bills );
-        List<String> ticketInfo = new ArrayList<>();
-        for(Bills item : bills) {
-            Set<Tickets> billTicket = item.getTickets();
-
-            for (Tickets ticket : billTicket) {
-                for (Chairs chair : ticket.getChairs()) {
-                    ticketInfo.add(chair.getChairName());
-                }
-            }
-        }
-        model.addAttribute("chairs", ticketInfo);
         return "Admin/billManage";
     }
     @GetMapping("/bill/update")
@@ -446,7 +435,12 @@ public class AdminController {
     }
     @GetMapping("/bill/delete")
     public String deleteBill(Integer id){
-        billRepository.deleteById(id);
+        try{
+            billRepository.deleteById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "redirect:/Admin/bill";
+        }
         return "redirect:/Admin/bill";
     }
 
@@ -666,6 +660,7 @@ public class AdminController {
         try{
             userRepository.deleteById(id);
         }catch(Exception e){
+            e.printStackTrace();
             return "redirect:/Admin/user";
         }
         return "redirect:/Admin/user";

@@ -2,10 +2,12 @@ package com.spring.cinemaproject.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,6 +44,10 @@ public class Bills {
     @ManyToOne
     @JoinColumn(name = "userID")
     private Users users;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "bills",cascade = CascadeType.ALL)
+    private Collection<Foodbills> foodbills ;
 
     @ManyToMany
     @Cascade(value = {org.hibernate.annotations.CascadeType.DETACH,org.hibernate.annotations.CascadeType.SAVE_UPDATE})
@@ -141,5 +147,13 @@ public class Bills {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Collection<Foodbills> getFoodbills() {
+        return foodbills;
+    }
+
+    public void setFoodbills(Collection<Foodbills> foodbills) {
+        this.foodbills = foodbills;
     }
 }

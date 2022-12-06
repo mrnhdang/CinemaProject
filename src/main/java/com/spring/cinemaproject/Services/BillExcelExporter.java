@@ -95,6 +95,7 @@ public class BillExcelExporter {
                 for(Chairs chair : ticket.getChairs()){
                     ticketInfo.add(chair.getChairName());
                 }
+                ticketInfo.add(ticket.getTicketName());
             }
 
 

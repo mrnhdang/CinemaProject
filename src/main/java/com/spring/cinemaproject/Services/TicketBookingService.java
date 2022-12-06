@@ -21,9 +21,11 @@ public class TicketBookingService {
     private PaymentRepository paymentRepository;
     @Autowired
     private VoucherRepository voucherRepository;
+    @Autowired
+    private FilmRepository filmRepository;
 
     @Transactional
-    public void createBillPayment(Users user, String payment, String voucher , float total, List<Chairs> chairs, List<Foods> foods, List<Combos> combos) throws Exception {
+    public void createBillPayment(Users user, String payment, String voucher , float total, List<Chairs> chairs, List<Foods> foods, List<Combos> combos, Integer filmID) throws Exception {
         Bills ticketBill = new Bills();
         Tickets ticket = new Tickets();
         List<Tickets> tickets = new ArrayList<>();
@@ -54,6 +56,7 @@ public class TicketBookingService {
                 ticketBill.setVouchers(voucherRepository.findVouchersByID(voucher));
             }
             ticketBill.setTickets(ticketsSet);
+            ticketBill.setBillName(filmRepository.findFilmsByID(filmID).getFilmName());
             ticketBill.setBillTotal(total);
             ticketBill.setStatus(1);
             ticketBill.setNote(note.toString());

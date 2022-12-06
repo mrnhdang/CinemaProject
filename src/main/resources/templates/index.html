@@ -59,11 +59,11 @@
                                                     <div class="col-lg-3 col-sm-6" th:if="${vouchers}" th:each ="voucher : ${vouchers}" style=" display: flex; padding: 10px 10px 35px 10px;">
                                                         <ul class="" style="width: 500px;" >
                                                             <li><h4>Voucher Name</h4><span th:text="${voucher.voucherName1}">Sandbox</span></li>
-                                                            <li><h4>Amount</h4><span th:text="${voucher.amount}">Sandbox</span></li>
+                                                            <li><h4>Amount</h4><span id="amount" th:text="${voucher.amount}" th:value="${voucher.amount}">Sandbox</span></li>
                                                             <input type="hidden" id="discount"  th:value="${voucher.discount}" >
                                                             <li><h4>Discount</h4><span  th:text="${voucher.discount}+' VND'" th:value="${voucher.discount}" >Downloaded</span><span></span></li>
 <!--                                                            <li><div class="main-button"><a id="disable" th:href="@{/Payment/voucher/(id=${voucher.voucherID})}">Use Now</a></div></li>-->
-                                                            <li><div class="main-button"><a class="voucher" th:voucher="${voucher.voucherID}" th:discount="${voucher.discount}" >Use Now</a></div></li>
+                                                            <li><div class="main-button"><a class="voucher" th:amount="${voucher.amount}" th:voucher="${voucher.voucherID}" th:discount="${voucher.discount}" >Use Now</a></div></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -86,13 +86,15 @@
     </form>
     <script type="text/javascript" >
         $('.voucher').one('click', function (){
-            var index =$('.voucher').index(this);
-            $( this ).css("background-color","grey");
+            $('.voucher').css("background-color","grey");
             var oldprice= parseFloat($('#total').val()) ;
             var discount = parseFloat($(this).attr('discount'));
             var newprice = oldprice - discount;
-            console.log(discount);
-            console.log(oldprice);
+
+            var amount = parseInt($(this).attr('amount'))-1 ;
+            console.log(amount.toString());
+            $('#amount').html(amount.toString());
+
             $('#total').val(newprice.toString());
             $('#totaltext').html(newprice.toString());
             $('#voucherID').val($(this).attr('voucher'));
