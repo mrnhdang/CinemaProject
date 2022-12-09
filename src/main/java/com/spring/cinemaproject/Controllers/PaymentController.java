@@ -164,9 +164,10 @@ public class PaymentController {
     }
     @PostMapping("/pay")
     public String pay(HttpServletRequest request,@RequestParam("price") float price ){
+        ticketPrice = price;
         price = price / (float)23574.95;
         System.out.println(price);
-        ticketPrice = price;
+
         if(request.getParameter("voucher") !=null){
             VOUCHER = request.getParameter("voucher");
         }
