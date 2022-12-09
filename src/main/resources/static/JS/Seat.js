@@ -96,5 +96,4 @@ $('#btnPayment').click((e)=>{
         alert("Please choose your seat");
         e.preventDefault();
     }
-
 });
