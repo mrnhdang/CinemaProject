@@ -1,5 +1,8 @@
 package com.spring.cinemaproject.Controllers;
 
+import javax.money.CurrencyUnit;
+import javax.money.Monetary;
+import javax.money.MonetaryAmount;
 import javax.servlet.http.HttpServletRequest;
 
 import com.spring.cinemaproject.Models.*;
@@ -161,6 +164,8 @@ public class PaymentController {
     }
     @PostMapping("/pay")
     public String pay(HttpServletRequest request,@RequestParam("price") float price ){
+        price = price / (float)23574.95;
+        System.out.println(price);
         ticketPrice = price;
         if(request.getParameter("voucher") !=null){
             VOUCHER = request.getParameter("voucher");
