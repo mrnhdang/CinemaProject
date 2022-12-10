@@ -15,8 +15,8 @@ public interface ScheduleRepository extends JpaRepository<Schedules,Integer> {
     @Query("select f from Schedules f where f.films.filmID=?1")
     List<Schedules> findAllScheduleByFilmID(Integer id);
 
-    @Query("select s from Schedules s where s.rooms = ?1 and s.films = ?2")
-    List<Schedules> findScheduleByRoomAndFilm(Rooms rooms, Films films);
+    @Query("select s from Schedules s where s.rooms = ?1 ")
+    List<Schedules> findScheduleByRoomAndFilm(Rooms rooms);
 
     @Query("select s from Schedules s where s.rooms = ?1 and s.films = ?2 and s.showTime = ?3 ")
     Schedules findScheduleByRoomAndFilmAndDate(Rooms rooms, Films films,Date date);

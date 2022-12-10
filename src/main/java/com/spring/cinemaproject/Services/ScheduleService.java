@@ -48,7 +48,7 @@ public class ScheduleService {
     }
 
     public boolean validateSchedule(Films films, Rooms rooms, Date validDate){
-        List<Schedules> validSchedule = scheduleRepository.findScheduleByRoomAndFilm(rooms,films);
+        List<Schedules> validSchedule = scheduleRepository.findScheduleByRoomAndFilm(rooms);
         for(Schedules schedule : validSchedule){
             Date runtime = DateUtils.addMinutes(schedule.getShowTime(),schedule.getFilms().getRuntime());
             if(validDate.after(schedule.getShowTime()) && validDate.before(runtime) || validDate.equals(schedule.getShowTime()) || validDate.equals(runtime) ){
